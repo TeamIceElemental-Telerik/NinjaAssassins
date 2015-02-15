@@ -41,14 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameLogic.cs" />
-    <Compile Include="GameStart.cs" />
+    <Compile Include="GameVisualisation.cs" />
+    <Compile Include="GameCycle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NinjaAssassins.GameLogic\NinjaAssassins.GameLogic.csproj">
+      <Project>{07fb85e2-b21c-4c7f-8025-306e9d91f87b}</Project>
+      <Name>NinjaAssassins.GameLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NinjaAssassins.Models\NinjaAssassins.Models.csproj">
       <Project>{d081d8e2-cf91-4dde-95f5-713b4450cfeb}</Project>
       <Name>NinjaAssassins.Models</Name>

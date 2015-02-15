@@ -7,6 +7,7 @@
     {
         private string filePath;
         private int rank;
+        private CardType cardType;
 
         public Card(CardType cardType)
         {
@@ -18,7 +19,18 @@
 
         public int Id { get; private set; }
 
-        public CardType CardType { get; private set; }
+        public CardType CardType
+        {
+            get
+            {
+                return this.cardType;
+            }
+
+            private set
+            {
+                this.cardType = value;
+            }
+        }
 
         public string FilePath
         {

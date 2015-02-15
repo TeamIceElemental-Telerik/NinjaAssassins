@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaAssassins.Models", "Ni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaAssassins.ConsoleApplication", "NinjaAssassins.ConsoleApplication\NinjaAssassins.ConsoleApplication.csproj", "{62B6399E-42A6-4F48-88BF-0B43562D7D8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NinjaAssassins.GameLogic", "NinjaAssassins.GameLogic\NinjaAssassins.GameLogic.csproj", "{07FB85E2-B21C-4C7F-8025-306E9D91F87B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{62B6399E-42A6-4F48-88BF-0B43562D7D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62B6399E-42A6-4F48-88BF-0B43562D7D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62B6399E-42A6-4F48-88BF-0B43562D7D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07FB85E2-B21C-4C7F-8025-306E9D91F87B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07FB85E2-B21C-4C7F-8025-306E9D91F87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07FB85E2-B21C-4C7F-8025-306E9D91F87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07FB85E2-B21C-4C7F-8025-306E9D91F87B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
