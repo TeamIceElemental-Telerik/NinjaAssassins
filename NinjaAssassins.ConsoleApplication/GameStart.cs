@@ -1,4 +1,4 @@
-namespace NinjaAssassins.ConsoleApplication
+﻿namespace NinjaAssassins.ConsoleApplication
 {
     using System;
     using System.Collections.Generic;
@@ -12,6 +12,8 @@ namespace NinjaAssassins.ConsoleApplication
     {
         static void Main()
         {
+            // TODO
+            GameLogic.InitializeGame();
         }
     }
 }
