@@ -42,7 +42,12 @@
     <Compile Include="Card.cs" />
     <Compile Include="CardType.cs" />
     <Compile Include="CardTypeExtension.cs" />
+    <Compile Include="Deck.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="ICard.cs" />
+    <Compile Include="IDeck.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
