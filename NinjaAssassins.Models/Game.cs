@@ -23,7 +23,6 @@
             this.Deck = deck;
             this.Players = new Player[totalPlayers];
             this.SetInitialGameState();
-            //this.DrawBoard();
         }
 
         public GameState GameState { get; set; }
@@ -69,12 +68,6 @@
                     this.GameState = GameState.YourTurn;
                     break;
             }
-        }
-
-        private void DrawBoard()
-        {
-            // TODO - draw board
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace NinjaAssassins.ConsoleApplication
+﻿namespace NinjaAssassins.GameLogic
 {
     using System;
     using System.Collections.Generic;
@@ -7,48 +7,29 @@
     using System.Threading.Tasks;
 
     using NinjaAssassins.Models;
-
-    // TODO
-    public static class GameLogic
+    
+    public class GameLogic
     {
         const int ComputerPlayersCount = 3;
         private static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
 
-        public static void DisplayInitialMenu()
-        {
-            // Logo int[,]
-            // Start game button
-            // Options (sound on/off)
-            // How to play / Game rules
-            throw new NotImplementedException();
-        }
-
-        public static void DisplayIntro()
-        {
-            // Some ninja assassin story
-            // http://en.wikipedia.org/wiki/League_of_Assassins
-            // http://en.wikipedia.org/wiki/Ra%27s_al_Ghul
-            throw new NotImplementedException();
-        }
-        
-        public static void InitializeGame()
+        public static void InitializeGame(string playerName)
         {
             var deck = new Deck();
             var game = new Game(deck);
 
             for (int i = 0; i < ComputerPlayersCount; i++)
-			{
+            {
                 game.Players[i] = new Player(ComputerPlayersNames[i]);
-			}
+            }
 
-            string playerName = AskForUsername();
             game.Players[game.Players.Length - 1] = new Player(playerName);
         }
 
         public static void Play()
         {
-            // TODO:
-            // 1. Draw card
+            // TODO : separate methods:
+            // 1. Draw a card
             // 2. Display card
             // 3. Decide what to do depending on card
             //  - save it to player's hand
@@ -70,14 +51,6 @@
             // 3. Display high-scores
             // 4. Display initial menu
             throw new NotImplementedException();
-        }
-
-        private static string AskForUsername()
-        {
-            // TODO : beautify
-            Console.Write("Please enter your name: ");
-
-            return Console.ReadLine();
         }
     }
 }

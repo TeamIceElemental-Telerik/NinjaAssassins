@@ -6,14 +6,16 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using NinjaAssassins.GameLogic;
     using NinjaAssassins.Models;
 
-    public class GameStart
+    public class GameCycle
     {
         static void Main()
         {
             // TODO
-            GameLogic.InitializeGame();
+            string playerName = GameVisualisation.AskForUsername();
+            GameLogic.InitializeGame(playerName);
         }
     }
 }

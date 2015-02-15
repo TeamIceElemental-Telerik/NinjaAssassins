@@ -5,8 +5,6 @@
 
     public class Card : ICard
     {
-        const string CardFilePath = "../../../NinjaAssassins.Models/CardFaces/";
-
         private string filePath;
         private int rank;
 
@@ -34,6 +32,7 @@
                 this.filePath = value;
             }
         }
+
         public int Rank
         {
             get
@@ -44,25 +43,6 @@
             protected set
             {
                 this.rank = value;
-            }
-        }
-
-        public void Display()
-        {
-            try
-            {
-                using (StreamReader sr = new StreamReader(this.filePath))
-                {
-                    // TODO : change color
-                    string fileContents = sr.ReadToEnd();
-                    Console.WriteLine(fileContents);
-                }
-            }
-            catch (Exception e)
-            {
-                // TODO: Display card name instead
-                Console.WriteLine("The file could not be read.");
-                Console.WriteLine(e.Message);
             }
         }
 
