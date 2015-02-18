@@ -40,8 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
+    <Compile Include="Cards\Attack.cs" />
+    <Compile Include="Cards\CardFactory.cs" />
+    <Compile Include="Cards\Escape.cs" />
+    <Compile Include="Cards\Fight.cs" />
+    <Compile Include="Cards\GreenNinja.cs" />
+    <Compile Include="Cards\Hide.cs" />
+    <Compile Include="Cards\NinjaAssasin.cs" />
+    <Compile Include="Cards\Shuffle.cs" />
+    <Compile Include="Cards\SkipTurn.cs" />
     <Compile Include="CardType.cs" />
-    <Compile Include="CardTypeExtension.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameState.cs" />

@@ -4,7 +4,6 @@
     {
         ComputerTurn = 0,
         YourTurn = 1,
-        WonByComputer = 2,
-        WonByYou = 3
+        Finished = 2
     }
 }

@@ -5,9 +5,11 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using NinjaAssassins.Models.Cards;
+
     public class Deck : IEnumerable<Card>, IDeck
     {
-        private const int CardsInDeck = 32;
+        private const string OutOfRangeExceptionMsg = "Index is out of range.";
 
         private static Random random = new Random();
         private List<Card> deck;
@@ -15,8 +17,16 @@
         public Deck()
         {
             this.deck = new List<Card>();
-            this.FillDeck(CardsInDeck);
+            this.FillDeck(Constants.CardsInDeck);
             this.deck = this.Shuffle();
+        }
+
+        public int Count
+        {
+            get
+            {
+                return this.deck.Count;
+            }
         }
 
         public List<Card> Shuffle()
@@ -36,12 +46,36 @@
                 for (int j = 0; j < cardsInDeck / allCardTypesCount; j++)
                 {
                     CardType cardType = (CardType)i;
-                    card = new Card(cardType);
+                    card = CardFactory.Get(cardType); ;
                     this.deck.Add(card);
                 }
             }
         }
 
+        public void RemoveCardFromDeck(Card card)
+        {
+            int cardIndex = this.deck.IndexOf(card);
+            this.deck.RemoveAt(cardIndex);
+        }
+
+        public Card this[int index]
+        {
+            get
+            {
+                return this.deck[index];
+            }
+
+            set
+            {
+                if (index < 0 || index >= this.deck.Count - 1)
+                {
+                    throw new IndexOutOfRangeException(OutOfRangeExceptionMsg);
+                }
+
+                this.deck[index] = value;
+            }
+        }
+       
         public IEnumerator<Card> GetEnumerator()
         {
             return deck.GetEnumerator();

@@ -6,9 +6,6 @@
 
     public class Game
     {
-        private const int cardsInDeck = 32;
-        private const int totalPlayers = 4;
-
         private static Random random = new Random();
         private Deck deck;
         private Player[] players;
@@ -21,7 +18,7 @@
         public Game(Deck deck)
         {
             this.Deck = deck;
-            this.Players = new Player[totalPlayers];
+            this.Players = new Player[Constants.TotalPlayers];
             this.SetInitialGameState();
         }
 
@@ -55,7 +52,7 @@
 
         private void SetInitialGameState()
         {
-            int playerId = random.Next(1, 5);
+            int playerId = random.Next(1, Constants.TotalPlayers + 1);
 
             switch (playerId)
             {

@@ -7,23 +7,30 @@
     using System.Threading.Tasks;
 
     using NinjaAssassins.Models;
-    
+
     public class GameLogic
     {
-        const int ComputerPlayersCount = 3;
-        private static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
+        private static Random random = new Random();
 
-        public static void InitializeGame(string playerName)
+        private static Game game;
+        private static Player[] allPlayers;
+        private static Player playerInTurn;
+        private static int score;
+
+        public static Game InitializeGame(string playerName)
         {
             var deck = new Deck();
-            var game = new Game(deck);
+            game = new Game(deck);
 
-            for (int i = 0; i < ComputerPlayersCount; i++)
+            for (int i = 0; i < Constants.TotalPlayers - 1; i++)
             {
-                game.Players[i] = new Player(ComputerPlayersNames[i]);
+                game.Players[i] = new Player(Constants.ComputerPlayersNames[i]);
             }
 
             game.Players[game.Players.Length - 1] = new Player(playerName);
+            allPlayers = game.Players;
+
+            return game;
         }
 
         public static void Play()
@@ -40,17 +47,69 @@
             // 5. Move to next player
             // 6. Computer players game logic - random decisions
             // 7. When all cards are drawn (re-fill deck? or end game?)
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public static void EndGame()
         {
             // TODO:
-            // 1. Stop game cycle
+            // 1. Stop game loop - set gamestate to finished
             // 2. Add score to high-scores
             // 3. Display high-scores
             // 4. Display initial menu
+            game.GameState = GameState.Finished;
+            Console.WriteLine("Dead");
+        }
+
+        public static Card DrawCard(Deck deck, int positionInDeck = 0)
+        {
+            // TODO:
+            // get card from deck by position
+            // remove card from deck
             throw new NotImplementedException();
+        }
+
+        public static Player GetFirstPlayer()
+        {
+            // TODO:
+            // get a random player id
+            // select player from allPlayers based on that id;
+            // set GameState to either ComputerTurn or YourTurn based on the id
+            throw new NotImplementedException();
+        }
+
+        public static Player GetNextPlayer(Player currentPlayer)
+        {
+            // TODO:
+            // get currentPlayer id + 1 unless it's the last player - then select 0;
+            // select player from allPlayers using the id;
+            // set playerInTurn to be the new current player 
+            // set GameState to either ComputerTurn or YourTurn based on the id
+            throw new NotImplementedException();
+        }
+
+        public static void PlayByComputerLogic(Player currentPlayer, Card card)
+        {
+
+        }
+        public static void PlayCard(Player currentPlayer, Card card, PlayersChoice choice = PlayersChoice.NotSelected)
+        {
+            
+        }
+
+        public static Card SelectCardFromHand(IList<Card> hand)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ChangeScore()
+        {
+            // depending on card rank and action
+        }
+
+        public static void SaveMoves()
+        {
+            // log of all moves
         }
     }
 }

@@ -4,15 +4,17 @@
 
     public class Player
     {
-        private ICollection<Card> hand;
+        private static int idCounter = 0;
+
+        private IList<Card> hand;
         private int id;
         private string name;
 
         public Player(string name)
         {
-            this.Id++;
+            this.Id = idCounter++;
             this.Name = name;
-            this.hand = new List<Card>();
+            this.Hand = new List<Card>();
         }
 
         public int Id
@@ -41,7 +43,18 @@
             }
         }
 
-        public virtual ICollection<Card> Hand { get; set; }
+        public virtual IList<Card> Hand 
+        {
+            get
+            {
+                return this.hand;
+            }
+
+            set
+            {
+                this.hand = value;
+            }
+        }
 
         public int Score { get; set; }
     }

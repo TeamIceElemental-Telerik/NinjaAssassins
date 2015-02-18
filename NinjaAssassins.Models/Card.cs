@@ -3,18 +3,22 @@
     using System;
     using System.IO;
 
-    public class Card : ICard
+    public abstract class Card : ICard
     {
+        private static int idCounter = 0;
+
         private string filePath;
         private int rank;
         private CardType cardType;
+        private int priority;
 
-        public Card(CardType cardType)
+        public Card(string filePath, int rank, CardType cardType, int priority)
         {
-            this.Id++;
+            this.Id = idCounter++;
             this.CardType = cardType;
-            this.FilePath = CardTypeExtension.SetFilePath(cardType);
-            this.Rank = CardTypeExtension.SetCardRank(cardType);
+            this.FilePath = filePath;
+            this.Rank = rank;
+            this.Priority = priority;
         }
 
         public int Id { get; private set; }
@@ -58,11 +62,20 @@
             }
         }
 
-        public void Action()
+        public int Priority
         {
-            // TODO
-            CardTypeExtension.Action(this.CardType);
+            get
+            {
+                return this.priority;
+            }
+
+            protected set
+            {
+                this.priority = value;
+            }
         }
+
+        public abstract void Action();
 
         public override string ToString()
         {
