@@ -123,31 +123,51 @@
                 Player player = allPlayers.FirstOrDefault(p => p.Name == playerName);
                 int playerID = Array.IndexOf(allPlayers, player);
 
-                SetPlayerColor(playerID);
-
-                Console.SetCursorPosition(x, y);
-                Console.WriteLine("{0} played {1}", playerName, card);
+                ConsoleColor color = SetPlayerColor(playerID);
+                string printOnPosition = string.Format("{0} played {1}", playerName, card);
+                PrintOnPosition(x, y, printOnPosition, color);
                 y++;
             }
         }
 
-        public static void SetPlayerColor(int playerID)
+        private static ConsoleColor SetPlayerColor(int playerID)
         {
+            ConsoleColor color;
             switch (playerID)
             {
                 case 0:
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    color = ConsoleColor.Blue;
                     break;
                 case 1:
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    color = ConsoleColor.Cyan;
                     break;
                 case 2:
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    color = ConsoleColor.Green;
                     break;
                 case 3:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    color = ConsoleColor.Yellow;
+                    break;
+                default:
+                    color = ConsoleColor.White;
                     break;
             }
+
+            return color;
+        }
+
+        private static void PrintOnPosition(int x, int y, char symbol, ConsoleColor color = ConsoleColor.White)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
+            Console.Write(symbol);
+        }
+
+
+        private static void PrintOnPosition(int x, int y, string text, ConsoleColor color = ConsoleColor.White)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
+            Console.Write(text);
         }
     }
 }
