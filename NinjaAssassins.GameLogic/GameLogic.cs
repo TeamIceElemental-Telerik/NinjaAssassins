@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.IO;
 
     using NinjaAssassins.Models;
 
@@ -102,14 +103,48 @@
             throw new NotImplementedException();
         }
 
-        public static void ChangeScore()
+        public static void ChangeScore(Card card, Player player)
         {
-            // depending on card rank and action
+            player.Score += card.Rank;
         }
 
-        public static void SaveMoves()
+        public static void SaveHighScore(Player player, string path)
         {
-            // log of all moves
+            StreamWriter writer = new StreamWriter(path, true);
+            writer.WriteLine(player.Name + "|" + player.Score);
+            writer.Close();
+        }
+
+        public static void SaveMoves(Player player, Card card, string path)
+        {
+            StreamWriter writer = new StreamWriter(path , true);
+            writer.WriteLine(player.Name + "|" + player.Score);
+            writer.Close();
+        }
+
+        public static List<string> GetLastNMoves(string path, int movesCount)
+        {
+            List<string> moves = new List<string>();
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    while (reader.EndOfStream == false)
+                    {
+                        string line = reader.ReadLine();
+                        moves.Add(line);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return moves.Skip(moves.Count - movesCount)
+                .Take(movesCount)
+                .ToList();
         }
     }
 }

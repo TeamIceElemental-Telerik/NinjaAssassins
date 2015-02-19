@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.IO;
 
     using NinjaAssassins.GameLogic;
     using NinjaAssassins.Models;
@@ -12,12 +13,15 @@
 
     public class GameLoop
     {
+
         private static Game game;
         private static Deck deck;
         private static Player playerInTurn;
+        private static Player[] allPlayers;
 
         static void Main()
         {
+            
             GameVisualisation.DisplayInitialMenu();
 
             string playerName = GameVisualisation.AskForUsername();
@@ -29,6 +33,7 @@
             {
                 if (game.GameState == GameState.Finished)
                 {
+                    GameLogic.SaveHighScore(allPlayers[3], Constants.HighScoreFilePath);
                     break;
                 }
 
@@ -48,7 +53,7 @@
                     GameLogic.PlayByComputerLogic(playerInTurn, card);
                 }
 
-                GameLogic.ChangeScore();
+                GameLogic.ChangeScore(card, playerInTurn);
 
                 playerInTurn = GameLogic.GetNextPlayer(playerInTurn);
 

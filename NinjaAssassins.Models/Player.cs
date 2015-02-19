@@ -15,6 +15,7 @@
             this.Id = idCounter++;
             this.Name = name;
             this.Hand = new List<Card>();
+            this.Score = 0;
         }
 
         public int Id

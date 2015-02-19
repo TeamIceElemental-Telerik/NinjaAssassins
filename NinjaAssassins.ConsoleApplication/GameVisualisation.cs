@@ -28,7 +28,7 @@
             Console.WriteLine("3. How to play");
             Console.WriteLine("4. Quit");
 
-            switch ( Console.ReadLine())
+            switch (Console.ReadLine())
             {
                 case "1":
                     DisplayIntro();
@@ -42,7 +42,7 @@
                 case "4":
                     Environment.Exit(0);
                     break;
-                default: 
+                default:
                     Console.WriteLine("Please select an option between 1 and 4.");
                     break;
             }
@@ -108,6 +108,46 @@
             // set choice (using PlayersChoice enum) depending on key
 
             return choice;
+        }
+
+        public static void PlayerDisplayMoves(List<string> moves, Player[] allPlayers, int x, int y)
+        {
+            foreach (var move in moves)
+            {
+                int separatorIndex = move.IndexOf('|');
+
+                string playerName = move.Substring(0, separatorIndex - 1);
+
+                string card = move.Substring(separatorIndex + 1, move.Length - (separatorIndex + 1));
+
+                Player player = allPlayers.FirstOrDefault(p => p.Name == playerName);
+                int playerID = Array.IndexOf(allPlayers, player);
+
+                SetPlayerColor(playerID);
+
+                Console.SetCursorPosition(x, y);
+                Console.WriteLine("{0} played {1}", playerName, card);
+                y++;
+            }
+        }
+
+        public static void SetPlayerColor(int playerID)
+        {
+            switch (playerID)
+            {
+                case 0:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case 1:
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    break;
+                case 2:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case 3:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+            }
         }
     }
 }
