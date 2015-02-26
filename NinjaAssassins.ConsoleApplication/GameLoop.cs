@@ -21,10 +21,16 @@
 
         static void Main()
         {
+<<<<<<< HEAD
 
             GameVisualisation.DisplayGameBoard();
             Console.WriteLine();
             GameVisualisation.DisplayGameBoard();
+=======
+            playerInTurn = new Player("Maria");
+            playerInTurn.Score = 0;
+            GameVisualisation.DisplayEndGame(playerInTurn);
+>>>>>>> origin/master
             GameVisualisation.DisplayInitialMenu();
 
             string playerName = GameVisualisation.AskForUsername();
