@@ -8,6 +8,7 @@
         public const int TotalPlayers = 4;
         public const string HighScoreFilePath = "../../../NinjaAssassins.Models/HighScores.txt";
         public const string PlayerMoves = "../../../NinjaAssassins.Models/PlayerMoves.txt";
+        public const string GameIntro = "../../../NinjaAssassins.Models/GameIntro.txt";
 
         public static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
     }

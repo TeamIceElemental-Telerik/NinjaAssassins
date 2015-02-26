@@ -9,6 +9,7 @@
 
     using NinjaAssassins.GameLogic;
     using NinjaAssassins.Models;
+    using System.Threading;
 
     // TODO
     public static class GameVisualisation
@@ -45,7 +46,9 @@
                 default:
                     Console.WriteLine("Please select an option between 1 and 4.");
                     break;
+
             }
+            Console.Clear();
         }
 
         public static void DisplayGameRules()
@@ -61,7 +64,31 @@
 
         public static void DisplayIntro()
         {
-            // TODO : Some ninja assassin story
+            var reader = new StreamReader(Constants.GameIntro);
+            using (reader)
+            {
+                int x = Console.WindowWidth / 2 - 40;
+                int y = Console.WindowHeight / 2 - 10;
+
+                string line = reader.ReadLine();
+                while (line != null)
+                {
+                    foreach (var symbol in line)
+                    {
+                        PrintOnPosition(x, y, symbol, ConsoleColor.Green);
+                        x = x == Console.WindowWidth - 40 ? Console.WindowWidth / 2 - 40 : x + 1;
+                        Thread.Sleep(10);
+                    }
+                    y++;
+                    x = Console.WindowWidth / 2 - 40;
+                    line = reader.ReadLine();
+                }
+            }
+            Thread.Sleep(10000);
+            Console.Clear();
+
+            // PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2, gameIntro, ConsoleColor.Green);
+            // TODO : beautify
             // http://en.wikipedia.org/wiki/League_of_Assassins
             // http://en.wikipedia.org/wiki/Ra%27s_al_Ghul
             // color
@@ -70,14 +97,17 @@
         public static string AskForUsername()
         {
             // TODO : beautify
-            Console.Write("Please enter your name: ");
+            int x = Console.WindowWidth / 2 - 40;
+            int y = Console.WindowHeight / 2 - 20;
+            PrintOnPosition(x, y,"Please enter your name: ", ConsoleColor.Green);
 
             return Console.ReadLine();
         }
 
         public static void DisplayGameBoard()
         {
-            // TODO - draw board
+            char[,] displayBord = new char[100, 100];
+            
         }
 
         public static void DisplayCard(Card card)
