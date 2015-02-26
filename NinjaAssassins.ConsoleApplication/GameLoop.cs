@@ -21,7 +21,10 @@
 
         static void Main()
         {
-            
+
+            GameVisualisation.DisplayGameBoard();
+            Console.WriteLine();
+            GameVisualisation.DisplayGameBoard();
             GameVisualisation.DisplayInitialMenu();
 
             string playerName = GameVisualisation.AskForUsername();
