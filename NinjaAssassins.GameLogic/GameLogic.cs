@@ -111,7 +111,7 @@
         public static void SaveHighScore(Player player, string path)
         {
             StreamWriter writer = new StreamWriter(path, true);
-            writer.WriteLine(player.Name + "|" + player.Score);
+            writer.WriteLine(player.Score + "|" + player.Name);
             writer.Close();
         }
 

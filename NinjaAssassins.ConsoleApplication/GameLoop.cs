@@ -21,7 +21,9 @@
 
         static void Main()
         {
-            
+            playerInTurn = new Player("Maria");
+            playerInTurn.Score = 0;
+            GameVisualisation.DisplayEndGame(playerInTurn);
             GameVisualisation.DisplayInitialMenu();
 
             string playerName = GameVisualisation.AskForUsername();

@@ -129,6 +129,83 @@
                 y++;
             }
         }
+        public static void DisplayEndGame(Player currentPlayer)
+        {
+            string diomand = new string((char)4, 80);
+            char symbol4 = (char)4;
+            
+
+            StringBuilder frame = new StringBuilder();
+            frame.Append(symbol4);
+            frame.Append(' ', 78);
+            frame.Append(symbol4);
+            StringBuilder gameOver = new StringBuilder();
+
+            gameOver.Append(symbol4);
+            gameOver.Append(' ', 34);
+            gameOver.Append("GAME OVER");
+            gameOver.Append(' ', 35);
+            gameOver.Append(symbol4);
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Clear();
+            Console.WriteLine();
+            Console.Write(diomand);
+            Console.Write(frame);
+            Console.Write(gameOver);
+            Console.Write(frame);
+            Console.WriteLine(diomand);
+
+            Console.Write("\n\t\t\t\tYOUR SCORE: "+ currentPlayer.Score);
+            Console.Write("\n\n" + diomand);
+            Console.WriteLine("\n \t\t\t\t  HIGH SCORE");
+
+            //var highScores = new SortedDictionary<int, string>();
+            var highScores = new List<string>();
+            using (StreamReader highScoreRead = new StreamReader(Constants.HighScoreFilePath))
+            {
+                var line = highScoreRead.ReadLine();
+                while (line!=null)
+                {
+                    //var currentHighScore = line.Split('|');
+                    highScores.Add(line);
+                    line = highScoreRead.ReadLine();
+                    //highScores.Add(int.Parse(currentHighScore[1]), currentHighScore[0]);
+                }
+            }
+
+            int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
+
+            highScores.Sort();
+            
+            foreach (var score in highScores.Skip(highScores.Count - scoreCount).Take(scoreCount))
+            {
+                var currentHighScore = score.Split('|');
+                int x = Console.WindowWidth / 2 - 10;
+
+                Console.WriteLine(currentHighScore[1] + " " + int.Parse(currentHighScore[0]));
+            }
+
+            Console.Write("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" + diomand);
+
+            Console.WriteLine(" Press ENTER for New Game or Press ESC for Exit");
+            var pressedKey = Console.ReadKey(true);
+
+            if (pressedKey.Key == ConsoleKey.Enter)
+            {
+                Console.WriteLine("ENJOY");
+            }
+            else if (pressedKey.Key == ConsoleKey.Escape)
+            {
+                Console.WriteLine("ARE YOU SURE?");
+            }
+        }
+
+
+
+
+
+
 
         private static ConsoleColor SetPlayerColor(int playerID)
         {
