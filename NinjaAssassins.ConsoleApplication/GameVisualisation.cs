@@ -106,8 +106,16 @@
 
         public static void DisplayGameBoard()
         {
-            char[,] displayBord = new char[100, 100];
-            
+            var reader = new StreamReader(Constants.GameBoard);
+            using (reader)
+            {
+                string line = reader.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    line = reader.ReadLine();
+                }
+            }
         }
 
         public static void DisplayCard(Card card)
