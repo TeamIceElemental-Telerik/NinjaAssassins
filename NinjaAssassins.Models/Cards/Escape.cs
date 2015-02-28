@@ -24,7 +24,11 @@
             }
             else
             {
-                game.GameState = GameState.Finished;
+                if (game.CurrentCard.CardType == CardType.NinjaAssassin)
+                {
+                    game.PlayerInTurn.IsDead = true;
+                }
+
                 return;
             }
         }

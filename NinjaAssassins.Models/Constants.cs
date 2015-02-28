@@ -8,6 +8,7 @@
         public const string CardFileExtension = ".txt";
         public const int CardsInDeck = 32;
         public const int TotalPlayers = 4;
+        public const int HandCount = 3;
         public const string HighScoreFilePath = "../../../NinjaAssassins.Models/HighScores.txt";
         public const string PlayerMoves = "../../../NinjaAssassins.Models/PlayerMoves.txt";
         public const string GameIntro = "../../../NinjaAssassins.Models/GameIntro.txt";

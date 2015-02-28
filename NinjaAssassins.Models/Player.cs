@@ -18,6 +18,7 @@
             this.Score = 0;
             this.SkipTurn = false;
             this.DrawDouble = false;
+            this.IsDead = false;
         }
 
         public int Id
@@ -64,5 +65,13 @@
         public bool SkipTurn { get; set; }
 
         public bool DrawDouble { get; set; }
+
+        public bool IsDead { get; set; }
+
+        public override string ToString()
+        {
+            // TODO
+            return this.Name.ToString();
+        }
     }
 }

@@ -109,8 +109,58 @@
 
         public static void PlayByComputerLogic(Player currentPlayer, Card card)
         {
+            //if (currentPlayer.Hand.Count > 0)
+            //{
+            //    if (card.CardType != CardType.NinjaAssassin)
+            //    {
+            currentPlayer.Hand.Add(card);
+            Card bestCard;
+            int maxPriority = -1;
 
+            foreach (var c in currentPlayer.Hand)
+            {
+                maxPriority = c.Priority > maxPriority && c.Priority <= (int)CardType.Attack ? c.Priority : maxPriority;
+            }
+
+            if (maxPriority > -1)
+            {
+                bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == maxPriority);
+
+                if (currentPlayer.Hand.Count < Constants.HandCount)
+                {
+                    // 50-50 chance
+                    bool play = random.Next(1, 3) == 1 ? true : false;
+
+                    if (play)
+                    {
+                        bestCard.Action(game);
+                        currentPlayer.Hand.Remove(bestCard);
+                    }
+                }
+                else
+                {
+                    bestCard.Action(game);
+                    currentPlayer.Hand.Remove(bestCard);
+                }
+            }
+            else
+            {
+                if (currentPlayer.Hand.Count > Constants.HandCount)
+                {
+                    int minPriority = int.MaxValue;
+
+                    foreach (var c in currentPlayer.Hand)
+                    {
+                        minPriority = c.Priority < minPriority && c.Priority > (int)CardType.Attack ? c.Priority : minPriority;
+                    }
+
+                    bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == minPriority);
+                    bestCard.Action(game);
+                    currentPlayer.Hand.Remove(bestCard);
+                }
+            }
         }
+
         public static void PlayCard(Game game, Player currentPlayer, Card card, PlayersChoice choice = PlayersChoice.NotSelected)
         {
             switch (choice)
@@ -125,22 +175,23 @@
                     }
                     else
                     {
-                        currentPlayer.Hand.Add(card);
                         choice = PlayersChoice.PlayDifferentCard;
                         PlayCard(game, currentPlayer, card, choice);
                     }
                     break;
                 case PlayersChoice.PlayDifferentCard:
+                    currentPlayer.Hand.Add(card);
+
                     if (currentPlayer.Hand.Count > 0)
                     {
                         card = SelectCardFromHand(currentPlayer.Hand);
                         card.Action(game);
                         currentPlayer.Hand.Remove(card);
                     }
-                    else
-                    {
-                        throw new InvalidOperationException("You don't gave any cards in your hand.");
-                    }
+                    //else
+                    //{
+                    //    throw new InvalidOperationException("You don't gave any cards in your hand.");
+                    //}
 
                     break;
             }
@@ -162,7 +213,23 @@
 
             if (saviourCards.Count > 0)
             {
-                card = SelectCardFromHand(saviourCards);
+                if (game.GameState == GameState.YourTurn)
+                {
+                    card = SelectCardFromHand(saviourCards);
+                    currentPlayer.Hand.Remove(card);
+                }
+                else
+                {
+                    int maxPriority = -1;
+
+                    foreach (var c in saviourCards)
+                    {
+                        maxPriority = c.Priority > maxPriority ? c.Priority : maxPriority;
+                    }
+
+                    card = currentPlayer.Hand.FirstOrDefault(c => c.Priority == maxPriority);
+                    currentPlayer.Hand.Remove(card);
+                }
             }
 
             card.Action(game);
@@ -178,7 +245,7 @@
             Console.WriteLine("Select a card from your hand:");
             for (int i = 0; i < hand.Count; i++)
             {
-                string key = i == 0 ? "A" : i == 1 ? "S" : "D";
+                string key = i == 0 ? "A" : i == 1 ? "S" : i == 2 ? "D" : "F";
                 Console.WriteLine("{0}: {1}", key, hand[i]);
             }
 
@@ -194,6 +261,7 @@
                     {
                         card = hand[1];
                     }
+                    else
                     {
                         SelectCardFromHand(hand);
                     }
@@ -204,6 +272,17 @@
                     {
                         card = hand[2];
                     }
+                    else
+                    {
+                        SelectCardFromHand(hand);
+                    }
+                    break;
+                case ConsoleKey.F:
+                    if (hand.Count > 3)
+                    {
+                        card = hand[3];
+                    }
+                    else
                     {
                         SelectCardFromHand(hand);
                     }

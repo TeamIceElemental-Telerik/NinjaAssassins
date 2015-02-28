@@ -15,7 +15,7 @@
 
         public override void Action(Game game)
         {
-            game.GameState = GameState.Finished;
+            game.PlayerInTurn.IsDead = true;
         }
     }
 }

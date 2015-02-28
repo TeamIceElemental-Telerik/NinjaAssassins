@@ -1,3 +1,7 @@
 50|Pesho
 20|Gosho
-120|Stamat
+120|Stamat5|ddd
+5|sdd
+35|fff
+0|fff
+80|sss

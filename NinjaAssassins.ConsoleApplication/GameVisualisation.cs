@@ -32,10 +32,12 @@
             Console.WriteLine("4. How to play");
             Console.WriteLine("5. Quit");
             int choice = int.Parse(Console.ReadLine());
+            Console.Clear();
             switch (choice)
             {
                 case 1:
-                    DisplayIntro();
+                    var reader = new StreamReader(Constants.GameIntro);
+                    DisplayIntro(reader);
                     break;
                 case 2:
                     DisplayGameOptions();
@@ -52,9 +54,8 @@
                 default:
                     Console.WriteLine("Please select an option between 1 and 4.");
                     break;
-
             }
-            Console.Clear();
+
         }
 
         public static void DisplayGameRules()
@@ -68,13 +69,16 @@
             //(sound on/off)
         }
 
-        public static void DisplayIntro()
+        public static void DisplayIntro(StreamReader reader)
         {
-            var reader = new StreamReader(Constants.GameIntro);
+            int x = Console.WindowWidth - 40;
+            int y = Console.WindowHeight - 9;
+
+            PrintOnPosition(x, y, "(Press any key to skip intro)", ConsoleColor.Green);
             using (reader)
             {
-                int x = Console.WindowWidth / 2 - 40;
-                int y = Console.WindowHeight / 2 - 10;
+                x = Console.WindowWidth / 2 - 40;
+                y = Console.WindowHeight / 2 - 10;
 
                 string line = reader.ReadLine();
                 while (line != null)
@@ -83,15 +87,22 @@
                     {
                         PrintOnPosition(x, y, symbol, ConsoleColor.Green);
                         x = x == Console.WindowWidth - 40 ? Console.WindowWidth / 2 - 40 : x + 1;
-                        Thread.Sleep(10);
+
+                        if (Console.KeyAvailable)
+                        {
+                            Thread.Sleep(0);
+                        }
+                        else
+                        {
+                            Thread.Sleep(10);
+                        }
                     }
+
                     y++;
                     x = Console.WindowWidth / 2 - 40;
                     line = reader.ReadLine();
                 }
             }
-            Thread.Sleep(10000);
-            Console.Clear();
 
             // PrintOnPosition(Console.WindowWidth / 2, Console.WindowHeight / 2, gameIntro, ConsoleColor.Green);
             // TODO : beautify
@@ -102,30 +113,23 @@
 
         public static string AskForUsername()
         {
-            // TODO : beautify
             int x = Console.WindowWidth / 2 - 40;
-            int y = Console.WindowHeight / 2 - 20;
-            PrintOnPosition(x, y, "Please enter your name: ", ConsoleColor.Green);
+            int y = Console.WindowHeight / 2 + 10;
 
+            PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
             string name = Console.ReadLine();
 
-            if (name.Length < 2)
+            while (name.Length < 2)
             {
-                while (name.Length < 2)
-                {
-                    y = Console.WindowHeight / 2 - 20;
-                    PrintOnPosition(x, y, "Your name must be at least 2 characters long.", ConsoleColor.Green);
-                    PrintOnPosition(x, y+1, "Please enter your name: ", ConsoleColor.Green);
-                    name = Console.ReadLine();
-                }
+                PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
+                name = Console.ReadLine();
             }
 
             return name;
         }
 
-        public static void DisplayGameBoard()
+        public static void DisplayGameBoard(StreamReader reader)
         {
-            var reader = new StreamReader(Constants.GameBoard);
             using (reader)
             {
                 string line = reader.ReadLine();
@@ -137,22 +141,16 @@
             }
         }
 
-        public static void DisplayCard(Card card)
+        public static void DisplayCard(StreamReader reader, Card card)
         {
-            try
-            {
-                using (StreamReader sr = new StreamReader(card.FilePath))
-                {
-                    string fileContents = sr.ReadToEnd();
+            int x = Console.WindowWidth / 2 - 40;
+            int y = Console.WindowHeight / 2 - 10;
 
-                    // TODO : change color
-                    Console.WriteLine(fileContents);
-                }
-            }
-            catch (Exception e)
+            using (reader)
             {
-                Console.WriteLine(card.ToString());
-                //Console.WriteLine(e.Message);
+                string fileContents = reader.ReadToEnd();
+                //PrintOnPosition(x, y, fileContents, ConsoleColor.Green);
+                Console.WriteLine(fileContents);
             }
         }
 
@@ -292,7 +290,7 @@
                 highScoreRead.Close();
             }
             int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
-            
+
             Console.WriteLine(@"
              __  __ __   ___  __  __     __    ___   ___   ____   ____
              ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||   

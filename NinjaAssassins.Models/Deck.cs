@@ -60,6 +60,13 @@
                     this.deck.Add(card);
                 }
             }
+
+            // add additional Ninja Assassin cards?
+            //for (int i = 0; i < cardsInDeck / allCardTypesCount; i++)
+            //{
+            //    card = CardFactory.Get(CardType.NinjaAssassin);
+            //    this.deck.Add(card);
+            //}
         }
 
         public void RemoveCardFromDeck(Card card)
@@ -85,7 +92,7 @@
                 this.deck[index] = value;
             }
         }
-       
+
         public IEnumerator<Card> GetEnumerator()
         {
             return deck.GetEnumerator();

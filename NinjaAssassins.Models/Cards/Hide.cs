@@ -28,6 +28,10 @@
             }
             else
             {
+                if (game.CurrentCard.CardType == CardType.NinjaAssassin)
+                {
+                    game.PlayerInTurn.IsDead = true;
+                }
                 // Console.WriteLine("Sorry, no place to hide.");
                 return;
             }

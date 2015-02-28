@@ -11,6 +11,7 @@
         private Player[] players;
         private Player playerInTurn;
         private Player nextPlayer;
+        private Card currentCard;
 
         public Game()
             :this (new Deck())
@@ -21,7 +22,6 @@
         {
             this.Deck = deck;
             this.Players = new Player[Constants.TotalPlayers];
-            //this.SetInitialGameState();
         }
 
         public GameState GameState { get; set; }
@@ -78,24 +78,17 @@
             }
         }
 
-        //private void SetInitialGameState()
-        //{
-        //    int playerId = random.Next(1, Constants.TotalPlayers + 1);
+        public Card CurrentCard
+        {
+            get
+            {
+                return this.currentCard;
+            }
 
-        //    switch (playerId)
-        //    {
-        //        case 1:
-        //        case 2:
-        //        case 3:
-        //            this.GameState = GameState.ComputerTurn;
-        //            break;
-        //        case 4:
-        //            this.GameState = GameState.YourTurn;
-        //            break;
-        //    }
-
-        //    this.PlayerInTurn = this.players[playerId];
-        //    this.NextPlayer = playerId + 1 == this.players.Length ? this.players[0] : this.players[playerId + 1];
-        //}
+            set
+            {
+                this.currentCard = value;
+            }
+        }
     }
 }
