@@ -13,9 +13,22 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
+            Random random = new Random();
 
+            int ninjaRandom = random.Next(1, 100);
+            int yourRandom = random.Next(1, 100);
+
+            if (yourRandom > ninjaRandom)
+            {                
+                return;
+            }
+            else
+            {
+                game.GameState = GameState.Finished;
+                return;
+            }
         }
     }
 }

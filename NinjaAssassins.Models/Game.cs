@@ -9,6 +9,8 @@
         private static Random random = new Random();
         private Deck deck;
         private Player[] players;
+        private Player playerInTurn;
+        private Player nextPlayer;
 
         public Game()
             :this (new Deck())
@@ -19,7 +21,7 @@
         {
             this.Deck = deck;
             this.Players = new Player[Constants.TotalPlayers];
-            this.SetInitialGameState();
+            //this.SetInitialGameState();
         }
 
         public GameState GameState { get; set; }
@@ -50,21 +52,50 @@
             }
         }
 
-        private void SetInitialGameState()
+        public Player PlayerInTurn
         {
-            int playerId = random.Next(1, Constants.TotalPlayers + 1);
-
-            switch (playerId)
+            get
             {
-                case 1:
-                case 2:
-                case 3:
-                    this.GameState = GameState.ComputerTurn;
-                    break;
-                case 4:
-                    this.GameState = GameState.YourTurn;
-                    break;
+                return this.playerInTurn;
+            }
+
+            set
+            {
+                this.playerInTurn = value;
             }
         }
+
+        public Player NextPlayer
+        {
+            get
+            {
+                return this.nextPlayer;
+            }
+
+            set
+            {
+                this.nextPlayer = value;
+            }
+        }
+
+        //private void SetInitialGameState()
+        //{
+        //    int playerId = random.Next(1, Constants.TotalPlayers + 1);
+
+        //    switch (playerId)
+        //    {
+        //        case 1:
+        //        case 2:
+        //        case 3:
+        //            this.GameState = GameState.ComputerTurn;
+        //            break;
+        //        case 4:
+        //            this.GameState = GameState.YourTurn;
+        //            break;
+        //    }
+
+        //    this.PlayerInTurn = this.players[playerId];
+        //    this.NextPlayer = playerId + 1 == this.players.Length ? this.players[0] : this.players[playerId + 1];
+        //}
     }
 }

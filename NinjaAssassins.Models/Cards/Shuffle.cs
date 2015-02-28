@@ -13,9 +13,19 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
+            var shuffledDeck = new Deck();
+            shuffledDeck.Clear();
+            var currentDeck = game.Deck.ToList();
+            currentDeck = game.Deck.Shuffle();
 
+            foreach (var card in currentDeck)
+            {
+                shuffledDeck.Add(card);
+            }
+
+            game.Deck = shuffledDeck;
         }
     }
 }

@@ -6,16 +6,16 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class NinjaAssasin : Card
+    public class NinjaAssassin : Card
     {
-        public NinjaAssasin(string filePath, int rank, int priority)
+        public NinjaAssassin(string filePath, int rank, int priority)
             : base(filePath, rank, CardType.NinjaAssassin, priority)
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
-
+            game.GameState = GameState.Finished;
         }
     }
 }

@@ -13,9 +13,9 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
-
+            return;
         }
     }
 }

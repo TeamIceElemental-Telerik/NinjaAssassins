@@ -13,9 +13,10 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
-
+            Player nextPlayer = game.NextPlayer;
+            nextPlayer.DrawDouble = true;
         }
     }
 }

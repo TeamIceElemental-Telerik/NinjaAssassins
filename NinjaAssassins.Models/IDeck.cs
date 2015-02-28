@@ -7,5 +7,9 @@
         void FillDeck(int cardsInDeck);
 
         List<Card> Shuffle();
+
+        void Add(Card card);
+
+        void Clear();
     }
 }

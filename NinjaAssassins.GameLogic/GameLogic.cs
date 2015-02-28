@@ -23,6 +23,8 @@
             var deck = new Deck();
             game = new Game(deck);
 
+            game.Deck = deck;
+
             for (int i = 0; i < Constants.TotalPlayers - 1; i++)
             {
                 game.Players[i] = new Player(Constants.ComputerPlayersNames[i]);
@@ -30,6 +32,17 @@
 
             game.Players[game.Players.Length - 1] = new Player(playerName);
             allPlayers = game.Players;
+
+            SetFirstPlayer();
+
+            if (game.PlayerInTurn == game.Players[game.Players.Length - 1])
+            {
+                game.GameState = GameState.YourTurn;
+            }
+            else
+            {
+                game.GameState = GameState.ComputerTurn;
+            }
 
             return game;
         }
@@ -59,48 +72,148 @@
             // 3. Display high-scores
             // 4. Display initial menu
             game.GameState = GameState.Finished;
+            GameLogic.SaveHighScore(allPlayers[3], Constants.HighScoreFilePath);
             Console.WriteLine("Dead");
         }
 
         public static Card DrawCard(Deck deck, int positionInDeck = 0)
         {
-            // TODO:
-            // get card from deck by position
-            // remove card from deck
-            throw new NotImplementedException();
+            Card card = deck[positionInDeck];
+            deck.RemoveCardFromDeck(card);
+            return card;
         }
 
-        public static Player GetFirstPlayer()
+        public static void SetFirstPlayer()
         {
-            // TODO:
-            // get a random player id
-            // select player from allPlayers based on that id;
-            // set GameState to either ComputerTurn or YourTurn based on the id
-            throw new NotImplementedException();
+            int playerId = random.Next(0, allPlayers.Length);
+            var player = game.Players[playerId];
+            game.PlayerInTurn = player;
+
+            int nextPlayerId = (playerId + 1) % game.Players.Length;
+            game.NextPlayer = game.Players[nextPlayerId];
+
+            game.GameState = playerId < 3 ? GameState.ComputerTurn : GameState.YourTurn;
         }
 
-        public static Player GetNextPlayer(Player currentPlayer)
+        public static void SetNextPlayer(Player currentPlayer)
         {
-            // TODO:
-            // get currentPlayer id + 1 unless it's the last player - then select 0;
-            // select player from allPlayers using the id;
-            // set playerInTurn to be the new current player 
-            // set GameState to either ComputerTurn or YourTurn based on the id
-            throw new NotImplementedException();
+            int playerId = (currentPlayer.Id + 1) % game.Players.Length;
+            var player = game.Players[playerId];
+            game.PlayerInTurn = player;
+
+            int nextPlayerId = (playerId + 1) % game.Players.Length;
+            game.NextPlayer = game.Players[nextPlayerId];
+
+            game.GameState = playerId < 3 ? GameState.ComputerTurn : GameState.YourTurn;
         }
 
         public static void PlayByComputerLogic(Player currentPlayer, Card card)
         {
 
         }
-        public static void PlayCard(Player currentPlayer, Card card, PlayersChoice choice = PlayersChoice.NotSelected)
+        public static void PlayCard(Game game, Player currentPlayer, Card card, PlayersChoice choice = PlayersChoice.NotSelected)
         {
-            
+            switch (choice)
+            {
+                case PlayersChoice.PlayCard:
+                    card.Action(game);
+                    break;
+                case PlayersChoice.SaveToHand:
+                    if (currentPlayer.Hand.Count < 3)
+                    {
+                        currentPlayer.Hand.Add(card);
+                    }
+                    else
+                    {
+                        currentPlayer.Hand.Add(card);
+                        choice = PlayersChoice.PlayDifferentCard;
+                        PlayCard(game, currentPlayer, card, choice);
+                    }
+                    break;
+                case PlayersChoice.PlayDifferentCard:
+                    if (currentPlayer.Hand.Count > 0)
+                    {
+                        card = SelectCardFromHand(currentPlayer.Hand);
+                        card.Action(game);
+                        currentPlayer.Hand.Remove(card);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("You don't gave any cards in your hand.");
+                    }
+
+                    break;
+            }
+        }
+
+        public static void HandleNinjaAssasin(Game game, Player currentPlayer, Card card)
+        {
+            var saviourCards = new List<Card>();
+            if (currentPlayer.Hand.Count > 0)
+            {
+                foreach (var c in currentPlayer.Hand)
+                {
+                    if (Constants.SaviourTypes.Contains(c.CardType))
+                    {
+                        saviourCards.Add(c);
+                    }
+                }
+            }
+
+            if (saviourCards.Count > 0)
+            {
+                card = SelectCardFromHand(saviourCards);
+            }
+
+            card.Action(game);
         }
 
         public static Card SelectCardFromHand(IList<Card> hand)
         {
-            throw new NotImplementedException();
+            if (hand.Count < 1)
+            {
+                throw new ArgumentException("The hand cannot be empty.");
+            }
+
+            Console.WriteLine("Select a card from your hand:");
+            for (int i = 0; i < hand.Count; i++)
+            {
+                string key = i == 0 ? "A" : i == 1 ? "S" : "D";
+                Console.WriteLine("{0}: {1}", key, hand[i]);
+            }
+
+            ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+            Card card = hand[0];
+            switch (pressedKey.Key)
+            {
+                case ConsoleKey.A:
+                    card = hand[0];
+                    break;
+                case ConsoleKey.S:
+                    if (hand.Count > 1)
+                    {
+                        card = hand[1];
+                    }
+                    {
+                        SelectCardFromHand(hand);
+                    }
+
+                    break;
+                case ConsoleKey.D:
+                    if (hand.Count > 2)
+                    {
+                        card = hand[2];
+                    }
+                    {
+                        SelectCardFromHand(hand);
+                    }
+                    break;
+                default:
+                    SelectCardFromHand(hand);
+                    break;
+            }
+
+            return card;
         }
 
         public static void ChangeScore(Card card, Player player)
@@ -110,16 +223,34 @@
 
         public static void SaveHighScore(Player player, string path)
         {
-            StreamWriter writer = new StreamWriter(path, true);
-            writer.WriteLine(player.Score + "|" + player.Name);
-            writer.Close();
+            try
+            {
+                var writer = new StreamWriter(path, true);
+                using (writer)
+                {
+                    writer.WriteLine(player.Score + "|" + player.Name);
+                }
+            }
+            catch (Exception e)
+            {
+                HandleExceptions(e);
+            }
         }
 
         public static void SaveMoves(Player player, Card card, string path)
         {
-            StreamWriter writer = new StreamWriter(path , true);
-            writer.WriteLine(player.Name + "|" + player.Score);
-            writer.Close();
+            try
+            {
+                var writer = new StreamWriter(path, true);
+                using (writer)
+                {
+                    writer.WriteLine(player.Name + "|" + card.CardType);
+                }
+            }
+            catch (Exception e)
+            {
+                HandleExceptions(e);
+            }
         }
 
         public static List<string> GetLastNMoves(string path, int movesCount)
@@ -128,23 +259,31 @@
 
             try
             {
-                using (StreamReader reader = new StreamReader(path))
+                var reader = new StreamReader(path);
+                using (reader)
                 {
-                    while (reader.EndOfStream == false)
+                    string line = reader.ReadLine();
+                    while (line != null)
                     {
-                        string line = reader.ReadLine();
                         moves.Add(line);
+                        line = reader.ReadLine();
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                HandleExceptions(e);
             }
 
             return moves.Skip(moves.Count - movesCount)
                 .Take(movesCount)
                 .ToList();
+        }
+
+        private static void HandleExceptions(Exception e)
+        {
+            Console.WriteLine("Uh oh... Something went wrong!");
+            Console.WriteLine(e.Message);
         }
     }
 }

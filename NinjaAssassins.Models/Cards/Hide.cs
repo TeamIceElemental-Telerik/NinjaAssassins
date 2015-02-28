@@ -13,9 +13,24 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
+            Player currentPlayer = game.PlayerInTurn;
+            Player nextPlayer = game.NextPlayer;
 
+            var card = CardFactory.Get(CardType.GreenNinja);
+
+            if (nextPlayer.Hand.Contains(card))
+            {
+                nextPlayer.Hand.Remove(card);
+                // TODO
+                currentPlayer.Hand.Add(card);
+            }
+            else
+            {
+                // Console.WriteLine("Sorry, no place to hide.");
+                return;
+            }
         }
     }
 }

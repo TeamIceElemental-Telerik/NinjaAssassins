@@ -29,6 +29,16 @@
             }
         }
 
+        public void Add(Card card)
+        {
+            this.deck.Add(card);
+        }
+
+        public void Clear()
+        {
+            this.deck.Clear();
+        }
+
         public List<Card> Shuffle()
         {
             return (List<Card>)this.deck

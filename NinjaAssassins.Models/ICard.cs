@@ -2,6 +2,6 @@
 {
     public interface ICard
     {        
-        void Action();
+        void Action(Game game);
     }
 }

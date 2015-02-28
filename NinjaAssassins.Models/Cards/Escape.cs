@@ -13,9 +13,20 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
+            Card card = game.Deck[game.Deck.Count - 1];
+            game.Deck.RemoveCardFromDeck(card);
 
+            if (Constants.SaviourTypes.Contains(card.CardType))
+            {
+                card.Action(game);
+            }
+            else
+            {
+                game.GameState = GameState.Finished;
+                return;
+            }
         }
     }
 }

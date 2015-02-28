@@ -46,7 +46,7 @@
     <Compile Include="Cards\Fight.cs" />
     <Compile Include="Cards\GreenNinja.cs" />
     <Compile Include="Cards\Hide.cs" />
-    <Compile Include="Cards\NinjaAssasin.cs" />
+    <Compile Include="Cards\NinjaAssassin.cs" />
     <Compile Include="Cards\Shuffle.cs" />
     <Compile Include="Cards\SkipTurn.cs" />
     <Compile Include="CardType.cs" />

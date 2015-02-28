@@ -75,7 +75,7 @@
             }
         }
 
-        public abstract void Action();
+        public abstract void Action(Game game);
 
         public override string ToString()
         {

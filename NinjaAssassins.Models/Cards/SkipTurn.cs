@@ -13,9 +13,10 @@
         {
         }
 
-        public override void Action()
+        public override void Action(Game game)
         {
-
+            Player currentPlayer = game.PlayerInTurn;
+            currentPlayer.SkipTurn = true;
         }
     }
 }

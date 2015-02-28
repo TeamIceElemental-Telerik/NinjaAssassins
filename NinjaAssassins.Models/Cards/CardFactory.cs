@@ -18,7 +18,7 @@
             switch (cardTypeId)
             {
                 case 1:
-                    return new NinjaAssasin(filePath, rank, priority);
+                    return new NinjaAssassin(filePath, rank, priority);
                 case 2:
                     return new Shuffle(filePath, rank, priority);
                 case 3:

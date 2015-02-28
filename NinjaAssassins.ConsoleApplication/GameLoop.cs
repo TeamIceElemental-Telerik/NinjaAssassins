@@ -13,7 +13,6 @@
 
     public class GameLoop
     {
-
         private static Game game;
         private static Deck deck;
         private static Player playerInTurn;
@@ -21,55 +20,101 @@
 
         static void Main()
         {
-<<<<<<< HEAD
+            // test image visualization
+            //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
+            //GameVisualisation.DisplayImageOnTheConsole(path);
+            Console.WindowWidth = 130;
+            Console.WindowHeight = 40;
 
-            GameVisualisation.DisplayGameBoard();
-            Console.WriteLine();
-            GameVisualisation.DisplayGameBoard();
-=======
-            playerInTurn = new Player("Maria");
-            playerInTurn.Score = 0;
-            GameVisualisation.DisplayEndGame(playerInTurn);
->>>>>>> origin/master
             GameVisualisation.DisplayInitialMenu();
 
             string playerName = GameVisualisation.AskForUsername();
             game = GameLogic.InitializeGame(playerName);
 
-            playerInTurn = GameLogic.GetFirstPlayer();
-
             while (true)
             {
-                if (game.GameState == GameState.Finished)
-                {
-                    GameLogic.SaveHighScore(allPlayers[3], Constants.HighScoreFilePath);
-                    break;
-                }
+                playerInTurn = game.PlayerInTurn;
+
+                Console.WriteLine(playerInTurn.Name);
 
                 GameVisualisation.DisplayGameBoard();
 
-                deck = game.Deck;
-
-                var card = GameLogic.DrawCard(deck, deck.Count - 1);
-
-                if (game.GameState == GameState.YourTurn)
+                int cardsToDraw = 1;
+                if (playerInTurn.DrawDouble == true)
                 {
-                    var choice = GameVisualisation.GetPlayersChoice();
-                    GameLogic.PlayCard(playerInTurn, card, choice);
-                }
-                else
-                {
-                    GameLogic.PlayByComputerLogic(playerInTurn, card);
+                    cardsToDraw = 2;
+                    playerInTurn.DrawDouble = false;
                 }
 
-                GameLogic.ChangeScore(card, playerInTurn);
+                for (int i = 0; i < cardsToDraw; i++)
+                {
+                    if (playerInTurn.SkipTurn == true)
+                    {
+                        playerInTurn.SkipTurn = false;
+                        continue;
+                    }
 
-                playerInTurn = GameLogic.GetNextPlayer(playerInTurn);
+                    var card = GameLogic.DrawCard(game.Deck, game.Deck.Count - 1);
+                    GameVisualisation.DisplayCard(card);
 
-                if (deck.Count == 0)
+                    if (game.GameState == GameState.YourTurn)
+                    {
+                        if (card.CardType != CardType.NinjaAssassin)
+                        {
+                            var choice = PlayersChoice.NotSelected;
+                            try
+                            {
+                                choice = GameVisualisation.GetPlayersChoice();
+                                GameLogic.PlayCard(game, playerInTurn, card, choice);
+                            }
+                            catch (InvalidOperationException e)
+                            {
+                                Console.WriteLine(e.Message);
+                                choice = GameVisualisation.GetPlayersChoice();
+                                GameLogic.PlayCard(game, playerInTurn, card, choice);
+                            }
+                            catch (ArgumentException e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }                       
+                        }
+                        else
+                        {
+                            GameLogic.HandleNinjaAssasin(game, playerInTurn, card);
+                        }
+                    }
+                    else
+                    {
+                        GameLogic.PlayByComputerLogic(playerInTurn, card);
+                    }
+
+                    GameLogic.ChangeScore(card, playerInTurn);
+                }
+
+                // test game state
+                Console.WriteLine(new string('-', 60));
+                Console.WriteLine("In turn: {0}", playerInTurn.Name);
+                Console.WriteLine("Next: {0}", game.NextPlayer.Name);
+                Console.WriteLine("Deck count: {0}", game.Deck.Count);
+                Console.WriteLine("Deck: {0}", string.Join(" ", game.Deck));
+                Console.WriteLine("State: {0}", game.GameState);
+                Console.WriteLine("Skip? {0}", playerInTurn.SkipTurn);
+                Console.WriteLine("Draw double? {0}", playerInTurn.DrawDouble);
+                Console.WriteLine("Hand: {0}", string.Join(" ", playerInTurn.Hand));
+                Console.WriteLine(new string('-', 60));
+
+                if (game.Deck.Count == 0)
                 {
                     game.GameState = GameState.Finished;
                 }
+
+                if (game.GameState == GameState.Finished)
+                {
+                    GameVisualisation.DisplayEndGame(game.Players[3]);
+                    break;
+                }
+
+                GameLogic.SetNextPlayer(playerInTurn);
             }
         }
     }
