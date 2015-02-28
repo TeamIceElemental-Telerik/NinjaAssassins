@@ -20,11 +20,16 @@
 
         static void Main()
         {
+		    Console.WindowWidth = 130;
+            Console.WindowHeight = 40;
             // test image visualization
             //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
             //GameVisualisation.DisplayImageOnTheConsole(path);
-            Console.WindowWidth = 130;
-            Console.WindowHeight = 40;
+
+			// test game end
+            // playerInTurn = new Player("Maria");
+            // playerInTurn.Score = 0;
+            // GameVisualisation.DisplayEndGame(playerInTurn);
 
             GameVisualisation.DisplayInitialMenu();
 
@@ -37,7 +42,7 @@
 
                 Console.WriteLine(playerInTurn.Name);
 
-                GameVisualisation.DisplayGameBoard();
+                //GameVisualisation.DisplayGameBoard();
 
                 int cardsToDraw = 1;
                 if (playerInTurn.DrawDouble == true)
@@ -115,6 +120,8 @@
                 }
 
                 GameLogic.SetNextPlayer(playerInTurn);
+
+                //Console.Clear();
             }
         }
     }

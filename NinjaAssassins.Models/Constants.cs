@@ -11,6 +11,8 @@
         public const string HighScoreFilePath = "../../../NinjaAssassins.Models/HighScores.txt";
         public const string PlayerMoves = "../../../NinjaAssassins.Models/PlayerMoves.txt";
         public const string GameIntro = "../../../NinjaAssassins.Models/GameIntro.txt";
+        public const string GameBoard = "../../../NinjaAssassins.Models/GameBoard.txt";
+
         public static readonly List<CardType> SaviourTypes = new List<CardType> { CardType.GreenNinja, CardType.Escape, CardType.Hide, CardType.Fight };
 
         public static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
