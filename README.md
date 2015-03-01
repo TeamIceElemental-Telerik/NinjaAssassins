@@ -10,7 +10,7 @@ Players (4 players):
 Deck with N number of cards (N = Deck: 56 cards / Endless):
 - each player draw A CARD one after another (?)
 - after a draw he decideds to play a card (? - or not)
-- each play can have X number of maximum cards (?)
+- each play can have X number of maximum cards (X = 3)
 
 Cards Logic:
 1.	Ninja Assassin (Exploding Ninja) – if you draw a ninja assassin you die, unless you have one of the cards below (Green Ninja, Fight, Hide or Escape)
@@ -29,7 +29,7 @@ Cards Logic:
 7.	Scoring – each card has different score
 
 Tactic Logic(optimal scenario)
-
+- try not to draw Ninja Assassin or use Green Ninja to defuse it, Fight – to try and beat them, Hide or Escape
 
 Game Goal :
 -  Be a ninja as a last man standing
