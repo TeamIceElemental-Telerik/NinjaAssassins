@@ -38,4 +38,4 @@ A console card game - a team project for Telerik Software Academy, course C# Par
 
 -------------------------------------------------------------------------
 ####Admins : TO DO/-ing : https://trello.com/b/cutcyB6G/ninjaassassins
-------------------------------------------------------------------------
+-------------------------------------------------------------------------
