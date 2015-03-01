@@ -36,4 +36,5 @@ A console card game - a team project for Telerik Software Academy, course C# Par
  Be a ninja as a last man standing
 
 
-
+-----------------------------------------------------------
+####Admins : TO DO/-ing : https://trello.com/b/cutcyB6G/ninjaassassins
