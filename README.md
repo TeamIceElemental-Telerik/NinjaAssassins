@@ -22,7 +22,8 @@ Cards Logic:
 7.	Skip turn – use this card and skip drawing (if you draw it and use it – you skip the next drawing. If you have it in your hand and play it – you skip the current drawing)
 8.	Shuffle (Confuse the ninja) – shuffle the deck
 9.	More cards?
-----
+
+Base Logic:
 4.	If the drawn card is not a Ninja Assassin, you can hold on to it, deciding when to play it. A player can hold on to no more than 3? cards. When you have 3, on your next turn, you have to draw one and play one of the four by choice.
 5.	If you draw a Ninja Assassin – you either die or use: Green Ninja to defuse it, Fight – to try and beat them, Hide or Escape (see above)
 6.	The game ends when you’re killed (or there are no more cards in the deck if it’s not endless). The more cards you have in your hand when the game ends – the worse for your score
