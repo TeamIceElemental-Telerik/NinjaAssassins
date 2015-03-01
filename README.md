@@ -1,10 +1,10 @@
 # NinjaAssassins
 A console card game - a team project for Telerik Software Academy, course C# Part 2
 
-#Game Design (Singleplayer game):
+#Game Design (Singleplayer console game):
 
 ###Players (4 players):
-* main player
+* main player - you
 * 3 AI players
 
 ###Deck with N number of cards (N = Deck: 56 cards / Endless):
