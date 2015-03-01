@@ -25,6 +25,9 @@
         {
             // TODO: beautify (select with arrow keys, highlight on select, change color)
             // for test purposes:
+
+           
+
             Console.WriteLine("Please select: ");
             Console.WriteLine("1. Start Game");
             Console.WriteLine("2. Options");
