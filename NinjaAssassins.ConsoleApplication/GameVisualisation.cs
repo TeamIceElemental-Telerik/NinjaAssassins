@@ -26,7 +26,7 @@
             // TODO: beautify (select with arrow keys, highlight on select, change color)
             // for test purposes:
 
-           
+
 
             Console.WriteLine("Please select: ");
             Console.WriteLine("1. Start Game");
@@ -204,7 +204,7 @@
 
         public static void DisplayEndGame(Player currentPlayer)
         {
-            string diomand = new string((char)4, 80);
+            string diomand = new string((char)4, Console.WindowWidth);
             // char symbol4 = (char)4;
             int position = Console.WindowWidth / 2 - 10;
 
@@ -226,10 +226,10 @@
             // gameOver.Append(symbol4);
             //gameOver.Append(' ', 34);
             gameOver.Append(@"                                             
-              ___   ___  ___  ___  ____      ___   __ __  ____ ____ 
-             // \\ // \\ ||\\//|| ||        // \\  || || ||    || \\
-            (( ___ ||=|| || \/ || ||==     ((   )) \\ // ||==  ||_//
-             \\_|| || || ||    || ||___     \\_//   \V/  ||___ || \\
+                                   ___   ___  ___  ___  ____      ___   __ __  ____ ____ 
+                                  // \\ // \\ ||\\//|| ||        // \\  || || ||    || \\
+                                 (( ___ ||=|| || \/ || ||==     ((   )) \\ // ||==  ||_//
+                                  \\_|| || || ||    || ||___     \\_//   \V/  ||___ || \\
                                                          ");
             gameOver.Append("\n");
             gameOver.Append("\n");
@@ -245,8 +245,11 @@
             //  Console.Write(frame);
             Console.WriteLine(diomand);
 
-            Console.Write("\n\t\t\t\tYOUR SCORE: " + currentPlayer.Score);
+            Console.Write("\n\t\t\t\t\t\t\tYOUR SCORE: " + currentPlayer.Score);
             Console.Write("\n\n" + diomand);
+
+
+
 
             DisplayHighScore();
 
@@ -274,20 +277,32 @@
             var highScores = new SortedDictionary<int, string>();
             using (StreamReader highScoreRead = new StreamReader(Constants.HighScoreFilePath))
             {
+
                 var line = highScoreRead.ReadLine();
 
                 while (line != null)
                 {
+
                     var currentHighScore = line.Split('|');
-                    if ((highScores.ContainsValue(currentHighScore[1]) && highScores.ContainsKey(int.Parse(currentHighScore[0]))))
+
+                    try
                     {
-                        line = highScoreRead.ReadLine();
+                        if ((highScores.ContainsValue(currentHighScore[1]) && highScores.ContainsKey(int.Parse(currentHighScore[0]))))
+                        {
+                            line = highScoreRead.ReadLine();
+                        }
+                        else
+                        {
+                            highScores.Add(int.Parse(currentHighScore[0]), currentHighScore[1]);
+                            line = highScoreRead.ReadLine();
+                        }
                     }
-                    else
+                    catch (IndexOutOfRangeException ex)
                     {
-                        highScores.Add(int.Parse(currentHighScore[0]), currentHighScore[1]);
-                        line = highScoreRead.ReadLine();
+                        Console.WriteLine("Highscore.txt contains empty line");
+                        break;
                     }
+
 
                 }
                 highScoreRead.Close();
@@ -295,10 +310,10 @@
             int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
 
             Console.WriteLine(@"
-             __  __ __   ___  __  __     __    ___   ___   ____   ____
-             ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||   
-             ||==|| || (( ___ ||==||     \\  ((    ((   )) ||_// ||== 
-             ||  || ||  \\_|| ||  ||    \_))  \\__  \\_//  || \\ ||___
+                                 __  __ __   ___  __  __     __    ___   ___   ____   ____
+                                 ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||   
+                                 ||==|| || (( ___ ||==||     \\  ((    ((   )) ||_// ||== 
+                                 ||  || ||  \\_|| ||  ||    \_))  \\__  \\_//  || \\ ||___
                                                                         ");
 
             Console.WriteLine();

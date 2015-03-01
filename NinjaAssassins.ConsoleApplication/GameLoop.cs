@@ -27,14 +27,17 @@
             //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
             //GameVisualisation.DisplayImageOnTheConsole(path);
 
-			// test game end
-            // playerInTurn = new Player("Maria");
-            // playerInTurn.Score = 0;
-            // GameVisualisation.DisplayEndGame(playerInTurn);
-            
+            // test game end
+            //playerInTurn = new Player("Maria");
+            //playerInTurn.Score = 0;
+            //GameVisualisation.DisplayEndGame(playerInTurn);
+
             var reader = new StreamReader(Constants.GameBoard);
 
             GameVisualisation.DisplayInitialMenu();
+
+
+
 
             string playerName = GameVisualisation.AskForUsername();
             game = GameLogic.InitializeGame(playerName);
@@ -48,7 +51,6 @@
 
                 Console.WriteLine(playerInTurn.Name);
 
-                //GameVisualisation.DisplayGameBoard(reader);
 
                 int cardsToDraw = 1;
                 if (playerInTurn.DrawDouble == true)
@@ -96,7 +98,7 @@
                                 {
                                     choice = GameVisualisation.GetPlayersChoice();
                                     GameLogic.PlayCard(game, playerInTurn, card, choice);
-                                    wrongChoice = false;             
+                                    wrongChoice = false;
                                 }
                                 catch (ArgumentException e)
                                 {
@@ -149,17 +151,33 @@
                 {
                     game.GameState = GameState.Finished;
                     // TODO: get winner
+
                 }
 
                 if (game.GameState == GameState.Finished)
                 {
                     Console.WriteLine("The end");
-                    //GameVisualisation.DisplayEndGame(game.Players[3]);
+                    int maxScore = 0;
+                    var player = "";
+                    for (int i = 0; i < game.Players.Length; i++)
+                    {
+                        if (game.Players[i].Score > maxScore)
+                        {
+                            maxScore = game.Players[i].Score;
+                            player = game.Players[i].Name;
+                        }
+                    }
+                    Console.WriteLine("Winner : {0} {1}", player, maxScore);
+                    // GameVisualisation.DisplayEndGame(game.Players[3]);
+
                     break;
                 }
 
                 GameLogic.SetNextPlayer(playerInTurn);
             }
+
+
+
         }
     }
 }
