@@ -2,13 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.IO;
+    using System.Linq;
 
-    using NinjaAssassins.Models;
     using NinjaAssassins.Helper;
+    using NinjaAssassins.Models;
 
     public class GameLogic
     {
@@ -50,7 +48,19 @@
             return game;
         }
 
-        public static void Play()
+        public static int GetNumberOfCardsToDraw(Game game)
+        {
+            int cardsToDraw = 1;
+            if (game.PlayerInTurn.DrawDouble == true)
+            {
+                cardsToDraw = 2;
+                game.PlayerInTurn.DrawDouble = false;
+            }
+
+            return cardsToDraw;
+        }
+
+        public static void Play(Game game)
         {
             // TODO : separate methods:
             // 1. Draw a card
@@ -64,19 +74,13 @@
             // 5. Move to next player
             // 6. Computer players game logic - random decisions
             // 7. When all cards are drawn (re-fill deck? or end game?)
-            //throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public static void EndGame()
         {
-            // TODO:
-            // 1. Stop game loop - set gamestate to finished
-            // 2. Add score to high-scores
-            // 3. Display high-scores
-            // 4. Display initial menu
-            game.GameState = GameState.Finished;
-            GameLogic.SaveHighScore(allPlayers[3], Constants.HighScoreFilePath);
-            Console.WriteLine("Dead");
+            ReduceScoresWithCardsInHand(game);
+            SaveHighScore(allPlayers[3], Constants.HighScoreFilePath);
         }
 
         public static Card DrawCard(Deck deck, int positionInDeck = 0)
@@ -112,25 +116,34 @@
 
         public static void PlayByComputerLogic(Player currentPlayer, Card card)
         {
-            currentPlayer.Hand.Add(card);
-            Card bestCard;
-            int maxPriority = -1;
-
-            foreach (var c in currentPlayer.Hand)
+            if (card.CardType != CardType.NinjaAssassin)
             {
-                maxPriority = c.Priority > maxPriority && c.Priority <= (int)CardType.Attack ? c.Priority : maxPriority;
-            }
+                currentPlayer.Hand.Add(card);
+                Card bestCard;
+                int maxPriority = -1;
 
-            if (maxPriority > -1)
-            {
-                bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == maxPriority);
-
-                if (currentPlayer.Hand.Count < Constants.HandCount)
+                foreach (var c in currentPlayer.Hand)
                 {
-                    // 50-50 chance
-                    bool play = random.Next(1, 3) == 1 ? true : false;
+                    maxPriority = c.Priority > maxPriority && c.Priority <= (int)CardType.Attack ? c.Priority : maxPriority;
+                }
 
-                    if (play)
+                if (maxPriority > -1)
+                {
+                    bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == maxPriority);
+
+                    if (currentPlayer.Hand.Count < Constants.HandCount)
+                    {
+                        // 50-50 chance
+                        bool play = random.Next(1, 3) == 1 ? true : false;
+
+                        if (play)
+                        {
+                            bestCard.Action(game);
+                            currentPlayer.Hand.Remove(bestCard);
+                            game.IsCardPlayed = true;
+                        }
+                    }
+                    else
                     {
                         bestCard.Action(game);
                         currentPlayer.Hand.Remove(bestCard);
@@ -139,63 +152,69 @@
                 }
                 else
                 {
-                    bestCard.Action(game);
-                    currentPlayer.Hand.Remove(bestCard);
-                    game.IsCardPlayed = true;
+                    if (currentPlayer.Hand.Count > Constants.HandCount)
+                    {
+                        int minPriority = int.MaxValue;
+
+                        foreach (var c in currentPlayer.Hand)
+                        {
+                            minPriority = c.Priority < minPriority && c.Priority > (int)CardType.Attack ? c.Priority : minPriority;
+                        }
+
+                        bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == minPriority);
+                        bestCard.Action(game);
+                        currentPlayer.Hand.Remove(bestCard);
+                        game.IsCardPlayed = true;
+                    }
                 }
             }
             else
             {
-                if (currentPlayer.Hand.Count > Constants.HandCount)
-                {
-                    int minPriority = int.MaxValue;
-
-                    foreach (var c in currentPlayer.Hand)
-                    {
-                        minPriority = c.Priority < minPriority && c.Priority > (int)CardType.Attack ? c.Priority : minPriority;
-                    }
-
-                    bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == minPriority);
-                    bestCard.Action(game);
-                    currentPlayer.Hand.Remove(bestCard);
-                    game.IsCardPlayed = true;
-                }
+                HandleNinjaAssasin(game, game.PlayerInTurn, card);
             }
         }
 
         public static void PlayCard(Game game, Player currentPlayer, Card card, PlayersChoice choice = PlayersChoice.NotSelected)
         {
-            switch (choice)
+            if (card.CardType != CardType.NinjaAssassin)
             {
-                case PlayersChoice.PlayCard:
-                    card.Action(game);
-                    game.IsCardPlayed = true;
-                    break;
-                case PlayersChoice.SaveToHand:
-                    if (currentPlayer.Hand.Count < 3)
-                    {
+                switch (choice)
+                {
+                    case PlayersChoice.PlayCard:
+                        card.Action(game);
+                        game.IsCardPlayed = true;
+                        break;
+                    case PlayersChoice.SaveToHand:
+                        if (currentPlayer.Hand.Count < 3)
+                        {
+                            currentPlayer.Hand.Add(card);
+                        }
+                        else
+                        {
+                            choice = PlayersChoice.PlayDifferentCard;
+                            PlayCard(game, currentPlayer, card, choice);
+                        }
+
+                        break;
+                    case PlayersChoice.PlayDifferentCard:
                         currentPlayer.Hand.Add(card);
-                    }
-                    else
-                    {
-                        choice = PlayersChoice.PlayDifferentCard;
-                        PlayCard(game, currentPlayer, card, choice);
-                    }
-                    break;
-                case PlayersChoice.PlayDifferentCard:
-                    currentPlayer.Hand.Add(card);
 
-                    if (currentPlayer.Hand.Count > 0)
-                    {
-                        DisplaySelectFromHand(currentPlayer.Hand, Constants.xRightBorder + 3, 27);
-                        card = SelectCardFromHand(currentPlayer.Hand);
-                        currentPlayer.Hand.Remove(card);
-                        choice = PlayersChoice.PlayCard;
-                        PlayCard(game, currentPlayer, card, choice);
-                    }
+                        if (currentPlayer.Hand.Count > 0)
+                        {
+                            DisplaySelectFromHand(currentPlayer.Hand, Constants.RightBorderX + 3, 27);
+                            card = SelectCardFromHand(currentPlayer.Hand);
+                            currentPlayer.Hand.Remove(card);
+                            choice = PlayersChoice.PlayCard;
+                            PlayCard(game, currentPlayer, card, choice);
+                        }
 
-                    break;
+                        break;
+                }
             }
+            else
+            {
+                HandleNinjaAssasin(game, currentPlayer, card);
+            }         
         }
 
         public static void HandleNinjaAssasin(Game game, Player currentPlayer, Card card)
@@ -216,7 +235,7 @@
             {
                 if (game.GameState == GameState.YourTurn)
                 {
-                    DisplaySelectFromHand(saviourCards, Constants.xRightBorder + 3, 27);
+                    DisplaySelectFromHand(saviourCards, Constants.RightBorderX + 3, 27);
                     card = SelectCardFromHand(saviourCards);
                     currentPlayer.Hand.Remove(card);
                 }
@@ -287,6 +306,7 @@
                     {
                         SelectCardFromHand(hand);
                     }
+
                     break;
                 case ConsoleKey.F:
                     if (hand.Count > 3)
@@ -297,6 +317,7 @@
                     {
                         SelectCardFromHand(hand);
                     }
+
                     break;
                 default:
                     SelectCardFromHand(hand);
@@ -328,7 +349,7 @@
         public static KeyValuePair<string, int> GetWinner(Game game)
         {
             int maxScore = 0;
-            var player = "";
+            var player = string.Empty;
             for (int i = 0; i < game.Players.Length; i++)
             {
                 if (game.Players[i].Score > maxScore)
@@ -353,8 +374,31 @@
             }
             catch (Exception e)
             {
-                ExtensionMethods.HandleExceptions(e, Constants.xRightBorder + 3, Console.WindowHeight - 9, ConsoleColor.White);
+                ExtensionMethods.HandleExceptions(e, Constants.RightBorderX + 3, Console.WindowHeight - 9, ConsoleColor.White);
             }
+        }
+
+        public static List<string> GetHighScores(StreamReader reader, int highScoresCount)
+        {
+            var highScores = new List<string>();
+
+            using (reader)
+            {
+                var line = reader.ReadLine();
+
+                while (line != null)
+                {
+                    highScores.Add(line);
+                    line = reader.ReadLine();
+                }
+            }
+
+            highScores.Sort();
+            highScores.Reverse();
+
+            int scoreCount = highScores.Count >= highScoresCount ? highScoresCount : highScores.Count;
+
+            return highScores.Take(scoreCount).ToList();
         }
 
         public static void SaveMoves(Game game, string path)
@@ -366,6 +410,10 @@
                 {
                     writer.WriteLine(game.PlayerInTurn.Name + "| played " + game.CurrentCard.CardType);
                     game.IsCardPlayed = false;
+                }
+                else if (game.PlayerInTurn.IsDead)
+                {
+                    game.Log = game.PlayerInTurn.Name + "| was killed by a " + game.CurrentCard.CardType;
                 }
                 else
                 {
@@ -395,7 +443,7 @@
             }
             catch (Exception e)
             {
-                ExtensionMethods.HandleExceptions(e, Constants.xRightBorder + 3, Console.WindowHeight - 9, ConsoleColor.White);
+                ExtensionMethods.HandleExceptions(e, Constants.RightBorderX + 3, Console.WindowHeight - 9, ConsoleColor.White);
             }
 
             return moves.Skip(moves.Count - movesCount)

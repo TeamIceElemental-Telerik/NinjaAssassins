@@ -2,79 +2,39 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.IO;
+    using System.Threading;
 
     using NinjaAssassins.GameLogic;
-    using NinjaAssassins.Models;
-    using NinjaAssassins.Models.Cards;
-    using System.Threading;
     using NinjaAssassins.Helper;
+    using NinjaAssassins.Models;
 
-    public class GameLoop
+    public static class GameLoop
     {
-        private static Game game;
-        private static Deck deck;
-        private static Player playerInTurn;
-        private static Player[] allPlayers;
-
-        static void Main()
+        public static void Play(Game game)
         {
-            Console.BufferWidth = Console.WindowWidth = 125;
-            Console.BufferHeight = Console.WindowHeight = 35;
-
-            // test image visualization
-            //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
-            //GameVisualisation.DisplayImageOnTheConsole(path);
-
-            // test game end
-            // playerInTurn = new Player("Maria");
-            // playerInTurn.Score = 0;
-            // GameVisualisation.DisplayEndGame(playerInTurn);
-
-            var reader = new StreamReader(Constants.GameBoard);
-
-            GameVisualisation.DisplayInitialMenu();
-
-            string playerName = GameVisualisation.AskForUsername();
-            game = GameLogic.InitializeGame(playerName);
-
             Console.Clear();
 
             while (true)
             {
                 Console.CursorVisible = false;
 
-                playerInTurn = game.PlayerInTurn;
-
                 GameVisualisation.DisplayGameBoard(game);
 
-                int cardsToDraw = 1;
-                if (playerInTurn.DrawDouble == true)
+                for (int i = 0; i < GameLogic.GetNumberOfCardsToDraw(game); i++)
                 {
-                    cardsToDraw = 2;
-                    playerInTurn.DrawDouble = false;
-                }
+                    var moves = GameLogic.GetLastNMoves(Constants.PlayerMoves, Constants.PlayerMovesCount);
 
-                for (int i = 0; i < cardsToDraw; i++)
-                {
-                    var moves = GameLogic.GetLastNMoves(Constants.PlayerMoves, 13);
+                    GameVisualisation.DisplayPlayerMoves(moves, game, Constants.PlayerMovesX, Constants.PlayerMovesY);
+                    GameVisualisation.DisplayCurrentGameState(game, Constants.GameStateX, Constants.GameStateY);
 
-                    int x = Constants.xRightBorder + 3;
-                    int y = 1;
-
-                    GameVisualisation.DisplayCurrentGameState(game, x, y);
-                    GameVisualisation.DisplayPlayerMoves(moves, game, x, y + 7);
-
-                    if (playerInTurn.SkipTurn)
+                    if (game.PlayerInTurn.SkipTurn)
                     {
-                        playerInTurn.SkipTurn = false;
+                        game.PlayerInTurn.SkipTurn = false;
                         continue;
                     }
 
-                    if (playerInTurn.IsDead)
+                    if (game.PlayerInTurn.IsDead)
                     {
                         continue;
                     }
@@ -86,117 +46,79 @@
                     {
                         if (game.GameState == GameState.YourTurn)
                         {
-                            x = 30;
-                            y = 7;
-
                             var cardReader = new StreamReader(card.FilePath);
-                            GameVisualisation.DisplayCard(cardReader, card, x, y);
+                            GameVisualisation.DisplayCard(cardReader, card, Constants.CardX, Constants.CardY);
                         }
                     }
                     catch
                     {
-                        x = 30;
-                        y = 7;
-                        ExtensionMethods.PrintOnPosition(x, y, card.ToString(), ConsoleColor.Green);
+                        ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY, card.ToString(), ConsoleColor.Green);
                     }
 
                     if (game.GameState == GameState.YourTurn)
                     {
-                        if (card.CardType != CardType.NinjaAssassin)
+                        GameVisualisation.DisplayPlayersChoiceOptions(Constants.PlayersChoiceOptionsX, Constants.PlayersChoiceOptionsY);
+
+                        var choice = PlayersChoice.NotSelected;
+                        bool wrongChoice = true;
+
+                        while (wrongChoice)
                         {
-                            y = 27;
-                            x = Constants.xRightBorder + 3;
-                            GameVisualisation.DisplayPlayersChoiceOptions(x, y);
-
-                            var choice = PlayersChoice.NotSelected;
-                            bool wrongChoice = true;
-
-                            while (wrongChoice)
+                            try
                             {
-                                try
-                                {
-                                    choice = GameVisualisation.GetPlayersChoice();
-
-                                    GameLogic.PlayCard(game, playerInTurn, card, choice);
-                                    wrongChoice = false;
-                                }
-                                catch (ArgumentException e)
-                                {
-                                    wrongChoice = true;
-                                    ExtensionMethods.PrintOnPosition(Constants.xRightBorder + 3, Console.WindowHeight - 4, e.Message, ConsoleColor.White);
-                                }
-                                catch (InvalidOperationException e)
-                                {
-                                    wrongChoice = true;
-                                    ExtensionMethods.PrintOnPosition(Constants.xRightBorder + 3, Console.WindowHeight - 4, e.Message, ConsoleColor.White);
-                                }
+                                choice = GameVisualisation.GetPlayersChoice();
+                                GameLogic.PlayCard(game, game.PlayerInTurn, card, choice);
+                                wrongChoice = false;
                             }
-                        }
-                        else
-                        {
-                            GameLogic.HandleNinjaAssasin(game, playerInTurn, card);
+                            catch (ArgumentException e)
+                            {
+                                wrongChoice = true;
+                                ExtensionMethods.PrintOnPosition(Constants.ExceptionMessageX, Constants.ExceptionMesssageWrongChoiceY, e.Message, ConsoleColor.White);
+                            }
+                            catch (InvalidOperationException e)
+                            {
+                                wrongChoice = true;
+                                ExtensionMethods.PrintOnPosition(Constants.ExceptionMessageX, Constants.ExceptionMesssageWrongChoiceY, e.Message, ConsoleColor.White);
+                            }
                         }
                     }
                     else
                     {
-                        if (card.CardType != CardType.NinjaAssassin)
-                        {
-                            Thread.Sleep(1000);
-                            GameLogic.PlayByComputerLogic(playerInTurn, card);
-                        }
-                        else
-                        {
-                            Thread.Sleep(1000);
-                            GameLogic.HandleNinjaAssasin(game, playerInTurn, card);
-                        }
+                        GameLogic.PlayByComputerLogic(game.PlayerInTurn, card);
+                        Thread.Sleep(1000);
                     }
 
                     GameLogic.SaveMoves(game, Constants.PlayerMoves);
-                    GameLogic.ChangeScore(card, playerInTurn);
+                    GameLogic.ChangeScore(card, game.PlayerInTurn);
                 }
-
-                // test game state
-                //Console.WriteLine(new string('-', 60));
-                //Console.WriteLine("In turn: {0}", playerInTurn.Name);
-                //Console.WriteLine("In turn: {0}", playerInTurn.Id);
-                //Console.WriteLine("Next: {0}", game.NextPlayer.Name);
-                //Console.WriteLine("Deck count: {0}", game.Deck.Count);
-                //Console.WriteLine("Deck: {0}", string.Join(" ", game.Deck));
-                //Console.WriteLine("State: {0}", game.GameState);
-                //Console.WriteLine("Skip? {0}", playerInTurn.SkipTurn);
-                //Console.WriteLine("Is dead? {0}", playerInTurn.IsDead);
-                //Console.WriteLine("Draw double? {0}", playerInTurn.DrawDouble);
-                //Console.WriteLine("Hand: {0}", string.Join(" ", playerInTurn.Hand));
-                //Console.WriteLine("Players: {0}", string.Join(" ", game.Players.ToList()));
-                //Console.WriteLine(new string('-', 60));
 
                 if (game.Deck.Count == 0 || game.Players[3].IsDead)
                 {
                     game.GameState = GameState.Finished;
-                    // TODO: get winner
-
                 }
 
                 if (game.GameState == GameState.Finished)
                 {
-                    GameLogic.ReduceScoresWithCardsInHand(game);
+                    GameLogic.EndGame();
 
-                    // test
-                    Console.WriteLine("The end");
+                    var highScores = new List<string>();
+                    try
+                    {
+                        var highScoreReader = new StreamReader(Constants.HighScoreFilePath);
+                        highScores = GameLogic.GetHighScores(highScoreReader, Constants.HighScoresCount);
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
+                    }
 
                     var winner = GameLogic.GetWinner(game);
-
-                    // Console.WriteLine("Winner : {0} {1}", winner.Key, winner.Value);
-                    // GameVisualisation.DisplayEndGame(game.Players[3]);
-
+                    GameVisualisation.DisplayGameEnd(game.Players[3], winner, highScores);
                     break;
                 }
 
-                GameLogic.SetNextPlayer(playerInTurn);
+                GameLogic.SetNextPlayer(game.PlayerInTurn);
             }
-
-
-
         }
     }
 }

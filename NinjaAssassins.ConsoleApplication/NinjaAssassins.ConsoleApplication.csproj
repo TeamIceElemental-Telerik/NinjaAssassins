@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="GameVisualisation.cs" />
     <Compile Include="GameLoop.cs" />
+    <Compile Include="Play.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

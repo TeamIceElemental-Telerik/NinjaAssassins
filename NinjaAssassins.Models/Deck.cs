@@ -5,8 +5,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using NinjaAssassins.Models.Cards;
     using NinjaAssassins.Helper;
+    using NinjaAssassins.Models.Cards;
 
     public class Deck : IEnumerable<Card>, IDeck
     {
@@ -62,17 +62,17 @@
                 for (int j = 0; j < cardsInDeck / allCardTypesCount; j++)
                 {
                     CardType cardType = (CardType)i;
-                    card = CardFactory.Get(cardType); ;
+                    card = CardFactory.Get(cardType);
                     this.deck.Add(card);
                 }
             }
 
             // add additional Ninja Assassin cards?
-            //for (int i = 0; i < cardsInDeck / allCardTypesCount; i++)
-            //{
-            //    card = CardFactory.Get(CardType.NinjaAssassin);
-            //    this.deck.Add(card);
-            //}
+            // for (int i = 0; i < cardsInDeck / allCardTypesCount; i++)
+            // {
+            //     card = CardFactory.Get(CardType.NinjaAssassin);
+            //     this.deck.Add(card);
+            // }
         }
 
         public void RemoveCardFromDeck(Card card)
@@ -101,12 +101,12 @@
 
         public IEnumerator<Card> GetEnumerator()
         {
-            return deck.GetEnumerator();
+            return this.deck.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return deck.GetEnumerator();
+            return this.deck.GetEnumerator();
         }
     }
 }

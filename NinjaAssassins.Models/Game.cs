@@ -1,9 +1,8 @@
 ﻿namespace NinjaAssassins.Models
 {
-    using NinjaAssassins.Helper;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+
+    using NinjaAssassins.Helper;
 
     public class Game
     {
@@ -17,7 +16,7 @@
         private string log;
 
         public Game()
-            :this (new Deck())
+            : this (new Deck())
         {
         }
 

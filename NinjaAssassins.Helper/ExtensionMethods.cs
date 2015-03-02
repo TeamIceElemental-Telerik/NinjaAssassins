@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NinjaAssassins.Helper
+﻿namespace NinjaAssassins.Helper
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+
     public static class ExtensionMethods
     {
         public static void PrintOnPosition(this int x, int y, char symbol, ConsoleColor color = ConsoleColor.White)
@@ -39,28 +35,29 @@ namespace NinjaAssassins.Helper
 
         public static void DisplayImageOnTheConsole(this string path)
         {
-            Image Picture = Image.FromFile(path);
-            Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
-            FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
-            int FrameCount = Picture.GetFrameCount(Dimension);
-            int Left = Console.WindowLeft, Top = Console.WindowTop;
-            char[] Chars = { '#', '#', '@', '%', '=', '+', '*', ':', '-', '.', ' ' };
-            Picture.SelectActiveFrame(Dimension, 0x0);
+            Image picture = Image.FromFile(path);
+            Console.SetBufferSize((picture.Width * 0x2), (picture.Height * 0x2));
+            FrameDimension Dimension = new FrameDimension(picture.FrameDimensionsList[0x0]);
+            int frameCount = picture.GetFrameCount(Dimension);
+            int left = Console.WindowLeft;
+            int top = Console.WindowTop;
+            char[] chars = { '#', '#', '@', '%', '=', '+', '*', ':', '-', '.', ' ' };
+            picture.SelectActiveFrame(Dimension, 0x0);
 
-            for (int i = 0x0; i < Picture.Height; i++)
+            for (int i = 0x0; i < picture.Height; i++)
             {
-                for (int x = 0x0; x < Picture.Width; x++)
+                for (int x = 0x0; x < picture.Width; x++)
                 {
-                    Color Color = ((Bitmap)Picture).GetPixel(x, i);
+                    Color Color = ((Bitmap)picture).GetPixel(x, i);
                     int Gray = (Color.R + Color.G + Color.B) / 0x3;
-                    int Index = (Gray * (Chars.Length - 0x1)) / 0xFF;
-                    Console.Write(Chars[Index]);
+                    int Index = (Gray * (chars.Length - 0x1)) / 0xFF;
+                    Console.Write(chars[Index]);
                 }
 
                 Console.Write('\n');
             }
 
-            Console.SetCursorPosition(Left, Top);
+            Console.SetCursorPosition(left, top);
             Console.Read();
         }
 

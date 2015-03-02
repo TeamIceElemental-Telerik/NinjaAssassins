@@ -1,6 +1,6 @@
 ﻿namespace NinjaAssassins.Helper
 {
-    using System.Collections.Generic;
+    using System;
 
     public abstract class Constants
     {
@@ -11,13 +11,37 @@
         public const string CardFilePath = "../../../NinjaAssassins.Models/CardFaces/";
         public const string CardFileExtension = ".txt";
 
-        public const string HighScoreFilePath = "../../../NinjaAssassins.Models/HighScores.txt";
-        public const string PlayerMoves = "../../../NinjaAssassins.Models/PlayerMoves.txt";
-        public const string GameIntro = "../../../NinjaAssassins.Models/GameIntro.txt";
-        public const string GameBoard = "../../../NinjaAssassins.Models/GameBoard.txt";
+        public const string HighScoreFilePath = "../../../NinjaAssassins.Models/Files/HighScores.txt";
+        public const string PlayerMoves = "../../../NinjaAssassins.Models/Files/PlayerMoves.txt";
+        public const string GameIntro = "../../../NinjaAssassins.Models/Files/GameIntro.txt";
+        public const string GameBoard = "../../../NinjaAssassins.Models/Files/GameBoard.txt";
 
         public static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
 
-        public const int xRightBorder = 81;
+        public const int HighScoresCount = 10;
+        public const int PlayerMovesCount = 13;
+
+        public const int RightBorderX = 81;
+
+        public const int GameStateX = RightBorderX + 3;
+        public const int GameStateY = 1;
+
+        public const int PlayerMovesX = RightBorderX + 3;
+        public const int PlayerMovesY = GameStateY + 7;
+
+        public const int CardX = 30;
+        public const int CardY = 7;
+
+        public const int PlayersChoiceOptionsX = RightBorderX + 3;
+        public const int PlayersChoiceOptionsY = 27;
+
+        public const int ExceptionMessageX = RightBorderX + 3;
+        public static readonly int ExceptionMesssageY = Console.WindowHeight - 9;
+        public static readonly int ExceptionMesssageWrongChoiceY = Console.WindowHeight - 4;
+
+        public const int IntroX = 25;
+        public const int IntroY = 5;
+
+        public static readonly int EndGameX = Console.WindowWidth / 2 - 10;
     }
 }

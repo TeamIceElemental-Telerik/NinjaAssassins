@@ -15,18 +15,21 @@
     // TODO
     public static class GameVisualisation
     {
+        public static void SetInitialConsoleSize()
+        {
+            Console.BufferWidth = Console.WindowWidth = 125;
+            Console.BufferHeight = Console.WindowHeight = 35;
+        }
+
         public static void DisplayLogo()
         {
-            //int[,]?
+            // int[,]?
         }
 
         public static void DisplayInitialMenu()
         {
             // TODO: beautify (select with arrow keys, highlight on select, change color)
             // for test purposes:
-
-
-
             Console.WriteLine("Please select: ");
             Console.WriteLine("1. Start Game");
             Console.WriteLine("2. Options");
@@ -45,7 +48,9 @@
                     DisplayGameOptions();
                     break;
                 case 3:
-                    DisplayHighScore();
+                    reader = new StreamReader(Constants.HighScoreFilePath);
+                    var highScores = GameLogic.GetHighScores(reader, Constants.HighScoresCount);
+                    DisplayHighScore(highScores);
                     break;
                 case 4:
                     DisplayGameRules();
@@ -57,7 +62,6 @@
                     Console.WriteLine("Please select an option between 1 and 4.");
                     break;
             }
-
         }
 
         public static void DisplayGameRules()
@@ -68,19 +72,19 @@
 
         public static void DisplayGameOptions()
         {
-            //(sound on/off)
+            // (sound on/off)
         }
 
         public static void DisplayIntro(StreamReader reader)
         {
-            int x = Console.WindowWidth - 40;
-            int y = Console.WindowHeight - 9;
+            int x = Constants.ExceptionMessageX;
+            int y = Constants.ExceptionMesssageWrongChoiceY;
 
             ExtensionMethods.PrintOnPosition(x, y, "(Press any key to skip intro)", ConsoleColor.Green);
             using (reader)
             {
-                x = Console.WindowWidth / 2 - 40;
-                y = Console.WindowHeight / 2 - 10;
+                x = Constants.IntroX;
+                y = Constants.IntroY;
 
                 string line = reader.ReadLine();
                 while (line != null)
@@ -88,7 +92,7 @@
                     foreach (var symbol in line)
                     {
                         ExtensionMethods.PrintOnPosition(x, y, symbol, ConsoleColor.Green);
-                        x = x == Console.WindowWidth - 40 ? Console.WindowWidth / 2 - 40 : x + 1;
+                        x = x == Constants.IntroX - 10 ? Constants.IntroX : x + 1;
 
                         if (Console.KeyAvailable)
                         {
@@ -101,7 +105,7 @@
                     }
 
                     y++;
-                    x = Console.WindowWidth / 2 - 40;
+                    x = Constants.IntroX;
                     line = reader.ReadLine();
                 }
             }
@@ -115,8 +119,8 @@
 
         public static string AskForUsername()
         {
-            int x = Console.WindowWidth / 2 - 40;
-            int y = Console.WindowHeight / 2 + 10;
+            int x = Constants.IntroX;
+            int y = Constants.ExceptionMesssageY + 2;
 
             ExtensionMethods.PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
             string name = Console.ReadLine();
@@ -144,33 +148,27 @@
                     y++;
                 }
             }
+
             ExtensionMethods.PrintOnPosition(Console.WindowWidth - 30, Console.WindowHeight - 3, "NINJA ASSASSINS", ConsoleColor.Green);
             ExtensionMethods.PrintOnPosition(20, Console.WindowHeight - 2, "A console card game - a team project for Telerik Software Academy, course C# Part 2", ConsoleColor.Green);
 
             // display names and scores
-            string score = "Score";
             ExtensionMethods.PrintOnPosition(20, 3, game.Players[1].Name, ConsoleColor.Green);
             ExtensionMethods.PrintOnPosition(20, Console.WindowHeight - 7, game.Players[3].Name, ConsoleColor.Yellow);
 
-            ExtensionMethods.PrintOnPosition(53, 3, score + ": " + game.Players[1].Score, ConsoleColor.Green);
-            ExtensionMethods.PrintOnPosition(53, Console.WindowHeight - 7, score + ": " + game.Players[3].Score, ConsoleColor.Yellow);
+            ExtensionMethods.PrintOnPosition(60, 3, game.Players[1].Score.ToString(), ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(60, Console.WindowHeight - 7, game.Players[3].Score.ToString(), ConsoleColor.Yellow);
 
             for (int i = 0; i < game.Players[0].Name.Length; i++)
             {
                 ExtensionMethods.PrintOnPosition(7, 7 + i, game.Players[0].Name[i], ConsoleColor.Green);
-                ExtensionMethods.PrintOnPosition(Constants.xRightBorder - 8, 7 + i, game.Players[2].Name[i], ConsoleColor.Green);
-            }
-
-            for (int i = 0; i < score.Length; i++)
-            {
-                ExtensionMethods.PrintOnPosition(7, 17 + i, score[i], ConsoleColor.Green);
-                ExtensionMethods.PrintOnPosition(Constants.xRightBorder - 8, 17 + i, score[i], ConsoleColor.Green);
+                ExtensionMethods.PrintOnPosition(Constants.RightBorderX - 8, 7 + i, game.Players[2].Name[i], ConsoleColor.Green);
             }
 
             for (int i = 0; i < 3; i++)
             {
                 ExtensionMethods.PrintOnPosition(7, 23 + i, game.Players[0].Score.ToString().PadRight(3)[i], ConsoleColor.Green);
-                ExtensionMethods.PrintOnPosition(Constants.xRightBorder - 8, 23 + i, game.Players[2].Score.ToString().PadRight(3)[i], ConsoleColor.Green);
+                ExtensionMethods.PrintOnPosition(Constants.RightBorderX - 8, 23 + i, game.Players[2].Score.ToString().PadRight(3)[i], ConsoleColor.Green);
             }
 
             // display player's cards
@@ -279,56 +277,65 @@
             }
         }
 
-        public static void DisplayEndGame(Player currentPlayer)
+        public static void DisplayGameEnd(Player currentPlayer, KeyValuePair<string, int> winner, List<string> highScores)
         {
             string diomand = new string((char)4, Console.WindowWidth);
-            // char symbol4 = (char)4;
-            int position = Console.WindowWidth / 2 - 10;
+            int position = Constants.EndGameX;
 
-            using (StreamWriter highScoreWrite = new StreamWriter(Constants.HighScoreFilePath, true))
-            {
-                highScoreWrite.WriteLine("{0}|{1}", currentPlayer.Score, currentPlayer.Name);
-                highScoreWrite.Close();
-            }
-
-            StringBuilder frame = new StringBuilder();
-            //frame.Append(symbol4);
-            //frame.Append(' ', 78);
-            //frame.Append(symbol4);
             StringBuilder gameOver = new StringBuilder();
 
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Green;
 
-            // gameOver.Append(symbol4);
-            //gameOver.Append(' ', 34);
-            gameOver.Append(@"                                             
+            gameOver.Append("\n")
+            .Append(diomand)
+            .Append(@"                                             
                                    ___   ___  ___  ___  ____      ___   __ __  ____ ____ 
                                   // \\ // \\ ||\\//|| ||        // \\  || || ||    || \\
                                  (( ___ ||=|| || \/ || ||==     ((   )) \\ // ||==  ||_//
                                   \\_|| || || ||    || ||___     \\_//   \V/  ||___ || \\
-                                                         ");
-            gameOver.Append("\n");
-            gameOver.Append("\n");
-
-            // gameOver.Append(' ', 35);
-            //   gameOver.Append(symbol4);
+                                                         ")
+            .Append("\n\n")
+            .Append(diomand)
+            .Append("\n\t\t\t\t\t\t\tYOUR SCORE: " + currentPlayer.Score)
+            .Append("\n\t\t\t\t\t\t\tWINNER: " + winner.Key + " " + winner.Value)
+            .Append("\n\n")
+            .Append(diomand);
 
             Console.Clear();
-            Console.WriteLine();
-            Console.Write(diomand);
-            // Console.Write(frame);
             Console.Write(gameOver);
-            //  Console.Write(frame);
-            Console.WriteLine(diomand);
 
-            Console.Write("\n\t\t\t\t\t\t\tYOUR SCORE: " + currentPlayer.Score);
-            Console.Write("\n\n" + diomand);
+            DisplayHighScore(highScores);
 
-            DisplayHighScore();
+            Console.Write("\n" + diomand);
+            GetUserEndGameChoice();
+        }
 
+        public static void DisplayHighScore(List<string> highScores)
+        {          
+            int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
+
+            Console.WriteLine(@"
+                               __  __ __   ___  __  __     __    ___   ___   ____   ____  __
+                               ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||    (( \
+                               ||==|| || (( ___ ||==||     \\  ((    ((   )) ||_// ||==   \\
+                               ||  || ||  \\_|| ||  ||    \_))  \\__  \\_//  || \\ ||___ \_))
+                                                                        ");
             Console.WriteLine();
-            Console.Write(diomand);
+            Console.WriteLine();
+
+            foreach (var highScore in highScores)
+            {
+                var current = highScore.Split('|');
+                var currentHighScore = current[0];
+                var playerName = current[1];
+
+                Console.WriteLine("{0}{2,-10} {1,5}", new string(' ', Constants.EndGameX), currentHighScore, playerName);
+            }
+        }
+
+        public static void GetUserEndGameChoice()
+        {
             Console.WriteLine(" Press ENTER for New Game or Press ESC for Exit");
 
             var pressedKey = Console.ReadKey(true);
@@ -336,66 +343,20 @@
             if (pressedKey.Key == ConsoleKey.Enter)
             {
                 Console.Clear();
+                DisplayInitialMenu();
             }
             else if (pressedKey.Key == ConsoleKey.Escape)
             {
                 Console.Clear();
-                Console.WriteLine("Bye Bye");
+                ExtensionMethods.PrintOnPosition(Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, @"
+                                       ____   ____   ____   ____   ____   ____
+                                       ||  | \\  // ||      ||  | \\  // ||
+                                       ||==   \\//  ||==    ||==   \\//  ||==
+                                       ||___|  ||   ||___   ||___|  ||   ||___
+", ConsoleColor.Green);
+                Thread.Sleep(1000);
                 Environment.Exit(0);
             }
-        }
-
-        public static void DisplayHighScore()
-        {
-            var highScores = new SortedDictionary<int, string>();
-            using (StreamReader highScoreRead = new StreamReader(Constants.HighScoreFilePath))
-            {
-                var line = highScoreRead.ReadLine();
-
-                while (line != null)
-                {
-
-                    var currentHighScore = line.Split('|');
-
-                    try
-                    {
-                        if ((highScores.ContainsValue(currentHighScore[1]) && highScores.ContainsKey(int.Parse(currentHighScore[0]))))
-                        {
-                            line = highScoreRead.ReadLine();
-                        }
-                        else
-                        {
-                            highScores.Add(int.Parse(currentHighScore[0]), currentHighScore[1]);
-                            line = highScoreRead.ReadLine();
-                        }
-                    }
-                    catch (IndexOutOfRangeException e)
-                    {
-                        ExtensionMethods.HandleExceptions(e, Constants.xRightBorder + 3, Console.WindowHeight - 9, ConsoleColor.White);
-                        break;
-                    }
-                }
-                highScoreRead.Close();
-            }
-            int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
-
-            Console.WriteLine(@"
-                                 __  __ __   ___  __  __     __    ___   ___   ____   ____
-                                 ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||   
-                                 ||==|| || (( ___ ||==||     \\  ((    ((   )) ||_// ||== 
-                                 ||  || ||  \\_|| ||  ||    \_))  \\__  \\_//  || \\ ||___
-                                                                        ");
-
-            Console.WriteLine();
-            Console.WriteLine();
-            foreach (var score in highScores.Skip(highScores.Count - scoreCount).Take(scoreCount).Reverse())
-            {
-                var currentHighScore = score;
-                int x = Console.WindowWidth / 2 - 10;
-
-                Console.WriteLine("{0}{2,-10} {1,5}", new string(' ', x), currentHighScore.Key, currentHighScore.Value);
-            }
-
         }
 
         private static ConsoleColor SetPlayerColor(int playerID)
