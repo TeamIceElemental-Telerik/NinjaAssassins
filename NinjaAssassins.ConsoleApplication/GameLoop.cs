@@ -100,6 +100,10 @@
                 if (game.GameState == GameState.Finished)
                 {
                     GameLogic.EndGame();
+                    if (game.Players[3].IsDead)
+                    {
+                        GameVisualisation.DisplayDead();
+                    }
 
                     var highScores = new List<string>();
                     try

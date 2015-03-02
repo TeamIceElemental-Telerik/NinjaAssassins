@@ -1,3 +1,2 @@
-Pesho| saved a card to their hand.
-Geri| saved a card to their hand.
-Stamat| saved a card to their hand.
+ddd| played Escape
+ddd| fought and won! 61 to 43
