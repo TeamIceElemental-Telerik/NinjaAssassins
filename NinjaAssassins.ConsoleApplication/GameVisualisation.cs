@@ -46,21 +46,38 @@
                     break;
                 case 2:
                     DisplayGameOptions();
+                    GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY, ConsoleColor.White);
                     break;
                 case 3:
                     reader = new StreamReader(Constants.HighScoreFilePath);
                     var highScores = GameLogic.GetHighScores(reader, Constants.HighScoresCount);
                     DisplayHighScore(highScores);
+                    GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY, ConsoleColor.White);
                     break;
                 case 4:
                     DisplayGameRules();
+                    GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY, ConsoleColor.White);
                     break;
                 case 5:
                     Environment.Exit(0);
                     break;
                 default:
-                    Console.WriteLine("Please select an option between 1 and 4.");
+                    ExtensionMethods.PrintOnPosition(Constants.GoBackX, Constants.GoBackY, "Please select an option between 1 and 4.");
                     break;
+            }
+        }
+
+        private static void GoBackToInitialMenu(int x, int y, ConsoleColor color)
+        {
+            Console.CursorVisible = false;
+
+            ExtensionMethods.PrintOnPosition(x, y, "Press Backspace to go back.", color);
+            var pressedKey = Console.ReadKey(true);
+
+            if (pressedKey.Key == ConsoleKey.Backspace)
+            {
+                Console.Clear();
+                DisplayInitialMenu();
             }
         }
 
@@ -174,7 +191,7 @@
             // display player's cards
             for (int i = 0; i < game.Players[3].Hand.Count && i < 3; i++)
             {
-                 ExtensionMethods.PrintOnPosition(19 + i * 17, Console.WindowHeight - 5, game.Players[3].Hand[i].ToString(), ConsoleColor.Yellow);
+                ExtensionMethods.PrintOnPosition(19 + i * 17, Console.WindowHeight - 5, game.Players[3].Hand[i].ToString(), ConsoleColor.Yellow);
             }
         }
 
@@ -277,6 +294,26 @@
             }
         }
 
+        public static void DisplayDead()
+        {
+//            ExtensionMethods.PrintOnPosition(0, Constants.CardY + 5, @"
+//                                          ___   ____  ___   ___ 
+//                                         || \\ ||    // \\ || \\ 
+//                                         ||  | ||==  ||=|| ||  |
+//                                         || // ||___ || || || //
+//            ", ConsoleColor.Red);
+            ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY + 16, " ___   ____  ___   ___", ConsoleColor.Red);
+            ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY + 17, "|| \\  ||    // \\  || \\", ConsoleColor.Red);
+            ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY + 18, "||  | ||==  ||=|| ||  |", ConsoleColor.Red);
+            ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY + 19, "|| // ||___ || || || //", ConsoleColor.Red);
+            
+            if (Console.ReadKey(true).Key == ConsoleKey.Enter)
+            {
+                return;
+            }
+    
+        }
+
         public static void DisplayGameEnd(Player currentPlayer, KeyValuePair<string, int> winner, List<string> highScores)
         {
             string diomand = new string((char)4, Console.WindowWidth);
@@ -312,7 +349,7 @@
         }
 
         public static void DisplayHighScore(List<string> highScores)
-        {          
+        {
             int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
 
             Console.WriteLine(@"

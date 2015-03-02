@@ -43,5 +43,8 @@
         public const int IntroY = 5;
 
         public static readonly int EndGameX = Console.WindowWidth / 2 - 10;
+
+        public static readonly int GoBackX = RightBorderX + 3;
+        public static readonly int GoBackY = Console.WindowHeight - 9;
     }
 }
