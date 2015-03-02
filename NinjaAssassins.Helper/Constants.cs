@@ -17,5 +17,7 @@
         public const string GameBoard = "../../../NinjaAssassins.Models/GameBoard.txt";
 
         public static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
+
+        public const int xRightBorder = 81;
     }
 }

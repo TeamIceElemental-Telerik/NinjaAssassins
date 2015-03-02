@@ -130,7 +130,7 @@
             return name;
         }
 
-        public static void DisplayGameBoard()
+        public static void DisplayGameBoard(Game game)
         {
             var reader = new StreamReader(Constants.GameBoard);
             using (reader)
@@ -144,13 +144,44 @@
                     y++;
                 }
             }
+            ExtensionMethods.PrintOnPosition(Console.WindowWidth - 30, Console.WindowHeight - 3, "NINJA ASSASSINS", ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(20, Console.WindowHeight - 2, "A console card game - a team project for Telerik Software Academy, course C# Part 2", ConsoleColor.Green);
+
+            // display names and scores
+            string score = "Score";
+            ExtensionMethods.PrintOnPosition(20, 3, game.Players[1].Name, ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(20, Console.WindowHeight - 7, game.Players[3].Name, ConsoleColor.Yellow);
+
+            ExtensionMethods.PrintOnPosition(53, 3, score + ": " + game.Players[1].Score, ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(53, Console.WindowHeight - 7, score + ": " + game.Players[3].Score, ConsoleColor.Yellow);
+
+            for (int i = 0; i < game.Players[0].Name.Length; i++)
+            {
+                ExtensionMethods.PrintOnPosition(7, 7 + i, game.Players[0].Name[i], ConsoleColor.Green);
+                ExtensionMethods.PrintOnPosition(Constants.xRightBorder - 8, 7 + i, game.Players[2].Name[i], ConsoleColor.Green);
+            }
+
+            for (int i = 0; i < score.Length; i++)
+            {
+                ExtensionMethods.PrintOnPosition(7, 17 + i, score[i], ConsoleColor.Green);
+                ExtensionMethods.PrintOnPosition(Constants.xRightBorder - 8, 17 + i, score[i], ConsoleColor.Green);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                ExtensionMethods.PrintOnPosition(7, 23 + i, game.Players[0].Score.ToString().PadRight(3)[i], ConsoleColor.Green);
+                ExtensionMethods.PrintOnPosition(Constants.xRightBorder - 8, 23 + i, game.Players[2].Score.ToString().PadRight(3)[i], ConsoleColor.Green);
+            }
+
+            // display player's cards
+            for (int i = 0; i < game.Players[3].Hand.Count && i < 3; i++)
+            {
+                 ExtensionMethods.PrintOnPosition(19 + i * 17, Console.WindowHeight - 5, game.Players[3].Hand[i].ToString(), ConsoleColor.Yellow);
+            }
         }
 
-        public static void DisplayCard(StreamReader reader, Card card)
+        public static void DisplayCard(StreamReader reader, Card card, int x, int y)
         {
-            int x = Console.WindowWidth / 2 - 34;
-            int y = Console.WindowHeight / 2 - 13;
-
             ExtensionMethods.ClearConsolePart(x, y, 20, 20);
 
             using (reader)
@@ -165,28 +196,28 @@
             }
         }
 
-        public static PlayersChoice GetPlayersChoice()
+        public static void DisplayPlayersChoiceOptions(int x, int y, ConsoleColor color = ConsoleColor.Green)
         {
             var options = new List<string>
             {
-                "Choose an option by pressing a key:",
-                " A: Play Card",
-                " S: Save To Hand",
-                " D: Play a card from hand",
+                "Play Card",
+                "Save To Hand",
+                "Play a card from hand",
             };
 
-            int y = 0;
-            int x = Console.WindowWidth - 45;
-
             ExtensionMethods.ClearConsolePart(x, y, 40, 5);
-
+            ExtensionMethods.PrintOnPosition(x, y, "Choose an option by pressing a key:", ConsoleColor.White);
             for (int i = 0; i < options.Count; i++)
             {
-                ExtensionMethods.PrintOnPosition(x, y + i, options[i], ConsoleColor.Green);
+                string key = i == 0 ? "A" : i == 1 ? "S" : "D";
+
+                ExtensionMethods.PrintOnPosition(x, y + i + 1, key + ": ", ConsoleColor.Yellow);
+                ExtensionMethods.PrintOnPosition(x + 3, y + i + 1, options[i], ConsoleColor.White);
             }
+        }
 
-            Console.CursorVisible = false;
-
+        public static PlayersChoice GetPlayersChoice()
+        {
             PlayersChoice choice = PlayersChoice.NotSelected;
 
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
@@ -211,7 +242,7 @@
         public static void DisplayPlayerMoves(List<string> moves, Game game, int x, int y)
         {
             ExtensionMethods.ClearConsolePart(x, y, 40, 10);
-            ExtensionMethods.PrintOnPosition(x, y, "Player moves:", ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(x, y, "Players' moves:", ConsoleColor.White);
             foreach (var move in moves)
             {
                 int separatorIndex = move.IndexOf('|');
@@ -223,9 +254,27 @@
                 int playerID = Array.IndexOf(game.Players, player);
 
                 ConsoleColor color = message.IndexOf("killed") > -1 ? ConsoleColor.Red : SetPlayerColor(playerID);
-                
+
                 string printOnPosition = string.Format("{0}{1}", playerName, message);
                 ExtensionMethods.PrintOnPosition(x, y + 1, printOnPosition, color);
+                y++;
+            }
+        }
+
+        public static void DisplayCurrentGameState(Game game, int x, int y, ConsoleColor color = ConsoleColor.Green)
+        {
+            ExtensionMethods.PrintOnPosition(x, y, "Ninja Assassins ", ConsoleColor.White);
+
+            var stateLog = new Dictionary<string, string>();
+            stateLog.Add("Remaining cards in deck: ", (game.Deck.Count - 1).ToString());
+            stateLog.Add("Player in turn: ", game.PlayerInTurn.Name);
+            stateLog.Add("Next player: ", game.NextPlayer.Name);
+            stateLog.Add("Game state: ", game.GameState.ToString());
+
+            foreach (var log in stateLog)
+            {
+                ExtensionMethods.PrintOnPosition(x, y + 1, log.Key, ConsoleColor.Gray);
+                ExtensionMethods.PrintOnPosition(x + 25, y + 1, log.Value, ConsoleColor.Yellow);
                 y++;
             }
         }
@@ -320,9 +369,9 @@
                             line = highScoreRead.ReadLine();
                         }
                     }
-                    catch (IndexOutOfRangeException ex)
+                    catch (IndexOutOfRangeException e)
                     {
-                        Console.WriteLine("Highscore.txt contains empty line");
+                        ExtensionMethods.HandleExceptions(e, Constants.xRightBorder + 3, Console.WindowHeight - 9, ConsoleColor.White);
                         break;
                     }
                 }

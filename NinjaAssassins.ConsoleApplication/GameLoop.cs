@@ -22,8 +22,8 @@
 
         static void Main()
         {
-            Console.BufferWidth = Console.WindowWidth = 130;
-            Console.BufferHeight = Console.WindowHeight = 40;
+            Console.BufferWidth = Console.WindowWidth = 125;
+            Console.BufferHeight = Console.WindowHeight = 35;
 
             // test image visualization
             //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
@@ -46,11 +46,10 @@
             while (true)
             {
                 Console.CursorVisible = false;
-                //Console.Clear();
+
                 playerInTurn = game.PlayerInTurn;
 
-                //Console.WriteLine(playerInTurn.Name);
-                GameVisualisation.DisplayGameBoard();
+                GameVisualisation.DisplayGameBoard(game);
 
                 int cardsToDraw = 1;
                 if (playerInTurn.DrawDouble == true)
@@ -61,8 +60,13 @@
 
                 for (int i = 0; i < cardsToDraw; i++)
                 {
-                    var moves = GameLogic.GetLastNMoves(Constants.PlayerMoves, 10);
-                    GameVisualisation.DisplayPlayerMoves(moves, game, Console.WindowWidth - 45, Console.WindowHeight - 18);
+                    var moves = GameLogic.GetLastNMoves(Constants.PlayerMoves, 13);
+
+                    int x = Constants.xRightBorder + 3;
+                    int y = 1;
+
+                    GameVisualisation.DisplayCurrentGameState(game, x, y);
+                    GameVisualisation.DisplayPlayerMoves(moves, game, x, y + 7);
 
                     if (playerInTurn.SkipTurn)
                     {
@@ -82,23 +86,28 @@
                     {
                         if (game.GameState == GameState.YourTurn)
                         {
+                            x = 30;
+                            y = 7;
+
                             var cardReader = new StreamReader(card.FilePath);
-                            GameVisualisation.DisplayCard(cardReader, card);
+                            GameVisualisation.DisplayCard(cardReader, card, x, y);
                         }
                     }
                     catch
                     {
-                        // TODO
-                        int x = Console.WindowWidth / 2 - 34;
-                        int y = Console.WindowHeight / 2 - 13;
+                        x = 30;
+                        y = 7;
                         ExtensionMethods.PrintOnPosition(x, y, card.ToString(), ConsoleColor.Green);
-                        Console.CursorVisible = false;
                     }
 
                     if (game.GameState == GameState.YourTurn)
                     {
                         if (card.CardType != CardType.NinjaAssassin)
                         {
+                            y = 27;
+                            x = Constants.xRightBorder + 3;
+                            GameVisualisation.DisplayPlayersChoiceOptions(x, y);
+
                             var choice = PlayersChoice.NotSelected;
                             bool wrongChoice = true;
 
@@ -107,24 +116,25 @@
                                 try
                                 {
                                     choice = GameVisualisation.GetPlayersChoice();
+
                                     GameLogic.PlayCard(game, playerInTurn, card, choice);
-                                    wrongChoice = false;              
+                                    wrongChoice = false;
                                 }
                                 catch (ArgumentException e)
                                 {
                                     wrongChoice = true;
-                                    ExtensionMethods.HandleExceptions(e, 0, Console.WindowHeight - 5, ConsoleColor.Gray);
+                                    ExtensionMethods.PrintOnPosition(Constants.xRightBorder + 3, Console.WindowHeight - 4, e.Message, ConsoleColor.White);
                                 }
                                 catch (InvalidOperationException e)
                                 {
                                     wrongChoice = true;
-                                    ExtensionMethods.HandleExceptions(e, 0, Console.WindowHeight - 5, ConsoleColor.Gray);
+                                    ExtensionMethods.PrintOnPosition(Constants.xRightBorder + 3, Console.WindowHeight - 4, e.Message, ConsoleColor.White);
                                 }
                             }
                         }
                         else
                         {
-                            GameLogic.HandleNinjaAssasin(game, playerInTurn, card);              
+                            GameLogic.HandleNinjaAssasin(game, playerInTurn, card);
                         }
                     }
                     else

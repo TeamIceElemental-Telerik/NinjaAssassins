@@ -1,2 +1,13 @@
+Geri| played Shuffle
+|The deck was shuffled. Beware!
+Stamat| saved a card to their hand.
+ddd| saved a card to their hand.
+Pesho| saved a card to their hand.
 Geri| saved a card to their hand.
-Stamat|was killed by a NinjaAssassin
+Stamat| played Attack
+Stamat| attacked ddd. 
+ddd| needs to draw two cards.
+ddd| saved a card to their hand.
+ddd| saved a card to their hand.
+Pesho| saved a card to their hand.
+Stamat| saved a card to their hand.

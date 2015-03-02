@@ -66,6 +66,7 @@ namespace NinjaAssassins.Helper
 
         public static void HandleExceptions(this Exception e, int x = 0, int y = 0, ConsoleColor color = ConsoleColor.White)
         {
+            ClearConsolePart(x, y, 40, 5);
             PrintOnPosition(x, y, "Uh oh... Something went wrong!", color);
             PrintOnPosition(x, y, e.Message, color);
         }

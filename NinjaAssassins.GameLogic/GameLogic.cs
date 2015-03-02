@@ -187,6 +187,7 @@
 
                     if (currentPlayer.Hand.Count > 0)
                     {
+                        DisplaySelectFromHand(currentPlayer.Hand, Constants.xRightBorder + 3, 27);
                         card = SelectCardFromHand(currentPlayer.Hand);
                         currentPlayer.Hand.Remove(card);
                         choice = PlayersChoice.PlayCard;
@@ -215,6 +216,7 @@
             {
                 if (game.GameState == GameState.YourTurn)
                 {
+                    DisplaySelectFromHand(saviourCards, Constants.xRightBorder + 3, 27);
                     card = SelectCardFromHand(saviourCards);
                     currentPlayer.Hand.Remove(card);
                 }
@@ -235,27 +237,28 @@
             card.Action(game);
         }
 
+        public static void DisplaySelectFromHand(IList<Card> hand, int x, int y)
+        {
+            ExtensionMethods.ClearConsolePart(x, y, 40, 5);
+
+            var text = "Select a card from your hand:";
+            ExtensionMethods.PrintOnPosition(x, y, text, ConsoleColor.White);
+
+            for (int i = 0; i < hand.Count; i++)
+            {
+                string key = i == 0 ? "A" : i == 1 ? "S" : i == 2 ? "D" : "F";
+
+                ExtensionMethods.PrintOnPosition(x, y + i + 1, key + ": ", ConsoleColor.Yellow);
+                ExtensionMethods.PrintOnPosition(x + 3, y + i + 1, hand[i].ToString(), ConsoleColor.White);
+            }
+        }
+
         public static Card SelectCardFromHand(IList<Card> hand)
         {
             if (hand.Count < 1)
             {
                 throw new ArgumentException("The hand cannot be empty.");
             }
-
-            ExtensionMethods.ClearConsolePart(Console.WindowWidth - 45, 0, 40, 5);
-
-            var text = "Select a card from your hand:";
-            ExtensionMethods.PrintOnPosition(Console.WindowWidth - 45, 0, text, ConsoleColor.Green);
-
-            for (int i = 0; i < hand.Count; i++)
-            {
-                string key = i == 0 ? "A" : i == 1 ? "S" : i == 2 ? "D" : "F";
-                string cardInHand = key + ": " + hand[i];
-
-                ExtensionMethods.PrintOnPosition(Console.WindowWidth - 45, i + 1, cardInHand, ConsoleColor.Green);
-            }
-
-            Console.CursorVisible = false;
 
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
             Card card = hand[0];
@@ -350,7 +353,7 @@
             }
             catch (Exception e)
             {
-                ExtensionMethods.HandleExceptions(e);
+                ExtensionMethods.HandleExceptions(e, Constants.xRightBorder + 3, Console.WindowHeight - 9, ConsoleColor.White);
             }
         }
 
@@ -392,7 +395,7 @@
             }
             catch (Exception e)
             {
-                ExtensionMethods.HandleExceptions(e);
+                ExtensionMethods.HandleExceptions(e, Constants.xRightBorder + 3, Console.WindowHeight - 9, ConsoleColor.White);
             }
 
             return moves.Skip(moves.Count - movesCount)
