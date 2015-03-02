@@ -60,23 +60,6 @@
             return cardsToDraw;
         }
 
-        public static void Play(Game game)
-        {
-            // TODO : separate methods:
-            // 1. Draw a card
-            // 2. Display card
-            // 3. Decide what to do depending on card
-            //  - save it to player's hand
-            //  - play it (card.Action())
-            //  - play another card (select a card from the hand)
-            //  - game over (on Ninja Assassin and no save option)
-            // 4. Change score depending on card (use Card.Value)
-            // 5. Move to next player
-            // 6. Computer players game logic - random decisions
-            // 7. When all cards are drawn (re-fill deck? or end game?)
-            // throw new NotImplementedException();
-        }
-
         public static void EndGame()
         {
             ReduceScoresWithCardsInHand(game);
@@ -176,45 +159,38 @@
 
         public static void PlayCard(Game game, Player currentPlayer, Card card, PlayersChoice choice = PlayersChoice.NotSelected)
         {
-            if (card.CardType != CardType.NinjaAssassin)
+            switch (choice)
             {
-                switch (choice)
-                {
-                    case PlayersChoice.PlayCard:
-                        card.Action(game);
-                        game.IsCardPlayed = true;
-                        break;
-                    case PlayersChoice.SaveToHand:
-                        if (currentPlayer.Hand.Count < 3)
-                        {
-                            currentPlayer.Hand.Add(card);
-                        }
-                        else
-                        {
-                            choice = PlayersChoice.PlayDifferentCard;
-                            PlayCard(game, currentPlayer, card, choice);
-                        }
-
-                        break;
-                    case PlayersChoice.PlayDifferentCard:
+                case PlayersChoice.PlayCard:
+                    card.Action(game);
+                    game.IsCardPlayed = true;
+                    break;
+                case PlayersChoice.SaveToHand:
+                    if (currentPlayer.Hand.Count < 3)
+                    {
                         currentPlayer.Hand.Add(card);
+                    }
+                    else
+                    {
+                        choice = PlayersChoice.PlayDifferentCard;
+                        PlayCard(game, currentPlayer, card, choice);
+                    }
 
-                        if (currentPlayer.Hand.Count > 0)
-                        {
-                            DisplaySelectFromHand(currentPlayer.Hand, Constants.RightBorderX + 3, 27);
-                            card = SelectCardFromHand(currentPlayer.Hand);
-                            currentPlayer.Hand.Remove(card);
-                            choice = PlayersChoice.PlayCard;
-                            PlayCard(game, currentPlayer, card, choice);
-                        }
+                    break;
+                case PlayersChoice.PlayDifferentCard:
+                    currentPlayer.Hand.Add(card);
 
-                        break;
-                }
+                    if (currentPlayer.Hand.Count > 0)
+                    {
+                        DisplaySelectFromHand(currentPlayer.Hand, Constants.RightBorderX + 3, 27);
+                        card = SelectCardFromHand(currentPlayer.Hand);
+                        currentPlayer.Hand.Remove(card);
+                        choice = PlayersChoice.PlayCard;
+                        PlayCard(game, currentPlayer, card, choice);
+                    }
+
+                    break;
             }
-            else
-            {
-                HandleNinjaAssasin(game, currentPlayer, card);
-            }         
         }
 
         public static void HandleNinjaAssasin(Game game, Player currentPlayer, Card card)

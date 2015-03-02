@@ -8,6 +8,7 @@
     using NinjaAssassins.GameLogic;
     using NinjaAssassins.Helper;
     using NinjaAssassins.Models;
+    using NinjaAssassins.Models.Cards;
 
     public static class GameLoop
     {
@@ -57,29 +58,36 @@
 
                     if (game.GameState == GameState.YourTurn)
                     {
-                        GameVisualisation.DisplayPlayersChoiceOptions(Constants.PlayersChoiceOptionsX, Constants.PlayersChoiceOptionsY);
-
-                        var choice = PlayersChoice.NotSelected;
-                        bool wrongChoice = true;
-
-                        while (wrongChoice)
+                        if (card.CardType != CardType.NinjaAssassin)
                         {
-                            try
+                            GameVisualisation.DisplayPlayersChoiceOptions(Constants.PlayersChoiceOptionsX, Constants.PlayersChoiceOptionsY);
+
+                            var choice = PlayersChoice.NotSelected;
+                            bool wrongChoice = true;
+
+                            while (wrongChoice)
                             {
-                                choice = GameVisualisation.GetPlayersChoice();
-                                GameLogic.PlayCard(game, game.PlayerInTurn, card, choice);
-                                wrongChoice = false;
+                                try
+                                {
+                                    choice = GameVisualisation.GetPlayersChoice();
+                                    GameLogic.PlayCard(game, game.PlayerInTurn, card, choice);
+                                    wrongChoice = false;
+                                }
+                                catch (ArgumentException e)
+                                {
+                                    wrongChoice = true;
+                                    ExtensionMethods.PrintOnPosition(Constants.ExceptionMessageX, Constants.ExceptionMesssageWrongChoiceY, e.Message, ConsoleColor.White);
+                                }
+                                catch (InvalidOperationException e)
+                                {
+                                    wrongChoice = true;
+                                    ExtensionMethods.PrintOnPosition(Constants.ExceptionMessageX, Constants.ExceptionMesssageWrongChoiceY, e.Message, ConsoleColor.White);
+                                }
                             }
-                            catch (ArgumentException e)
-                            {
-                                wrongChoice = true;
-                                ExtensionMethods.PrintOnPosition(Constants.ExceptionMessageX, Constants.ExceptionMesssageWrongChoiceY, e.Message, ConsoleColor.White);
-                            }
-                            catch (InvalidOperationException e)
-                            {
-                                wrongChoice = true;
-                                ExtensionMethods.PrintOnPosition(Constants.ExceptionMessageX, Constants.ExceptionMesssageWrongChoiceY, e.Message, ConsoleColor.White);
-                            }
+                        }
+                        else
+                        {
+                            GameLogic.HandleNinjaAssasin(game, game.PlayerInTurn, card);
                         }
                     }
                     else
@@ -95,15 +103,16 @@
                 if (game.Deck.Count == 0 || game.Players[3].IsDead)
                 {
                     game.GameState = GameState.Finished;
+
+                    if (game.Players[3].IsDead)
+                    {
+                        GameVisualisation.DisplayDead();
+                    }
                 }
 
                 if (game.GameState == GameState.Finished)
                 {
                     GameLogic.EndGame();
-                    if (game.Players[3].IsDead)
-                    {
-                        GameVisualisation.DisplayDead();
-                    }
 
                     var highScores = new List<string>();
                     try

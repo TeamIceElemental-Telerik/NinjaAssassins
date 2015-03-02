@@ -1,2 +1,31 @@
-ddd| played Escape
-ddd| fought and won! 61 to 43
+Pesho| saved a card to their hand.
+Geri| saved a card to their hand.
+Stamat| saved a card to their hand.
+sss| saved a card to their hand.
+Pesho| saved a card to their hand.
+Geri| played GreenNinja
+|The deck was shuffled. Beware!
+Stamat| saved a card to their hand.
+sss| played Shuffle
+|The deck was shuffled. Beware!
+Pesho| played SkipTurn
+Pesho| gets to skip next turn. Woohoo!
+Geri| saved a card to their hand.
+Stamat| played Shuffle
+Stamat| attacked sss. 
+sss| needs to draw two cards.
+sss| played Attack
+sss| attacked Pesho. 
+Pesho| needs to draw two cards.
+Geri| saved a card to their hand.
+Stamat| played GreenNinja
+Stamat| attacked sss. 
+sss| needs to draw two cards.
+sss| saved a card to their hand.
+Pesho| played Fight
+|The deck was shuffled. Beware!
+Geri| played Attack
+Geri| attacked Stamat. 
+Stamat| needs to draw two cards.
+Stamat| saved a card to their hand.
+sss| was killed by a NinjaAssassin
