@@ -34,6 +34,11 @@
             this.deck.Add(card);
         }
 
+        public void Insert(int index, Card card)
+        {
+            this.deck.Insert(index, card);
+        }
+
         public void Clear()
         {
             this.deck.Clear();

@@ -17,14 +17,21 @@
         {
             Player currentPlayer = game.PlayerInTurn;
             Player nextPlayer = game.NextPlayer;
-
+            Random random = new Random();
             var card = CardFactory.Get(CardType.GreenNinja);
 
             if (nextPlayer.Hand.Contains(card))
             {
                 nextPlayer.Hand.Remove(card);
-                // TODO
                 currentPlayer.Hand.Add(card);
+
+                nextPlayer.SkipTurn = true;
+
+                int index = random.Next(0, game.Deck.Count);
+                game.Deck.Insert(index, card);
+
+                index = random.Next(0, game.Deck.Count);
+                game.Deck.Insert(index, game.CurrentCard);
             }
             else
             {

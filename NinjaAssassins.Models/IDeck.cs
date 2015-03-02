@@ -10,6 +10,8 @@
 
         void Add(Card card);
 
+        void Insert(int index, Card card);
+
         void Clear();
     }
 }

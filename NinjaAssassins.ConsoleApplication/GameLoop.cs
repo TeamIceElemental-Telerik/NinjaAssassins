@@ -27,11 +27,11 @@
             //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
             //GameVisualisation.DisplayImageOnTheConsole(path);
 
-			// test game end
+            // test game end
             // playerInTurn = new Player("Maria");
             // playerInTurn.Score = 0;
             // GameVisualisation.DisplayEndGame(playerInTurn);
-            
+
             var reader = new StreamReader(Constants.GameBoard);
 
             GameVisualisation.DisplayInitialMenu();
@@ -96,7 +96,7 @@
                                 {
                                     choice = GameVisualisation.GetPlayersChoice();
                                     GameLogic.PlayCard(game, playerInTurn, card, choice);
-                                    wrongChoice = false;             
+                                    wrongChoice = false;
                                 }
                                 catch (ArgumentException e)
                                 {
@@ -153,6 +153,8 @@
 
                 if (game.GameState == GameState.Finished)
                 {
+                    GameLogic.ReduceScoresWithCardsInHand(game);
+
                     Console.WriteLine("The end");
                     //GameVisualisation.DisplayEndGame(game.Players[3]);
                     break;

@@ -300,6 +300,20 @@
             player.Score += card.Rank;
         }
 
+        public static void ReduceScoresWithCardsInHand(Game game)
+        {
+            foreach (var player in game.Players)
+            {
+                int scoreToSubtract = 0;
+                foreach (var c in player.Hand)
+                {
+                    scoreToSubtract += c.Rank;
+                }
+
+                player.Score -= scoreToSubtract;
+            }
+        }
+
         public static void SaveHighScore(Player player, string path)
         {
             try
