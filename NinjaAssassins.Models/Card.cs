@@ -89,6 +89,7 @@
                 this.saviourType = value;
             }
         }
+
         public abstract void Action(Game game);
 
         public override string ToString()

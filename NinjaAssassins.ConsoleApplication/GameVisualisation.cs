@@ -173,7 +173,6 @@
                 " A: Play Card",
                 " S: Save To Hand",
                 " D: Play a card from hand",
-                //new string('-', 30)
             };
 
             int y = 0;
@@ -209,22 +208,24 @@
             return choice;
         }
 
-        public static void PlayerDisplayMoves(List<string> moves, Player[] allPlayers, int x, int y)
+        public static void DisplayPlayerMoves(List<string> moves, Game game, int x, int y)
         {
+            ExtensionMethods.ClearConsolePart(x, y, 40, 10);
+            ExtensionMethods.PrintOnPosition(x, y, "Player moves:", ConsoleColor.Green);
             foreach (var move in moves)
             {
                 int separatorIndex = move.IndexOf('|');
 
-                string playerName = move.Substring(0, separatorIndex - 1);
+                string playerName = move.Substring(0, separatorIndex);
+                string message = move.Substring(separatorIndex + 1, move.Length - (separatorIndex + 1));
 
-                string card = move.Substring(separatorIndex + 1, move.Length - (separatorIndex + 1));
+                Player player = game.Players.FirstOrDefault(p => p.Name == playerName);
+                int playerID = Array.IndexOf(game.Players, player);
 
-                Player player = allPlayers.FirstOrDefault(p => p.Name == playerName);
-                int playerID = Array.IndexOf(allPlayers, player);
-
-                ConsoleColor color = SetPlayerColor(playerID);
-                string printOnPosition = string.Format("{0} played {1}", playerName, card);
-                ExtensionMethods.PrintOnPosition(x, y, printOnPosition, color);
+                ConsoleColor color = message.IndexOf("killed") > -1 ? ConsoleColor.Red : SetPlayerColor(playerID);
+                
+                string printOnPosition = string.Format("{0}{1}", playerName, message);
+                ExtensionMethods.PrintOnPosition(x, y + 1, printOnPosition, color);
                 y++;
             }
         }
@@ -354,13 +355,13 @@
             switch (playerID)
             {
                 case 0:
-                    color = ConsoleColor.Blue;
+                    color = ConsoleColor.Gray;
                     break;
                 case 1:
                     color = ConsoleColor.Cyan;
                     break;
                 case 2:
-                    color = ConsoleColor.Green;
+                    color = ConsoleColor.Magenta;
                     break;
                 case 3:
                     color = ConsoleColor.Yellow;

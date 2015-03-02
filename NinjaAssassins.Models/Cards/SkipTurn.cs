@@ -17,6 +17,7 @@
         {
             Player currentPlayer = game.PlayerInTurn;
             currentPlayer.SkipTurn = true;
+            game.Log = game.PlayerInTurn + "| gets to skip next turn. Woohoo!";
         }
     }
 }

@@ -16,6 +16,7 @@
         public override void Action(Game game)
         {
             game.PlayerInTurn.IsDead = true;
+            game.Log = game.PlayerInTurn.Name + "| was killed by a " + this.CardType;
         }
     }
 }

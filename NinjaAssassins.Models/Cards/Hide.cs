@@ -20,8 +20,11 @@
             Random random = new Random();
             var card = CardFactory.Get(CardType.GreenNinja);
 
+            game.Log = game.PlayerInTurn + "| has nothing to hide from.";
+
             if (nextPlayer.Hand.Contains(card))
             {
+                game.Log = game.PlayerInTurn + "| hid behind " + game.NextPlayer + " and was saved.";
                 nextPlayer.Hand.Remove(card);
                 currentPlayer.Hand.Add(card);
 
@@ -37,9 +40,10 @@
             {
                 if (game.CurrentCard.CardType == CardType.NinjaAssassin)
                 {
+                    game.Log = game.PlayerInTurn + "| tried to hide but the " + game.CurrentCard.CardType + " found them anyway.";
                     game.PlayerInTurn.IsDead = true;
                 }
-                // Console.WriteLine("Sorry, no place to hide.");
+
                 return;
             }
         }

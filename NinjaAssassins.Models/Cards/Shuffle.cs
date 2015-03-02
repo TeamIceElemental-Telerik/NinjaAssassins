@@ -26,6 +26,7 @@
             }
 
             game.Deck = shuffledDeck;
+            game.Log = "|The deck was shuffled. Beware!";
         }
     }
 }

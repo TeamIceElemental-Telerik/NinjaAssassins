@@ -15,6 +15,7 @@
 
         public override void Action(Game game)
         {
+            game.Log = game.PlayerInTurn + "| was saved by a " + this.CardType + "! Hurray!";
             return;
         }
     }

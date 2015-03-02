@@ -13,6 +13,8 @@
         private Player playerInTurn;
         private Player nextPlayer;
         private Card currentCard;
+        private bool played;
+        private string log;
 
         public Game()
             :this (new Deck())
@@ -23,6 +25,7 @@
         {
             this.Deck = deck;
             this.Players = new Player[Constants.TotalPlayers];
+            this.IsCardPlayed = false;
         }
 
         public GameState GameState { get; set; }
@@ -89,6 +92,32 @@
             set
             {
                 this.currentCard = value;
+            }
+        }
+
+        public bool IsCardPlayed
+        {
+            get
+            {
+                return this.played;
+            }
+
+            set
+            {
+                this.played = value;
+            }
+        }
+
+        public string Log
+        {
+            get
+            {
+                return this.log;
+            }
+
+            set
+            {
+                this.log = value;
             }
         }
     }

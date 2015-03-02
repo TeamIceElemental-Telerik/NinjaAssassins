@@ -17,6 +17,7 @@
         {
             Player nextPlayer = game.NextPlayer;
             nextPlayer.DrawDouble = true;
+            game.Log = game.PlayerInTurn + "| attacked " + game.NextPlayer + ". \n" + game.NextPlayer + "| needs to draw two cards.";
         }
     }
 }

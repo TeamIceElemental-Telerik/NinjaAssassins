@@ -19,14 +19,17 @@
             Card card = game.Deck[game.Deck.Count - 1];
             game.Deck.RemoveCardFromDeck(card);
 
+            game.Log = game.PlayerInTurn + "| ran just for the sake of it.";
             if (card.SaviourType)
             {
+                game.Log = game.PlayerInTurn + "| ran for their lives!";
                 card.Action(game);
             }
             else
             {
                 if (game.CurrentCard.CardType == CardType.NinjaAssassin)
                 {
+                    game.Log = game.PlayerInTurn + "| tried to escape but couldn't.";
                     game.PlayerInTurn.IsDead = true;
                 }
 

@@ -45,6 +45,8 @@
                 game.GameState = GameState.ComputerTurn;
             }
 
+            File.Create(Constants.PlayerMoves).Close();
+
             return game;
         }
 
@@ -132,12 +134,14 @@
                     {
                         bestCard.Action(game);
                         currentPlayer.Hand.Remove(bestCard);
+                        game.IsCardPlayed = true;
                     }
                 }
                 else
                 {
                     bestCard.Action(game);
                     currentPlayer.Hand.Remove(bestCard);
+                    game.IsCardPlayed = true;
                 }
             }
             else
@@ -154,6 +158,7 @@
                     bestCard = currentPlayer.Hand.FirstOrDefault(c => c.Priority == minPriority);
                     bestCard.Action(game);
                     currentPlayer.Hand.Remove(bestCard);
+                    game.IsCardPlayed = true;
                 }
             }
         }
@@ -164,6 +169,7 @@
             {
                 case PlayersChoice.PlayCard:
                     card.Action(game);
+                    game.IsCardPlayed = true;
                     break;
                 case PlayersChoice.SaveToHand:
                     if (currentPlayer.Hand.Count < 3)
@@ -182,13 +188,10 @@
                     if (currentPlayer.Hand.Count > 0)
                     {
                         card = SelectCardFromHand(currentPlayer.Hand);
-                        card.Action(game);
                         currentPlayer.Hand.Remove(card);
+                        choice = PlayersChoice.PlayCard;
+                        PlayCard(game, currentPlayer, card, choice);
                     }
-                    //else
-                    //{
-                    //    throw new InvalidOperationException("You don't gave any cards in your hand.");
-                    //}
 
                     break;
             }
@@ -347,23 +350,26 @@
             }
             catch (Exception e)
             {
-                HandleExceptions(e);
+                ExtensionMethods.HandleExceptions(e);
             }
         }
 
-        public static void SaveMoves(Player player, Card card, string path)
+        public static void SaveMoves(Game game, string path)
         {
-            try
+            var writer = new StreamWriter(path, true);
+            using (writer)
             {
-                var writer = new StreamWriter(path, true);
-                using (writer)
+                if (game.IsCardPlayed)
                 {
-                    writer.WriteLine(player.Name + "|" + card.CardType);
+                    writer.WriteLine(game.PlayerInTurn.Name + "| played " + game.CurrentCard.CardType);
+                    game.IsCardPlayed = false;
                 }
-            }
-            catch (Exception e)
-            {
-                HandleExceptions(e);
+                else
+                {
+                    game.Log = game.PlayerInTurn.Name + "| saved a card to their hand.";
+                }
+
+                writer.WriteLine(game.Log);
             }
         }
 
@@ -386,18 +392,12 @@
             }
             catch (Exception e)
             {
-                HandleExceptions(e);
+                ExtensionMethods.HandleExceptions(e);
             }
 
             return moves.Skip(moves.Count - movesCount)
                 .Take(movesCount)
                 .ToList();
-        }
-
-        private static void HandleExceptions(Exception e)
-        {
-            Console.WriteLine("Uh oh... Something went wrong!");
-            Console.WriteLine(e.Message);
         }
     }
 }

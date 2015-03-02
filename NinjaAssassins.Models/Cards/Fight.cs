@@ -21,13 +21,15 @@
             int yourRandom = random.Next(1, 100);
 
             if (yourRandom > ninjaRandom)
-            {                
+            {
+                game.Log = game.PlayerInTurn + "| fought and won! " + yourRandom + " to " + ninjaRandom;
                 return;
             }
             else
             {
                 if (game.CurrentCard.CardType == CardType.NinjaAssassin)
                 {
+                    game.Log = game.PlayerInTurn + "| fought the ninja but lost!" + yourRandom + " to " + ninjaRandom;
                     game.PlayerInTurn.IsDead = true;
                 }
 
