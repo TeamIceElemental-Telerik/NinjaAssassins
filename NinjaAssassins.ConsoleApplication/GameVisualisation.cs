@@ -5,13 +5,12 @@
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
-    using System.Drawing;
-    using System.Drawing.Imaging;
 
     using NinjaAssassins.GameLogic;
     using NinjaAssassins.Models;
-    using System.Threading;
+    using NinjaAssassins.Helper;
 
     // TODO
     public static class GameVisualisation
@@ -25,6 +24,9 @@
         {
             // TODO: beautify (select with arrow keys, highlight on select, change color)
             // for test purposes:
+
+
+
             Console.WriteLine("Please select: ");
             Console.WriteLine("1. Start Game");
             Console.WriteLine("2. Options");
@@ -74,7 +76,7 @@
             int x = Console.WindowWidth - 40;
             int y = Console.WindowHeight - 9;
 
-            PrintOnPosition(x, y, "(Press any key to skip intro)", ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(x, y, "(Press any key to skip intro)", ConsoleColor.Green);
             using (reader)
             {
                 x = Console.WindowWidth / 2 - 40;
@@ -85,7 +87,7 @@
                 {
                     foreach (var symbol in line)
                     {
-                        PrintOnPosition(x, y, symbol, ConsoleColor.Green);
+                        ExtensionMethods.PrintOnPosition(x, y, symbol, ConsoleColor.Green);
                         x = x == Console.WindowWidth - 40 ? Console.WindowWidth / 2 - 40 : x + 1;
 
                         if (Console.KeyAvailable)
@@ -116,47 +118,75 @@
             int x = Console.WindowWidth / 2 - 40;
             int y = Console.WindowHeight / 2 + 10;
 
-            PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
+            ExtensionMethods.PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
             string name = Console.ReadLine();
 
             while (name.Length < 2)
             {
-                PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
+                ExtensionMethods.PrintOnPosition(x, y, "Enter username (at least 2 characters long): ", ConsoleColor.Green);
                 name = Console.ReadLine();
             }
 
             return name;
         }
 
-        public static void DisplayGameBoard(StreamReader reader)
+        public static void DisplayGameBoard()
         {
+            var reader = new StreamReader(Constants.GameBoard);
             using (reader)
             {
+                int y = 0;
                 string line = reader.ReadLine();
                 while (line != null)
                 {
-                    Console.WriteLine(line);
+                    ExtensionMethods.PrintOnPosition(0, y, line, ConsoleColor.Green);
                     line = reader.ReadLine();
+                    y++;
                 }
             }
         }
 
         public static void DisplayCard(StreamReader reader, Card card)
         {
-            int x = Console.WindowWidth / 2 - 40;
-            int y = Console.WindowHeight / 2 - 10;
+            int x = Console.WindowWidth / 2 - 34;
+            int y = Console.WindowHeight / 2 - 13;
+
+            ExtensionMethods.ClearConsolePart(x, y, 20, 20);
 
             using (reader)
             {
-                string fileContents = reader.ReadToEnd();
-                //PrintOnPosition(x, y, fileContents, ConsoleColor.Green);
-                Console.WriteLine(fileContents);
+                string line = reader.ReadLine();
+                while (line != null)
+                {
+                    ExtensionMethods.PrintOnPosition(x, y, line, ConsoleColor.Green);
+                    line = reader.ReadLine();
+                    y++;
+                }
             }
         }
 
         public static PlayersChoice GetPlayersChoice()
         {
-            Console.WriteLine("Press: \nA: Play Card \nS: Save To Hand \nD: Play a card from hand");
+            var options = new List<string>
+            {
+                "Choose an option by pressing a key:",
+                " A: Play Card",
+                " S: Save To Hand",
+                " D: Play a card from hand",
+                //new string('-', 30)
+            };
+
+            int y = 0;
+            int x = Console.WindowWidth - 45;
+
+            ExtensionMethods.ClearConsolePart(x, y, 40, 5);
+
+            for (int i = 0; i < options.Count; i++)
+            {
+                ExtensionMethods.PrintOnPosition(x, y + i, options[i], ConsoleColor.Green);
+            }
+
+            Console.CursorVisible = false;
 
             PlayersChoice choice = PlayersChoice.NotSelected;
 
@@ -194,14 +224,14 @@
 
                 ConsoleColor color = SetPlayerColor(playerID);
                 string printOnPosition = string.Format("{0} played {1}", playerName, card);
-                PrintOnPosition(x, y, printOnPosition, color);
+                ExtensionMethods.PrintOnPosition(x, y, printOnPosition, color);
                 y++;
             }
         }
 
         public static void DisplayEndGame(Player currentPlayer)
         {
-            string diomand = new string((char)4, 80);
+            string diomand = new string((char)4, Console.WindowWidth);
             // char symbol4 = (char)4;
             int position = Console.WindowWidth / 2 - 10;
 
@@ -223,10 +253,10 @@
             // gameOver.Append(symbol4);
             //gameOver.Append(' ', 34);
             gameOver.Append(@"                                             
-              ___   ___  ___  ___  ____      ___   __ __  ____ ____ 
-             // \\ // \\ ||\\//|| ||        // \\  || || ||    || \\
-            (( ___ ||=|| || \/ || ||==     ((   )) \\ // ||==  ||_//
-             \\_|| || || ||    || ||___     \\_//   \V/  ||___ || \\
+                                   ___   ___  ___  ___  ____      ___   __ __  ____ ____ 
+                                  // \\ // \\ ||\\//|| ||        // \\  || || ||    || \\
+                                 (( ___ ||=|| || \/ || ||==     ((   )) \\ // ||==  ||_//
+                                  \\_|| || || ||    || ||___     \\_//   \V/  ||___ || \\
                                                          ");
             gameOver.Append("\n");
             gameOver.Append("\n");
@@ -242,7 +272,7 @@
             //  Console.Write(frame);
             Console.WriteLine(diomand);
 
-            Console.Write("\n\t\t\t\tYOUR SCORE: " + currentPlayer.Score);
+            Console.Write("\n\t\t\t\t\t\t\tYOUR SCORE: " + currentPlayer.Score);
             Console.Write("\n\n" + diomand);
 
             DisplayHighScore();
@@ -267,7 +297,6 @@
 
         public static void DisplayHighScore()
         {
-
             var highScores = new SortedDictionary<int, string>();
             using (StreamReader highScoreRead = new StreamReader(Constants.HighScoreFilePath))
             {
@@ -275,27 +304,36 @@
 
                 while (line != null)
                 {
-                    var currentHighScore = line.Split('|');
-                    if ((highScores.ContainsValue(currentHighScore[1]) && highScores.ContainsKey(int.Parse(currentHighScore[0]))))
-                    {
-                        line = highScoreRead.ReadLine();
-                    }
-                    else
-                    {
-                        highScores.Add(int.Parse(currentHighScore[0]), currentHighScore[1]);
-                        line = highScoreRead.ReadLine();
-                    }
 
+                    var currentHighScore = line.Split('|');
+
+                    try
+                    {
+                        if ((highScores.ContainsValue(currentHighScore[1]) && highScores.ContainsKey(int.Parse(currentHighScore[0]))))
+                        {
+                            line = highScoreRead.ReadLine();
+                        }
+                        else
+                        {
+                            highScores.Add(int.Parse(currentHighScore[0]), currentHighScore[1]);
+                            line = highScoreRead.ReadLine();
+                        }
+                    }
+                    catch (IndexOutOfRangeException ex)
+                    {
+                        Console.WriteLine("Highscore.txt contains empty line");
+                        break;
+                    }
                 }
                 highScoreRead.Close();
             }
             int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
 
             Console.WriteLine(@"
-             __  __ __   ___  __  __     __    ___   ___   ____   ____
-             ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||   
-             ||==|| || (( ___ ||==||     \\  ((    ((   )) ||_// ||== 
-             ||  || ||  \\_|| ||  ||    \_))  \\__  \\_//  || \\ ||___
+                                 __  __ __   ___  __  __     __    ___   ___   ____   ____
+                                 ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||   
+                                 ||==|| || (( ___ ||==||     \\  ((    ((   )) ||_// ||== 
+                                 ||  || ||  \\_|| ||  ||    \_))  \\__  \\_//  || \\ ||___
                                                                         ");
 
             Console.WriteLine();
@@ -333,47 +371,6 @@
             }
 
             return color;
-        }
-
-        private static void PrintOnPosition(int x, int y, char symbol, ConsoleColor color = ConsoleColor.White)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.ForegroundColor = color;
-            Console.Write(symbol);
-        }
-
-        private static void PrintOnPosition(int x, int y, string text, ConsoleColor color = ConsoleColor.White)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.ForegroundColor = color;
-            Console.Write(text);
-        }
-
-        public static void DisplayImageOnTheConsole(string path)
-        {
-            Image Picture = Image.FromFile(path);
-            Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
-            FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
-            int FrameCount = Picture.GetFrameCount(Dimension);
-            int Left = Console.WindowLeft, Top = Console.WindowTop;
-            char[] Chars = { '#', '#', '@', '%', '=', '+', '*', ':', '-', '.', ' ' };
-            Picture.SelectActiveFrame(Dimension, 0x0);
-
-            for (int i = 0x0; i < Picture.Height; i++)
-            {
-                for (int x = 0x0; x < Picture.Width; x++)
-                {
-                    Color Color = ((Bitmap)Picture).GetPixel(x, i);
-                    int Gray = (Color.R + Color.G + Color.B) / 0x3;
-                    int Index = (Gray * (Chars.Length - 0x1)) / 0xFF;
-                    Console.Write(Chars[Index]);
-                }
-
-                Console.Write('\n');
-            }
-
-            Console.SetCursorPosition(Left, Top);
-            Console.Read();
         }
     }
 }

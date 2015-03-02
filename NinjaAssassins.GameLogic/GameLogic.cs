@@ -8,6 +8,7 @@
     using System.IO;
 
     using NinjaAssassins.Models;
+    using NinjaAssassins.Helper;
 
     public class GameLogic
     {
@@ -109,10 +110,6 @@
 
         public static void PlayByComputerLogic(Player currentPlayer, Card card)
         {
-            //if (currentPlayer.Hand.Count > 0)
-            //{
-            //    if (card.CardType != CardType.NinjaAssassin)
-            //    {
             currentPlayer.Hand.Add(card);
             Card bestCard;
             int maxPriority = -1;
@@ -204,7 +201,7 @@
             {
                 foreach (var c in currentPlayer.Hand)
                 {
-                    if (Constants.SaviourTypes.Contains(c.CardType))
+                    if (c.SaviourType)
                     {
                         saviourCards.Add(c);
                     }
@@ -242,12 +239,20 @@
                 throw new ArgumentException("The hand cannot be empty.");
             }
 
-            Console.WriteLine("Select a card from your hand:");
+            ExtensionMethods.ClearConsolePart(Console.WindowWidth - 45, 0, 40, 5);
+
+            var text = "Select a card from your hand:";
+            ExtensionMethods.PrintOnPosition(Console.WindowWidth - 45, 0, text, ConsoleColor.Green);
+
             for (int i = 0; i < hand.Count; i++)
             {
                 string key = i == 0 ? "A" : i == 1 ? "S" : i == 2 ? "D" : "F";
-                Console.WriteLine("{0}: {1}", key, hand[i]);
+                string cardInHand = key + ": " + hand[i];
+
+                ExtensionMethods.PrintOnPosition(Console.WindowWidth - 45, i + 1, cardInHand, ConsoleColor.Green);
             }
+
+            Console.CursorVisible = false;
 
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
             Card card = hand[0];
@@ -312,6 +317,22 @@
 
                 player.Score -= scoreToSubtract;
             }
+        }
+
+        public static KeyValuePair<string, int> GetWinner(Game game)
+        {
+            int maxScore = 0;
+            var player = "";
+            for (int i = 0; i < game.Players.Length; i++)
+            {
+                if (game.Players[i].Score > maxScore)
+                {
+                    maxScore = game.Players[i].Score;
+                    player = game.Players[i].Name;
+                }
+            }
+
+            return new KeyValuePair<string, int>(player, maxScore);
         }
 
         public static void SaveHighScore(Player player, string path)

@@ -9,7 +9,7 @@
     public class Attack : Card
     {
         public Attack(string filePath, int rank, int priority)
-            : base(filePath, rank, CardType.Attack, priority)
+            : base(filePath, rank, CardType.Attack, priority, false)
         {
         }
 

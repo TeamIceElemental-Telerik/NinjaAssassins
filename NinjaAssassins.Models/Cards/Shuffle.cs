@@ -9,7 +9,7 @@
     public class Shuffle : Card
     {
         public Shuffle(string filePath, int rank, int priority)
-            : base(filePath, rank, CardType.Shuffle, priority)
+            : base(filePath, rank, CardType.Shuffle, priority, false)
         {
         }
 

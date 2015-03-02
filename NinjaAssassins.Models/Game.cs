@@ -1,5 +1,6 @@
 ﻿namespace NinjaAssassins.Models
 {
+    using NinjaAssassins.Helper;
     using System;
     using System.Collections.Generic;
     using System.Linq;

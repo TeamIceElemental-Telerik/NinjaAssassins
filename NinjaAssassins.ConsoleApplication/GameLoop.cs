@@ -10,6 +10,8 @@
     using NinjaAssassins.GameLogic;
     using NinjaAssassins.Models;
     using NinjaAssassins.Models.Cards;
+    using System.Threading;
+    using NinjaAssassins.Helper;
 
     public class GameLoop
     {
@@ -21,7 +23,7 @@
         static void Main()
         {
             Console.BufferWidth = Console.WindowWidth = 130;
-            //Console.BufferHeight = Console.WindowHeight = 40;
+            Console.WindowHeight = 40;
 
             // test image visualization
             //string path = @"C:\Users\svetla.ivanova\Desktop\badges\twenty-something.jpg";
@@ -46,9 +48,8 @@
                 //Console.Clear();
                 playerInTurn = game.PlayerInTurn;
 
-                Console.WriteLine(playerInTurn.Name);
-
-                //GameVisualisation.DisplayGameBoard(reader);
+                //Console.WriteLine(playerInTurn.Name);
+                GameVisualisation.DisplayGameBoard();
 
                 int cardsToDraw = 1;
                 if (playerInTurn.DrawDouble == true)
@@ -80,7 +81,11 @@
                     }
                     catch
                     {
-                        Console.WriteLine(card.ToString());
+                        // TODO
+                        int x = Console.WindowWidth / 2 - 34;
+                        int y = Console.WindowHeight / 2 - 13;
+                        ExtensionMethods.PrintOnPosition(x, y, card.ToString(), ConsoleColor.Green);
+                        Console.CursorVisible = false;
                     }
 
                     if (game.GameState == GameState.YourTurn)
@@ -101,12 +106,12 @@
                                 catch (ArgumentException e)
                                 {
                                     wrongChoice = true;
-                                    Console.WriteLine(e.Message);
+                                    Console.WriteLine(e.Message);   //TODO
                                 }
                                 catch (InvalidOperationException e)
                                 {
                                     wrongChoice = true;
-                                    Console.WriteLine(e.Message);
+                                    Console.WriteLine(e.Message);   //TODO
                                 }
                             }
                         }
@@ -119,10 +124,12 @@
                     {
                         if (card.CardType != CardType.NinjaAssassin)
                         {
+                            Thread.Sleep(1000);
                             GameLogic.PlayByComputerLogic(playerInTurn, card);
                         }
                         else
                         {
+                            Thread.Sleep(1000);
                             GameLogic.HandleNinjaAssasin(game, playerInTurn, card);
                         }
                     }
@@ -131,37 +138,47 @@
                 }
 
                 // test game state
-                Console.WriteLine(new string('-', 60));
-                Console.WriteLine("In turn: {0}", playerInTurn.Name);
-                Console.WriteLine("In turn: {0}", playerInTurn.Id);
-                Console.WriteLine("Next: {0}", game.NextPlayer.Name);
-                Console.WriteLine("Deck count: {0}", game.Deck.Count);
-                Console.WriteLine("Deck: {0}", string.Join(" ", game.Deck));
-                Console.WriteLine("State: {0}", game.GameState);
-                Console.WriteLine("Skip? {0}", playerInTurn.SkipTurn);
-                Console.WriteLine("Is dead? {0}", playerInTurn.IsDead);
-                Console.WriteLine("Draw double? {0}", playerInTurn.DrawDouble);
-                Console.WriteLine("Hand: {0}", string.Join(" ", playerInTurn.Hand));
-                Console.WriteLine("Players: {0}", string.Join(" ", game.Players.ToList()));
-                Console.WriteLine(new string('-', 60));
+                //Console.WriteLine(new string('-', 60));
+                //Console.WriteLine("In turn: {0}", playerInTurn.Name);
+                //Console.WriteLine("In turn: {0}", playerInTurn.Id);
+                //Console.WriteLine("Next: {0}", game.NextPlayer.Name);
+                //Console.WriteLine("Deck count: {0}", game.Deck.Count);
+                //Console.WriteLine("Deck: {0}", string.Join(" ", game.Deck));
+                //Console.WriteLine("State: {0}", game.GameState);
+                //Console.WriteLine("Skip? {0}", playerInTurn.SkipTurn);
+                //Console.WriteLine("Is dead? {0}", playerInTurn.IsDead);
+                //Console.WriteLine("Draw double? {0}", playerInTurn.DrawDouble);
+                //Console.WriteLine("Hand: {0}", string.Join(" ", playerInTurn.Hand));
+                //Console.WriteLine("Players: {0}", string.Join(" ", game.Players.ToList()));
+                //Console.WriteLine(new string('-', 60));
 
                 if (game.Deck.Count == 0 || game.Players[3].IsDead)
                 {
                     game.GameState = GameState.Finished;
                     // TODO: get winner
+
                 }
 
                 if (game.GameState == GameState.Finished)
                 {
                     GameLogic.ReduceScoresWithCardsInHand(game);
 
+                    // test
                     Console.WriteLine("The end");
-                    //GameVisualisation.DisplayEndGame(game.Players[3]);
+
+                    var winner = GameLogic.GetWinner(game);
+
+                    // Console.WriteLine("Winner : {0} {1}", winner.Key, winner.Value);
+                    // GameVisualisation.DisplayEndGame(game.Players[3]);
+
                     break;
                 }
 
                 GameLogic.SetNextPlayer(playerInTurn);
             }
+
+
+
         }
     }
 }

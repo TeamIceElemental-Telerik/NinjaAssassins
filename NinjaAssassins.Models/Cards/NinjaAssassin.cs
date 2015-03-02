@@ -9,7 +9,7 @@
     public class NinjaAssassin : Card
     {
         public NinjaAssassin(string filePath, int rank, int priority)
-            : base(filePath, rank, CardType.NinjaAssassin, priority)
+            : base(filePath, rank, CardType.NinjaAssassin, priority, false)
         {
         }
 

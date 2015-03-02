@@ -34,7 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +52,10 @@
     <ProjectReference Include="..\NinjaAssassins.GameLogic\NinjaAssassins.GameLogic.csproj">
       <Project>{07fb85e2-b21c-4c7f-8025-306e9d91f87b}</Project>
       <Name>NinjaAssassins.GameLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NinjaAssassins.Helper\NinjaAssassins.Helper.csproj">
+      <Project>{7e26e93a-55f9-437e-ad7f-7a086900b3ad}</Project>
+      <Name>NinjaAssassins.Helper</Name>
     </ProjectReference>
     <ProjectReference Include="..\NinjaAssassins.Models\NinjaAssassins.Models.csproj">
       <Project>{d081d8e2-cf91-4dde-95f5-713b4450cfeb}</Project>

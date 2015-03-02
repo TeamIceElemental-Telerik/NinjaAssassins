@@ -11,14 +11,16 @@
         private int rank;
         private CardType cardType;
         private int priority;
+        private bool saviourType;
 
-        public Card(string filePath, int rank, CardType cardType, int priority)
+        public Card(string filePath, int rank, CardType cardType, int priority, bool saviourType)
         {
             this.Id = idCounter++;
             this.CardType = cardType;
             this.FilePath = filePath;
             this.Rank = rank;
             this.Priority = priority;
+            this.SaviourType = saviourType;
         }
 
         public int Id { get; private set; }
@@ -75,6 +77,18 @@
             }
         }
 
+        public bool SaviourType
+        {
+            get
+            {
+                return this.saviourType;
+            }
+
+            set
+            {
+                this.saviourType = value;
+            }
+        }
         public abstract void Action(Game game);
 
         public override string ToString()

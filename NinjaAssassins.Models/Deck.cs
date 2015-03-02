@@ -6,6 +6,7 @@
     using System.Linq;
 
     using NinjaAssassins.Models.Cards;
+    using NinjaAssassins.Helper;
 
     public class Deck : IEnumerable<Card>, IDeck
     {

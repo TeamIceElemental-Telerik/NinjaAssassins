@@ -9,7 +9,7 @@
     public class Hide : Card
     {
         public Hide(string filePath, int rank, int priority)
-            : base(filePath, rank, CardType.Hide, priority)
+            : base(filePath, rank, CardType.Hide, priority, true)
         {
         }
 

@@ -44,6 +44,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NinjaAssassins.Helper\NinjaAssassins.Helper.csproj">
+      <Project>{7e26e93a-55f9-437e-ad7f-7a086900b3ad}</Project>
+      <Name>NinjaAssassins.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NinjaAssassins.Models\NinjaAssassins.Models.csproj">
       <Project>{d081d8e2-cf91-4dde-95f5-713b4450cfeb}</Project>
       <Name>NinjaAssassins.Models</Name>

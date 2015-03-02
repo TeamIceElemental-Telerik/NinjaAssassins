@@ -1,5 +1,6 @@
 ﻿namespace NinjaAssassins.Models.Cards
 {
+    using NinjaAssassins.Helper;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,7 +10,7 @@
     public class Escape : Card
     {
         public Escape(string filePath, int rank, int priority)
-            : base(filePath, rank, CardType.Escape, priority)
+            : base(filePath, rank, CardType.Escape, priority, true)
         {
         }
 
@@ -18,7 +19,7 @@
             Card card = game.Deck[game.Deck.Count - 1];
             game.Deck.RemoveCardFromDeck(card);
 
-            if (Constants.SaviourTypes.Contains(card.CardType))
+            if (card.SaviourType)
             {
                 card.Action(game);
             }

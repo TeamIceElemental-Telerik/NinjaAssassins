@@ -9,7 +9,7 @@
     public class GreenNinja : Card
     {
         public GreenNinja(string filePath, int rank, int priority)
-            : base(filePath, rank, CardType.GreenNinja, priority)
+            : base(filePath, rank, CardType.GreenNinja, priority, true)
         {
         }
 
