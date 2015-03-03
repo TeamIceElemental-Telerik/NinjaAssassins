@@ -1,18 +1,16 @@
-  @@@@@@@@@@@@@@@@@@@@                 
- @ 		      @
-@ 		       @
-@ 		       @
-@ 		       @
-@ 		       @
-@ 		       @
-@ 	 NINJA 	       @
-@       ASSASSIN       @
-@ 		       @
-@ 		       @
-@ 		       @
-@ 		       @
-@ 		       @
-@ 		       @
-@                      @  
- @                    @
-  @@@@@@@@@@@@@@@@@@@@
+┌────────────────────┐
+│     DRAW A CARD	 │
+│____________________│
+│                    │
+│  NN     NNN        │
+│  NN    NNNN        │
+│  NN   NN NN        │
+│  NN  NN  NN        │
+│  NN NN   NNAA	 	 │
+│  NNNN    NNAAA	 │
+│  NNN     NN  AA	 │
+│         AAAAAAAA	 │
+│        AAAAAAAAAA	 │
+│       AA 	   	  AA │
+│      AA 	       AA│
+└────────────────────┘

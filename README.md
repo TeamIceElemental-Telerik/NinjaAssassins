@@ -1,41 +1,39 @@
 # NinjaAssassins
-A console card game - a team project for Telerik Software Academy, course C# Part 2
 
-#Game Design (Singleplayer console game):
+A single-player console card game
 
-###Players (4 players):
-* main player - you
-* 3 AI players
+A team project for Telerik Software Academy, course C# Part 2
 
-###Deck with N number of cards (N = Deck: 56 cards / Endless):
-- each player draw A CARD one after another (?)
-- after a draw he decideds to play a card (? - or not)
-- each play can have X number of maximum cards (X = 3)
+###
 
-###Cards Logic:
-1.	Ninja Assassin (Exploding Ninja) – if you draw a ninja assassin you die, unless you have one of the cards below (Green Ninja, Fight, Hide or Escape)
-2.	Green Ninjas (Defuse) – save your life
-3.	Fight – dice? random number – bigger wins
-4.	Escape - run for your life (yeah right, outrun a ninja) – draw another card – if it’s a Green Ninja/Fight/Hide or escape – you have a chance, if not – bye, bye.
-5.	Hide –- use this card and try to hide behind one of the other players (or guess a word?/answer a question? – if correct, you save yourself or…) – if the one on your left (or by your choice) has a saving card, you can ask them for it, use it, then place both the saving and assassin card back in the deck at a random position. The player who has given you a card skips a turn in return.
-6.	Attack – attack another player – make next player draw two card (or decrease their score or something else)
-7.	Skip turn – use this card and skip drawing (if you draw it and use it – you skip the next drawing. If you have it in your hand and play it – you skip the current drawing)
-8.	Shuffle (Confuse the ninja) – shuffle the deck
-9.	More cards?
+Get in the way of a **Ninja Assassin** and you will DIE! Unless…
+A **Green Ninja** – saves your life. Or
+You try and **Fight** and get a 50/50 chance to survive. Or
+You head for an **Escape** (Run for your life!) 
+Of course, you can always try and **Hide**. Or
+Attack another player, **Skip** your **Turn** or do a **Shuffle**!
 
-###Base Logic:
-4.	If the drawn card is not a Ninja Assassin, you can hold on to it, deciding when to play it. A player can hold on to no more than 3? cards. When you have 3, on your next turn, you have to draw one and play one of the four by choice.
-5.	If you draw a Ninja Assassin – you either die or use: Green Ninja to defuse it, Fight – to try and beat them, Hide or Escape (see above)
-6.	The game ends when you’re killed (or there are no more cards in the deck if it’s not endless). The more cards you have in your hand when the game ends – the worse for your score
-7.	Scoring – each card has different score
+It’s all in the hands of the deck now! Take your chance! 
 
-###Tactic Logic(optimal scenario)
- Try not to draw Ninja Assassin or use Green Ninja to defuse it, Fight – to try and beat them, Hide or Escape
+###Rules:
+A deck of 32 cards (4 of each kind) is placed on the board. You and 3 other players take turns to draw a card. Each card has a different action:
 
-###Game Goal :
- Be a ninja as a last man standing
+1.	**Ninja Assassin** (deadly type) – kills you instantly, unless you have a card of the saviour type.
+2.	**Green Ninja** (saviour type) – saves your life.
+3.	**Fight** (saviour type) – you get a 50/50 chance to survive by playing a Fight card.
+4.	**Escape** (saviour type) – draw another card from the deck. If it’s a saviour type – you’re not done yet.
+5.	**Hide** (saviour type) – use this card and try to hide behind the next player in turn. If they have a Green Ninja in their hand, you’re saved and the player skips a turn in return. If not – bye, bye!
+6.	**Attack** – attack the next player in turn – make them draw two cards instead of one.
+7.	**Skip Turn** - use this card and skip your next turn to draw.
+8.	**Shuffle** the deck and confuse all the Ninja Assassins.
 
+If the drawn card is not a Ninja Assassin, you decide whether to play it or hold on to it and play it later in the game. A player can hold up to 3 cards in their hand. But beware! At the end of the game, your score gets decreased with the rank of each card you hold. 
+If you have 3 cards in your hand, the next time you draw one, you have to either play it, or play one of the other three in your hand.
+If you draw a Ninja Assassin – you either die or use one of the saviour types of cards (if you have any) to try and survive.
+Scoring depends on each played card rank. In the end, if you’re not dead – the player with the highest score wins.
 
---------------------------------------------------------------------------
-####Admins : TO DO/-ing : https://trello.com/b/cutcyB6G/ninjaassassins
---------------------------------------------------------------------------
+###Tactic Logic (optimal scenario)
+Try not to draw Ninja Assassin or use a Green Ninja to defuse it, Fight – to try and beat them, Hide or Escape.
+
+###Game Goal:
+Be a ninja as a last man standing!
