@@ -30,6 +30,16 @@
 
         public static void DisplayInitialMenu()
         {
+            StreamReader strReader = new StreamReader(Constants.GameMenuIntro);
+            using (strReader)
+            {
+                string line = strReader.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    line = strReader.ReadLine();
+                }
+            }
             // TODO: beautify (select with arrow keys, highlight on select, change color)
             // for test purposes:
             Console.Clear();

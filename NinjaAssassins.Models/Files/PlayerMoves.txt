@@ -1,4 +1,50 @@
+Geri| played Attack
+Geri| attacked Stamat. 
+Stamat| needs to draw two cards.
+Stamat| saved a card to their hand.
+1ddd| saved a card to their hand.
 Pesho| was killed by a NinjaAssassin
+Geri| saved a card to their hand.
+Stamat| played GreenNinja
+Stamat| gets to skip next turn. Woohoo!
+1ddd| played Escape
+1ddd| ran just for the sake of it.
 Geri| was killed by a NinjaAssassin
-Stamat| was killed by a NinjaAssassin
-ffff| was killed by a NinjaAssassin
+1ddd| saved a card to their hand.
+Stamat| saved a card to their hand.
+1ddd| played Hide
+1ddd| has nothing to hide from.
+Stamat| played Shuffle
+|The deck was shuffled. Beware!
+1ddd| saved a card to their hand.
+Stamat| saved a card to their hand.
+1ddd| played Shuffle
+|The deck was shuffled. Beware!
+Stamat| played SkipTurn
+Stamat| gets to skip next turn. Woohoo!
+1ddd| played Escape
+1ddd| was saved by a GreenNinja! Hurray!
+1ddd| played Fight
+1ddd| was saved by a GreenNinja! Hurray!
+Stamat| played Attack
+Stamat| attacked 1ddd. 
+1ddd| needs to draw two cards.
+1ddd| played Escape
+1ddd| has nothing to hide from.
+Stamat| played GreenNinja
+Stamat| has nothing to hide from.
+1ddd| played Fight
+1ddd| fought and won! 64 to 58
+Stamat| played Fight
+Stamat| ran just for the sake of it.
+1ddd| saved a card to their hand.
+Stamat| saved a card to their hand.
+1ddd| played Attack
+1ddd| attacked Pesho. 
+Pesho| needs to draw two cards.
+Stamat| played Attack
+Stamat| attacked 1ddd. 
+1ddd| needs to draw two cards.
+1ddd| played Fight
+Stamat| attacked 1ddd. 
+1ddd| needs to draw two cards.
