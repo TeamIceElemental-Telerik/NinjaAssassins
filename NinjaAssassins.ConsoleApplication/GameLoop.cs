@@ -14,6 +14,15 @@
     {
         public static void Play(Game game)
         {
+            try
+            {
+                Sounds.GameBoardStart(Sounds.PlaySound);
+            }
+            catch (Exception e)
+            {
+                ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
+            }
+
             Console.Clear();
 
             while (true)
@@ -43,17 +52,28 @@
                     var card = GameLogic.DrawCard(game.Deck, game.Deck.Count - 1);
                     game.CurrentCard = card;
 
-                    try
+
+                    if (game.GameState == GameState.YourTurn)
                     {
-                        if (game.GameState == GameState.YourTurn)
+                        var cardReader = new StreamReader(card.FilePath);
+
+                        try
                         {
-                            var cardReader = new StreamReader(card.FilePath);
                             GameVisualisation.DisplayCard(cardReader, card, Constants.CardX, Constants.CardY);
                         }
-                    }
-                    catch
-                    {
-                        ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY, card.ToString(), ConsoleColor.Green);
+                        catch
+                        {
+                            ExtensionMethods.PrintOnPosition(Constants.CardX, Constants.CardY, card.ToString(), ConsoleColor.Green);
+                        }
+
+                        try
+                        {
+                            Sounds.PlayCardSound((int)card.CardType, Sounds.PlaySound);
+                        }
+                        catch
+                        {
+                        }
+                        
                     }
 
                     if (game.GameState == GameState.YourTurn)

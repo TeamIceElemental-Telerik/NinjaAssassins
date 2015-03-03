@@ -1,2 +1,3 @@
-Stamat| saved a card to their hand.
-ddd| was killed by a NinjaAssassin
+Pesho| played Shuffle
+|The deck was shuffled. Beware!
+Geri| saved a card to their hand.
