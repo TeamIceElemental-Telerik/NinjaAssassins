@@ -136,9 +136,11 @@
         public static bool PlaySound = true;
         public static void DisplayGameOptions()
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
             // (sound on/off)
             // Implement in the cards dealt by the player the sounds
-            Console.WriteLine("By default ALL the sounds are there!");
+            Console.WriteLine("     By default ALL the sounds are there!");
             Console.WriteLine();
             Console.Write("Do you want to have sound in the game [ YES / NO ] : ");
             string soundState = Console.ReadLine();
@@ -156,11 +158,13 @@
             }
             else if (!(soundState == "no") && !(soundState == "yes"))
             {
-                Console.Write("Yes or No ? --> ");
+                Console.WriteLine();
+                Console.Write("     Yes or No ? --> ");
                 soundState = Console.ReadLine();
 
                 if ((!(soundState == "no") && !(soundState == "yes")))
                 {
+                    Console.WriteLine();
                     Console.WriteLine("In this case I suppose you mean NO.");
                     PlaySound = false;
                     Console.WriteLine("The sound is OFF !");
@@ -176,7 +180,7 @@
                     Console.WriteLine("The sound is ON !");
                 }
             }
-            DisplayInitialMenu();
+            Console.ResetColor();
         }
 
         public static void DisplayIntro(StreamReader reader)
