@@ -1,0 +1,20 @@
+Cards Logic:
+
+Total of 8th cards
+
+1.Ninja Assassin (Exploding Ninja) – if you draw a ninja assassin you die,
+unless you have one of the cards below (Green Ninja, Fight, Hide or Escape)
+
+2.Green Ninjas (Defuse) – save your life
+
+3.Fight – you throw a dice and the bigger number wins
+
+4.Escape - run for your life (yeah right, outrun a ninja)
+
+5.Hide –- use this card and try to hide behind one of the other players
+
+6.Attack – attack another player 
+
+7.Skip turn – use this card and skip drawing 
+
+8.Shuffle (Confuse the ninja) – shuffle the deck
