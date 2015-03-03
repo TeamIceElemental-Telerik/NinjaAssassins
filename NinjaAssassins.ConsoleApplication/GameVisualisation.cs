@@ -96,6 +96,14 @@
             // StringBuilder
             // color
             StreamReader reader = new StreamReader(Constants.GameRules);
+            using (reader)
+            {
+                string fileContents = reader.ReadToEnd();
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine(fileContents);
+                Console.ResetColor();
+            }
         }
 
         public static bool PlaySound = true;
