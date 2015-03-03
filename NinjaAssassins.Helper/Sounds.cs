@@ -5,6 +5,8 @@
 
     public class Sounds
     {
+        public static bool PlaySound = true;
+
         public static void GameStartMenu(bool isOn) // GameMenu and GameIntro
         {
             SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/01.MainWindow-Mortal Kombat-(with Fade).wav");

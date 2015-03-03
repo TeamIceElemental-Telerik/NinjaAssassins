@@ -26,7 +26,7 @@
         {
             try
             {
-                Sounds.GameStartMenu(PlaySound);
+                Sounds.GameStartMenu(Sounds.PlaySound);
             }
             catch (Exception e)
             {
@@ -133,7 +133,7 @@
         {
             try
             {
-                Sounds.GameRulesMenu(PlaySound);
+                Sounds.GameRulesMenu(Sounds.PlaySound);
             }
             catch (Exception e)
             {
@@ -151,7 +151,6 @@
             }
         }
 
-        public static bool PlaySound = true;
         public static void DisplayGameOptions()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -166,12 +165,12 @@
             // create isOn / isOff logic in another class for General Sound and For in game Background sound
             if (soundState == "no")
             {
-                PlaySound = false;
+                Sounds.PlaySound = false;
                 Console.WriteLine("The sound is OFF !");
             }
             else if (soundState == "yes")
             {
-                PlaySound = true;
+                Sounds.PlaySound = true;
                 Console.WriteLine("The sound is ON !");
             }
             else if (!(soundState == "no") && !(soundState == "yes"))
@@ -184,17 +183,17 @@
                 {
                     Console.WriteLine();
                     Console.WriteLine("In this case I suppose you mean NO.");
-                    PlaySound = false;
+                    Sounds.PlaySound = false;
                     Console.WriteLine("The sound is OFF !");
                 }
                 else if (soundState == "no")
                 {
-                    PlaySound = false;
+                    Sounds.PlaySound = false;
                     Console.WriteLine("The sound is OFF !");
                 }
                 else if (soundState == "yes")
                 {
-                    PlaySound = true;
+                    Sounds.PlaySound = true;
                     Console.WriteLine("The sound is ON !");
                 }
             }
@@ -309,15 +308,6 @@
 
         public static void DisplayCard(StreamReader reader, Card card, int x, int y)
         {
-            try
-            {
-                Sounds.PlayCardSound((int)card.CardType, PlaySound);
-            }
-            catch (Exception e)
-            {
-                ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
-            }
-
             ExtensionMethods.ClearConsolePart(x, y, 20, 20);
   
             using (reader)
@@ -428,11 +418,10 @@
 
             try
             {
-                Sounds.GameOverLoseSound(PlaySound);
+                Sounds.GameOverLoseSound(Sounds.PlaySound);
             }
-            catch (Exception e)
+            catch
             {
-                ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
             }
 
             if (Console.ReadKey(true).Key == ConsoleKey.Enter)
