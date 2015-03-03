@@ -6,13 +6,12 @@
     using System.Linq;
     using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using NinjaAssassins.GameLogic;
     using NinjaAssassins.Models;
     using NinjaAssassins.Helper;
 
-    // TODO
+    // TODO : refactor
     public static class GameVisualisation
     {
         public static void SetInitialConsoleSize()
@@ -25,6 +24,16 @@
 
         public static void DisplayInitialMenu()
         {
+            try
+            {
+                Sounds.GameStartMenu(PlaySound);
+            }
+            catch (Exception e)
+            {
+                ExtensionMethods.PrintOnPosition(10, Console.WindowHeight - 6, "Uh oh!", ConsoleColor.White);
+                ExtensionMethods.HandleExceptions(e, 10, Console.WindowHeight - 5, ConsoleColor.White);
+            }
+
             int x = 0;
             int y = 0;
 
@@ -79,12 +88,14 @@
                     break;
                 case '3':
                     DisplayGameRules();
-                    GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY, ConsoleColor.White);
+                    GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY + 3, ConsoleColor.White);
                     break;
                 case '4':
                     reader = new StreamReader(Constants.HighScoreFilePath);
                     var highScores = GameLogic.GetHighScores(reader, Constants.HighScoresCount);
+                    Console.ForegroundColor = ConsoleColor.Green;
                     DisplayHighScore(highScores);
+                    Console.ResetColor();
                     GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY, ConsoleColor.White);
                     break;
                 case '5':
@@ -120,15 +131,22 @@
 
         public static void DisplayGameRules()
         {
-            // StringBuilder
-            // color
+            try
+            {
+                Sounds.GameRulesMenu(PlaySound);
+            }
+            catch (Exception e)
+            {
+                ExtensionMethods.PrintOnPosition(10, Console.WindowHeight - 6, "Uh oh!", ConsoleColor.White);
+                ExtensionMethods.HandleExceptions(e, 10, Console.WindowHeight - 5, ConsoleColor.White);
+            }
+
             StreamReader reader = new StreamReader(Constants.GameRules);
             using (reader)
             {
                 string fileContents = reader.ReadToEnd();
 
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine(fileContents);
+                ExtensionMethods.PrintOnPosition(0, 0, fileContents, ConsoleColor.Green);
                 Console.ResetColor();
             }
         }
@@ -136,7 +154,7 @@
         public static bool PlaySound = true;
         public static void DisplayGameOptions()
         {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.Green;
 
             // (sound on/off)
             // Implement in the cards dealt by the player the sounds
@@ -291,8 +309,17 @@
 
         public static void DisplayCard(StreamReader reader, Card card, int x, int y)
         {
-            ExtensionMethods.ClearConsolePart(x, y, 20, 20);
+            try
+            {
+                Sounds.PlayCardSound((int)card.CardType, PlaySound);
+            }
+            catch (Exception e)
+            {
+                ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
+            }
 
+            ExtensionMethods.ClearConsolePart(x, y, 20, 20);
+  
             using (reader)
             {
                 string line = reader.ReadLine();
@@ -398,6 +425,15 @@
             //            ", ConsoleColor.Red);
 
             ExtensionMethods.PrintMatrix(Constants.DeadMessage, Constants.CardX, Constants.CardY + 16, ConsoleColor.Red);
+
+            try
+            {
+                Sounds.GameOverLoseSound(PlaySound);
+            }
+            catch (Exception e)
+            {
+                ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
+            }
 
             if (Console.ReadKey(true).Key == ConsoleKey.Enter)
             {

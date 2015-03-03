@@ -14,6 +14,15 @@
     {
         public static void Play(Game game)
         {
+            try
+            {
+                Sounds.GameBoardStart(GameVisualisation.PlaySound);
+            }
+            catch(Exception e)
+            {
+                ExtensionMethods.HandleExceptions(e, Constants.ExceptionMessageX, Constants.ExceptionMesssageY, ConsoleColor.White);
+            }
+
             Console.Clear();
 
             while (true)

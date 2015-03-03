@@ -1,2 +1,13 @@
-Stamat| saved a card to their hand.
-ddd| was killed by a NinjaAssassin
+sss| saved a card to their hand.
+Pesho| saved a card to their hand.
+Geri| saved a card to their hand.
+Stamat| was killed by a NinjaAssassin
+sss| played Escape
+sss| ran just for the sake of it.
+Pesho| played Fight
+Pesho| gets to skip next turn. Woohoo!
+Geri| saved a card to their hand.
+sss| saved a card to their hand.
+Geri| played GreenNinja
+Geri| gets to skip next turn. Woohoo!
+sss| was killed by a NinjaAssassin
