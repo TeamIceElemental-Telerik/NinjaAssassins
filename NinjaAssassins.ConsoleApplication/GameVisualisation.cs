@@ -144,7 +144,7 @@
             Console.WriteLine();
             Console.Write("Do you want to have sound in the game [ YES / NO ] : ");
             string soundState = Console.ReadLine();
-            soundState.ToLower();
+            soundState = soundState.ToLower();
             // create isOn / isOff logic in another class for General Sound and For in game Background sound
             if (soundState == "no")
             {
