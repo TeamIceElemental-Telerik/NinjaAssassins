@@ -73,3 +73,16 @@
 0|ddd
 0|fff
 30|ddd
+165|ddd
+5|sss
+70|ddd
+190|dd
+15|Az
+95|Svetla
+5|fff
+5|dddd
+5|dddd
+5|ddd
+5|ddd
+5|ffff
+295|1ddd
