@@ -23,28 +23,26 @@
             Console.CursorVisible = false;
         }
 
-        public static void DisplayLogo()
-        {
-            // int[,]?
-        }
-
         public static void DisplayInitialMenu()
         {
+            int x = 0;
+            int y = 0;
+
+            Console.Clear();
             StreamReader strReader = new StreamReader(Constants.GameMenuIntro);
             using (strReader)
             {
                 string line = strReader.ReadLine();
                 while (line != null)
                 {
-                    Console.WriteLine(line);
+                    ExtensionMethods.PrintOnPosition(x, y, line, ConsoleColor.Green);
                     line = strReader.ReadLine();
+                    y++;
                 }
             }
-            // TODO: beautify (select with arrow keys, highlight on select, change color)
-            // for test purposes:
-            Console.Clear();
-            int x = Constants.IntroX;
-            int y = Constants.IntroY;
+
+            x = Constants.InitialMenuX;
+            y = Constants.InitialMenuY;
 
             var text = "Please select: ";
             ExtensionMethods.PrintOnPosition(x, y, text, ConsoleColor.White);
@@ -67,7 +65,7 @@
             ExtensionMethods.PrintOnPosition(x, y + options.Length + 1, string.Empty);
 
             ConsoleKeyInfo pressedKey = Console.ReadKey(true);
-            //int choice = int.Parse(Console.ReadLine());
+
             Console.Clear();
             switch (pressedKey.KeyChar)
             {
@@ -90,14 +88,9 @@
                     GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY, ConsoleColor.White);
                     break;
                 case '5':
-                    ExtensionMethods.PrintOnPosition(Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, @"
-                                       ____   ____   ____   ____   ____   ____
-                                       ||  | \\  // ||      ||  | \\  // ||
-                                       ||==   \\//  ||==    ||==   \\//  ||==
-                                       ||___|  ||   ||___   ||___|  ||   ||___
-", ConsoleColor.Green);
-                Thread.Sleep(1000);
-                Environment.Exit(0);
+                    ExtensionMethods.PrintMatrix(Constants.ByeByeMessage, Constants.GoBackX - 5, Console.WindowHeight / 2 - 5, ConsoleColor.Green);
+                    Thread.Sleep(1000);
+                    Environment.Exit(0);
                     break;
                 default:
                     ExtensionMethods.PrintOnPosition(Constants.GoBackX, Constants.GoBackY, "Please select an option between 1 and 4.");
@@ -111,11 +104,18 @@
             ExtensionMethods.PrintOnPosition(x, y, "Press Backspace to go back", color);
             var pressedKey = Console.ReadKey(true);
 
-            if (pressedKey.Key == ConsoleKey.Backspace)
+            while (pressedKey.Key != ConsoleKey.Backspace)
             {
-                Console.Clear();
-                DisplayInitialMenu();
+                pressedKey = Console.ReadKey(true);
+
+                if (pressedKey.Key == ConsoleKey.Backspace)
+                {
+                    break;
+                }
             }
+
+            Console.Clear();
+            DisplayInitialMenu();
         }
 
         public static void DisplayGameRules()
@@ -336,12 +336,12 @@
 
         public static void DisplayDead()
         {
-//            ExtensionMethods.PrintOnPosition(0, Constants.CardY + 5, @"
-//                                          ___   ____  ___   ___ 
-//                                         || \\ ||    // \\ || \\ 
-//                                         ||  | ||==  ||=|| ||  |
-//                                         || // ||___ || || || //
-//            ", ConsoleColor.Red);
+            //            ExtensionMethods.PrintOnPosition(0, Constants.CardY + 5, @"
+            //                                          ___   ____  ___   ___ 
+            //                                         || \\ ||    // \\ || \\ 
+            //                                         ||  | ||==  ||=|| ||  |
+            //                                         || // ||___ || || || //
+            //            ", ConsoleColor.Red);
 
             ExtensionMethods.PrintMatrix(Constants.DeadMessage, Constants.CardX, Constants.CardY + 16, ConsoleColor.Red);
 
@@ -349,7 +349,7 @@
             {
                 return;
             }
-    
+
         }
 
         public static void DisplayGameEnd(Player currentPlayer, KeyValuePair<string, int> winner, List<string> highScores)
@@ -424,12 +424,12 @@
             {
                 Console.Clear();
                 ExtensionMethods.PrintMatrix(Constants.ByeByeMessage, Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, ConsoleColor.Green);
-//                ExtensionMethods.PrintOnPosition(Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, @"
-//                                       ____   ____   ____   ____   ____   ____
-//                                       ||  | \\  // ||      ||  | \\  // ||
-//                                       ||==   \\//  ||==    ||==   \\//  ||==
-//                                       ||___|  ||   ||___   ||___|  ||   ||___
-//", ConsoleColor.Green);
+                //                ExtensionMethods.PrintOnPosition(Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, @"
+                //                                       ____   ____   ____   ____   ____   ____
+                //                                       ||  | \\  // ||      ||  | \\  // ||
+                //                                       ||==   \\//  ||==    ||==   \\//  ||==
+                //                                       ||___|  ||   ||___   ||___|  ||   ||___
+                //", ConsoleColor.Green);
                 Thread.Sleep(1000);
                 Environment.Exit(0);
             }
