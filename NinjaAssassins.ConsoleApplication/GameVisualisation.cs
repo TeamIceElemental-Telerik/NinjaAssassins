@@ -176,6 +176,7 @@
                     Console.WriteLine("The sound is ON !");
                 }
             }
+            DisplayInitialMenu();
         }
 
         public static void DisplayIntro(StreamReader reader)
