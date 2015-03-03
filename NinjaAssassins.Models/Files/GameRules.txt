@@ -1,20 +1,24 @@
-Cards Logic:
+				Game Win Logic:
 
-Total of 8th cards
+	Survive The Ninja Assassin by using the other cards as ways to survive.
 
-1.Ninja Assassin (Exploding Ninja) – if you draw a ninja assassin you die,
-unless you have one of the cards below (Green Ninja, Fight, Hide or Escape)
+				Cards Logic:
 
-2.Green Ninjas (Defuse) – save your life
+			   ( Total of 8th cards )
 
-3.Fight – you throw a dice and the bigger number wins
+	1.Ninja Assassin (Exploding Ninja) – if you draw a ninja assassin you die,
+	unless you have one of the cards below (Green Ninja, Fight, Hide or Escape)
 
-4.Escape - run for your life (yeah right, outrun a ninja)
+	2.Green Ninjas (Defuse) – save your life
 
-5.Hide - use this card and try to hide behind one of the other players
+	3.Fight – you throw a dice and the bigger number wins
 
-6.Attack – attack another player 
+	4.Escape - run for your life (yeah right, outrun a ninja)
+	
+	5.Hide - use this card and try to hide behind one of the other players
 
-7.Skip turn – use this card and skip drawing 
+	6.Attack – attack another player 
 
-8.Shuffle (Confuse the ninja) – shuffle the deck
+	7.Skip turn – use this card and skip drawing 
+
+	8.Shuffle (Confuse the ninja) – shuffle the deck
