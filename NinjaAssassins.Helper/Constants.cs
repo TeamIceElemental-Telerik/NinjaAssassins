@@ -16,6 +16,7 @@
         public const string GameIntro = "../../../NinjaAssassins.Models/Files/GameIntro.txt";
         public const string GameBoard = "../../../NinjaAssassins.Models/Files/GameBoard.txt";
         public const string GameMenuIntro = "../../../NinjaAssassins.Models/Files/GameMenuIntro.txt";
+        public const string GameRules = "../../../NinjaAssassins.Models/Files/GameRules.txt";
 
 
         public static readonly string[] ComputerPlayersNames = { "Pesho", "Geri", "Stamat" };
