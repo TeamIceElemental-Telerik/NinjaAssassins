@@ -95,11 +95,52 @@
         {
             // StringBuilder
             // color
+            StreamReader reader = new StreamReader(Constants.GameRules);
         }
 
+        public static bool PlaySound = true;
         public static void DisplayGameOptions()
         {
             // (sound on/off)
+            // Implement in the cards dealt by the player the sounds
+            Console.WriteLine("By default ALL the sounds are there!");
+            Console.WriteLine();
+            Console.Write("Do you want to have sound in the game [ YES / NO ] : ");
+            string soundState = Console.ReadLine();
+            soundState.ToLower();
+            // create isOn / isOff logic in another class for General Sound and For in game Background sound
+            if (soundState == "no")
+            {
+                PlaySound = false;
+                Console.WriteLine("The sound is OFF !");
+            }
+            else if (soundState == "yes")
+            {
+                PlaySound = true;
+                Console.WriteLine("The sound is ON !");
+            }
+            else if (!(soundState == "no") && !(soundState == "yes"))
+            {
+                Console.Write("Yes or No ? --> ");
+                soundState = Console.ReadLine();
+
+                if ((!(soundState == "no") && !(soundState == "yes")))
+                {
+                    Console.WriteLine("In this case I suppose you mean NO.");
+                    PlaySound = false;
+                    Console.WriteLine("The sound is OFF !");
+                }
+                else if (soundState == "no")
+                {
+                    PlaySound = false;
+                    Console.WriteLine("The sound is OFF !");
+                }
+                else if (soundState == "yes")
+                {
+                    PlaySound = true;
+                    Console.WriteLine("The sound is ON !");
+                }
+            }
         }
 
         public static void DisplayIntro(StreamReader reader)
