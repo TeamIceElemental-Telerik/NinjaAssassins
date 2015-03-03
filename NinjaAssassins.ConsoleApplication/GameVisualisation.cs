@@ -28,15 +28,25 @@
 
         public static void DisplayInitialMenu()
         {
+            StreamReader strReader = new StreamReader(Constants.GameMenuIntro);
+            using (strReader)
+            {
+                string line = strReader.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    line = strReader.ReadLine();
+                }
+            }
             // TODO: beautify (select with arrow keys, highlight on select, change color)
             // for test purposes:
-            Console.WriteLine("Please select: ");
-            Console.WriteLine("1. Start Game");
-            Console.WriteLine("2. Options");
-            Console.WriteLine("3. High score");
-            Console.WriteLine("4. How to play");
-            Console.WriteLine("5. Quit");
-            int choice = int.Parse(Console.ReadLine());
+           Console.WriteLine("Please select: ");
+           Console.WriteLine("1. Start Game");
+           Console.WriteLine("2. Options");
+           Console.WriteLine("3. High score");
+           Console.WriteLine("4. How to play");
+           Console.WriteLine("5. Quit");
+           int choice = int.Parse(Console.ReadLine());
             Console.Clear();
             switch (choice)
             {
