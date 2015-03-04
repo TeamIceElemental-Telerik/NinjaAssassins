@@ -33,12 +33,6 @@
             }
         }
 
-        public static void CARDorEND()// MODEL
-        {
-            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/02.Start - fight.waw");
-            player.Play();
-        }
-
         public static void GameBoardStart(bool isOn)
         {
             if (isOn)
