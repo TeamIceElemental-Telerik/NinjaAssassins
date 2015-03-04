@@ -33,12 +33,6 @@
             }
         }
 
-        public static void CARDorEND()// MODEL
-        {
-            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/02.Start - fight.waw");
-            player.Play();
-        }
-
         public static void GameBoardStart(bool isOn)
         {
             if (isOn)
@@ -49,12 +43,24 @@
         }
 
         //CARDS
+
+        public static void NinnjaAssasinCadSound()
+        {
+            // if you can win it is  a Fatality
+            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/04.02-General- GameOver-Lost-fatality");
+            player.Play();
+        }
         public static void GreenNinjaCardSound()
         {
             SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/03.01. Green Ninja-excelent.wav");
             player.Play();
         }
 
+        public static void FightCadSound()
+        {
+            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/04.02.01- Male -K.O.-finishim.waw");
+            player.Play();
+        }
         public static void AttackCardSound()
         {
             SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/03.02.Attack-Figh-getovert.wav");
@@ -107,6 +113,9 @@
             {
                 switch (cardType)
                 {
+                    case 1:
+                        NinnjaAssasinCadSound();
+                        break;
                     case 2:
                         ShuffleCardSound();
                         break;
@@ -123,7 +132,7 @@
                         EscapeCardSound();
                         break;
                     case 7:
-                        CARDorEND();
+                        FightCadSound();
                         break;
                     case 8:
                         GreenNinjaCardSound();
