@@ -60,7 +60,7 @@
 
         public static void FightCardSound()
         {
-            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/04.02.01- Male -K.O.-finishim.waw");
+            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/04.02.01- Male -K.O.-finishim.wav");
             player.Play();
         }
 
