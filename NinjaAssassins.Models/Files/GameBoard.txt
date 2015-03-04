@@ -9,13 +9,13 @@
      │                        │     DRAW A CARD	   │                       │     │                                           │                                   
      │                        │____________________│                       │     │                                           │
      │                        │                    │                       │     │                                           │
-     │                        │ NN     NNN         │                       │     │                                           │
-─────┤                        │ NN    NNNN         │                       ├─────┤                                           │
-     │                        │ NN   NN NN         │                       │     │                                           │
+     │                        │ NNN     NN         │                       │     │                                           │
+─────┤                        │ NNNN    NN         │                       ├─────┤                                           │
+     │                        │ NN NN   NN         │                       │     │                                           │
      │                        │ NN  NN  NN         │                       │     │                                           │
-     │                        │ NN NN   NNAA	   │                       │     │                                           │
-     │                        │ NNNN    NNAAA	   │                       │     │                                           │
-     │ S                      │ NNN     NN  AA	   │                     S │     │                                           │
+     │                        │ NN   NN NNAA	   │                       │     │                                           │
+     │                        │ NN    NNNNAAA	   │                       │     │                                           │
+     │ S                      │ NN     NNN  AA	   │                     S │     │                                           │
      │ c                      │        AAAAAAAA	   │                     c │     │                                           │
 ─────┤ o                      │       AAAAAAAAAA   │                     o ├─────┤                                           │
      │ r                      │      AA        AA  │                     r │     │                                           │

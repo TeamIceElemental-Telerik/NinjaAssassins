@@ -1,4 +1,4 @@
-# NinjaAssassins
+# Ninja Assassins
 
 A single-player console card game
 

@@ -14,8 +14,6 @@
 
         private static Game game;
         private static Player[] allPlayers;
-        private static Player playerInTurn;
-        private static int score;
 
         public static Game InitializeGame(string playerName)
         {
@@ -369,6 +367,7 @@
                 }
             }
 
+            // TODO : better sort
             highScores.Sort();
             highScores.Reverse();
 

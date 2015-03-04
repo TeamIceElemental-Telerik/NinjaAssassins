@@ -1,21 +1,5 @@
-Geri| played SkipTurn
-Geri| gets to skip next turn. Woohoo!
-Stamat| saved a card to their hand.
-Az| saved a card to their hand.
-Pesho| saved a card to their hand.
-Stamat| saved a card to their hand.
-Az| played Attack
-Az| attacked Pesho. 
-Pesho| needs to draw two cards.
+Stamat| was killed by a NinjaAssassin
+Me| saved a card to their hand.
 Pesho| saved a card to their hand.
 Geri| saved a card to their hand.
-Stamat| played Hide
-Stamat| attacked Az. 
-Az| needs to draw two cards.
-Az| saved a card to their hand.
-Pesho| played Escape
-|The deck was shuffled. Beware!
-Geri| was killed by a NinjaAssassin
-Stamat| played Attack
-Stamat| attacked Az. 
-Az| needs to draw two cards.
+Me| was killed by a NinjaAssassin

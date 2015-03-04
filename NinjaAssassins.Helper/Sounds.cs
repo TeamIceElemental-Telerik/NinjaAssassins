@@ -43,7 +43,7 @@
         }
 
         //CARDS
-        public static void NinnjaAssasinCadSound()
+        public static void NinnjaAssasinCardSound()
         {
             // if you cant win it is  a "Noob" extra
             SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/Evil_Laugh_Sound_Effect.wav");
@@ -60,7 +60,7 @@
 
         public static void FightCardSound()
         {
-            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/04.02.01- Male -K.O.-finishim.waw");
+            SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/04.02.01- Male -K.O.-finishim.wav");
             player.Play();
         }
 
@@ -117,7 +117,7 @@
                 switch (cardType)
                 {
                     case 1:
-                        NinnjaAssasinCadSound();
+                        NinnjaAssasinCardSound();
                         break;
                     case 2:
                         ShuffleCardSound();

@@ -118,15 +118,15 @@
 
                     GameLogic.SaveMoves(game, Constants.PlayerMoves);
                     GameLogic.ChangeScore(card, game.PlayerInTurn);
-                }
 
-                if (game.Deck.Count == 0 || game.Players[3].IsDead)
-                {
-                    game.GameState = GameState.Finished;
-
-                    if (game.Players[3].IsDead)
+                    if (game.Deck.Count == 0 || game.Players[3].IsDead)
                     {
-                        GameVisualisation.DisplayDead();
+                        game.GameState = GameState.Finished;
+
+                        if (game.Players[3].IsDead)
+                        {
+                            GameVisualisation.DisplayDead();
+                        }
                     }
                 }
 

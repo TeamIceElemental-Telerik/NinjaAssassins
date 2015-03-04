@@ -93,3 +93,12 @@
 35|ddd
 205|Me
 85|Kk
+125|Kolio
+80|Kolio
+50|Kolio
+145|Svetla
+70|Me
+125|Me
+20|Me
+120|Me
+5|Me
