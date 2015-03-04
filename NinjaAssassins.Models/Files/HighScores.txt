@@ -90,3 +90,6 @@
 5|ddd
 5|ddd
 80|sss
+35|ddd
+205|Me
+85|Kk

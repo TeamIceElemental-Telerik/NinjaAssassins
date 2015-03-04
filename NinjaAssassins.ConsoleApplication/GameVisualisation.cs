@@ -202,6 +202,16 @@
 
         public static void DisplayIntro(StreamReader reader)
         {
+            try
+            {
+                Sounds.GameRulesMenu(Sounds.PlaySound);
+            }
+            catch (Exception e)
+            {
+                ExtensionMethods.PrintOnPosition(10, Console.WindowHeight - 6, "Uh oh!", ConsoleColor.White);
+                ExtensionMethods.HandleExceptions(e, 10, Console.WindowHeight - 5, ConsoleColor.White);
+            }
+
             int x = Constants.ExceptionMessageX;
             int y = Constants.ExceptionMesssageWrongChoiceY;
 
@@ -502,7 +512,7 @@
             else if (pressedKey.Key == ConsoleKey.Escape)
             {
                 Console.Clear();
-                ExtensionMethods.PrintMatrix(Constants.ByeByeMessage, Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, ConsoleColor.Green);
+                ExtensionMethods.PrintMatrix(Constants.ByeByeMessage, Constants.GoBackX - 5, Console.WindowHeight / 2 - 5, ConsoleColor.Green);
                 //                ExtensionMethods.PrintOnPosition(Console.WindowWidth / 2 - 7, Console.WindowHeight / 2 - 5, @"
                 //                                       ____   ____   ____   ____   ____   ____
                 //                                       ||  | \\  // ||      ||  | \\  // ||
