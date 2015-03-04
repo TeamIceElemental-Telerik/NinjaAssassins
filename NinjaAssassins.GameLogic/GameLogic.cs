@@ -7,6 +7,7 @@
 
     using NinjaAssassins.Helper;
     using NinjaAssassins.Models;
+    using System.Text;
 
     public class GameLogic
     {
@@ -340,7 +341,7 @@
         {
             try
             {
-                var writer = new StreamWriter(path, true);
+                var writer = new StreamWriter(path, true, Encoding.GetEncoding("Windows-1251"));
                 using (writer)
                 {
                     writer.WriteLine(player.Score + "|" + player.Name);
@@ -352,33 +353,39 @@
             }
         }
 
-        public static List<string> GetHighScores(StreamReader reader, int highScoresCount)
+        public static Dictionary<string, int> GetHighScores(StreamReader reader, int highScoresCount)
         {
-            var highScores = new List<string>();
-
+            var highScores = new Dictionary<string, int>();
             using (reader)
             {
                 var line = reader.ReadLine();
 
                 while (line != null)
                 {
-                    highScores.Add(line);
+                    int separatorIndex = line.IndexOf('|');
+
+                    int score = int.Parse(line.Substring(0, separatorIndex).Trim());
+                    string playerName = line.Substring(separatorIndex + 1, line.Length - (separatorIndex + 1)).Trim();
+
+                    if (!highScores.ContainsKey(playerName))
+                    {
+                        highScores.Add(playerName, score);
+                    }
+
+                    highScores[playerName] = score;
+                    
                     line = reader.ReadLine();
                 }
             }
 
-            // TODO : better sort
-            highScores.Sort();
-            highScores.Reverse();
-
             int scoreCount = highScores.Count >= highScoresCount ? highScoresCount : highScores.Count;
 
-            return highScores.Take(scoreCount).ToList();
+            return highScores.OrderByDescending(s => s.Value).Take(scoreCount).ToDictionary(s => s.Key, s => s.Value);
         }
 
         public static void SaveMoves(Game game, string path)
         {
-            var writer = new StreamWriter(path, true);
+            var writer = new StreamWriter(path, true, Encoding.GetEncoding("Windows-1251"));
             using (writer)
             {
                 if (game.IsCardPlayed)
@@ -405,7 +412,7 @@
 
             try
             {
-                var reader = new StreamReader(path);
+                var reader = new StreamReader(path, Encoding.GetEncoding("Windows-1251"));
                 using (reader)
                 {
                     string line = reader.ReadLine();

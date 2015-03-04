@@ -9,6 +9,7 @@
     using NinjaAssassins.Helper;
     using NinjaAssassins.Models;
     using NinjaAssassins.Models.Cards;
+    using System.Text;
 
     public static class GameLoop
     {
@@ -134,10 +135,10 @@
                 {
                     GameLogic.EndGame();
 
-                    var highScores = new List<string>();
+                    var highScores = new Dictionary<string, int>();
                     try
                     {
-                        var highScoreReader = new StreamReader(Constants.HighScoreFilePath);
+                        var highScoreReader = new StreamReader(Constants.HighScoreFilePath, Encoding.GetEncoding("Windows-1251"));
                         highScores = GameLogic.GetHighScores(highScoreReader, Constants.HighScoresCount);
                     }
                     catch (IndexOutOfRangeException e)

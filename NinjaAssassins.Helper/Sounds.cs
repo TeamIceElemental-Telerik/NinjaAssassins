@@ -48,8 +48,8 @@
             // if you cant win it is  a "Noob" extra
             SoundPlayer player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/Evil_Laugh_Sound_Effect.wav");
             player.PlaySync();
-            player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/NoobSond.wav");
-            player.PlaySync();
+            //player = new SoundPlayer(@"../../../NinjaAssassins.Models/Sounds/NoobSond.wav");
+            //player.PlaySync();
         }
 
         public static void GreenNinjaCardSound()

@@ -91,7 +91,7 @@
                     GoBackToInitialMenu(Constants.GoBackX, Constants.GoBackY + 3, ConsoleColor.White);
                     break;
                 case '4':
-                    reader = new StreamReader(Constants.HighScoreFilePath);
+                    reader = new StreamReader(Constants.HighScoreFilePath, Encoding.GetEncoding("Windows-1251"));
                     var highScores = GameLogic.GetHighScores(reader, Constants.HighScoresCount);
                     Console.ForegroundColor = ConsoleColor.Green;
                     DisplayHighScore(highScores);
@@ -101,6 +101,7 @@
                 case '5':
                     ExtensionMethods.PrintMatrix(Constants.ByeByeMessage, Constants.GoBackX - 5, Console.WindowHeight / 2 - 5, ConsoleColor.Green);
                     Thread.Sleep(1000);
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
                 default:
@@ -274,7 +275,7 @@
 
         public static void DisplayGameBoard(Game game)
         {
-            var reader = new StreamReader(Constants.GameBoard);
+            var reader = new StreamReader(Constants.GameBoard, Encoding.GetEncoding("Windows-1251"));
             using (reader)
             {
                 int y = 0;
@@ -441,7 +442,7 @@
 
         }
 
-        public static void DisplayGameEnd(Player currentPlayer, KeyValuePair<string, int> winner, List<string> highScores)
+        public static void DisplayGameEnd(Player currentPlayer, KeyValuePair<string, int> winner, Dictionary<string, int> highScores)
         {
             string diomand = new string((char)4, Console.WindowWidth);
             int position = Constants.EndGameX;
@@ -460,9 +461,9 @@
                                   \\_|| || || ||    || ||___     \\_//   \V/  ||___ || \\
                                                          ")
             .Append("\n\n")
-            .Append(diomand)
-            .Append("\n\t\t\t\t\t\t\tYOUR SCORE: " + currentPlayer.Score)
-            .Append("\n\t\t\t\t\t\t\tWINNER: " + winner.Key + " " + winner.Value)
+            .Append(diomand + "\n")
+            .AppendLine(new string(' ', 53) + "YOUR SCORE: " + currentPlayer.Score)
+            .AppendLine(new string(' ', 53) + "WINNER: " + winner.Key + " " + winner.Value)
             .Append("\n\n")
             .Append(diomand);
 
@@ -475,10 +476,8 @@
             GetUserEndGameChoice();
         }
 
-        public static void DisplayHighScore(List<string> highScores)
+        public static void DisplayHighScore(Dictionary<string, int> highScores)
         {
-            int scoreCount = highScores.Count >= 10 ? 10 : highScores.Count;
-
             Console.WriteLine(@"
                                __  __ __   ___  __  __     __    ___   ___   ____   ____  __
                                ||  || ||  // \\ ||  ||    (( \  //    // \\  || \\ ||    (( \
@@ -490,11 +489,10 @@
 
             foreach (var highScore in highScores)
             {
-                var current = highScore.Split('|');
-                var currentHighScore = current[0];
-                var playerName = current[1];
+                var currentHighScore = highScore.Key;
+                var playerName = highScore.Value;
 
-                Console.WriteLine("{0}{2,-10} {1,5}", new string(' ', Constants.EndGameX), currentHighScore, playerName);
+                Console.WriteLine("{0}{2,-15}{1,10}", new string(' ', Constants.EndGameX - 5), currentHighScore, playerName);
             }
         }
 
@@ -520,6 +518,7 @@
                 //                                       ||___|  ||   ||___   ||___|  ||   ||___
                 //", ConsoleColor.Green);
                 Thread.Sleep(1000);
+                Console.Clear();
                 Environment.Exit(0);
             }
         }
