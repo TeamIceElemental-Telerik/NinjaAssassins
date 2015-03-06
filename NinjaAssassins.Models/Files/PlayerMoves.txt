@@ -1,38 +1,12 @@
-Pesho| played Shuffle
-|The deck was shuffled. Beware!
 Geri| saved a card to their hand.
-Stamat| was killed by a NinjaAssassin
-sss| played Attack
-sss| attacked Pesho. 
-Pesho| needs to draw two cards.
-Pesho| played Attack
-Pesho| attacked Geri. 
-Geri| needs to draw two cards.
-Geri| saved a card to their hand.
-sss| played Attack
-sss| attacked Pesho. 
-Pesho| needs to draw two cards.
-Pesho| saved a card to their hand.
-Geri| played Shuffle
+Stamat| saved a card to their hand.
+Pp| played Hide
+Pp| has nothing to hide from.
+Pesho| played SkipTurn
+Pesho| gets to skip next turn. Woohoo!
+Geri| played Attack
+Geri| attacked Stamat. 
+Stamat| needs to draw two cards.
+Stamat| saved a card to their hand.
+Stamat| played Shuffle
 |The deck was shuffled. Beware!
-sss| played Escape
-sss| fought and won! 23 to 6
-Pesho| saved a card to their hand.
-Geri| saved a card to their hand.
-sss| played GreenNinja
-sss| was saved by a GreenNinja! Hurray!
-Pesho| saved a card to their hand.
-Geri| played Fight
-Geri| was saved by a GreenNinja! Hurray!
-sss| played Escape
-sss| ran just for the sake of it.
-Pesho| was killed by a NinjaAssassin
-Geri| played Escape
-Geri| ran just for the sake of it.
-sss| played Shuffle
-|The deck was shuffled. Beware!
-Geri| played SkipTurn
-Geri| gets to skip next turn. Woohoo!
-sss| played Hide
-sss| has nothing to hide from.
-sss| was killed by a NinjaAssassin

@@ -31,8 +31,15 @@
                 Console.CursorVisible = false;
 
                 GameVisualisation.DisplayGameBoard(game);
+                
+                int cardsToDraw = 1;
+                if (game.PlayerInTurn.DrawDouble == true)
+                {
+                    cardsToDraw = 2;
+                    game.PlayerInTurn.DrawDouble = false;
+                }
 
-                for (int i = 0; i < GameLogic.GetNumberOfCardsToDraw(game); i++)
+                for (int i = 0; i < cardsToDraw; i++)
                 {
                     var moves = GameLogic.GetLastNMoves(Constants.PlayerMoves, Constants.PlayerMovesCount);
 
