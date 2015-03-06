@@ -4,6 +4,8 @@ A single-player console card game
 
 A team project for Telerik Software Academy, course C# Part 2
 
+<p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/homescreen.png"></p>
+
 ###
 
 Get in the way of a **Ninja Assassin** and you will DIE! Unless…
@@ -38,5 +40,8 @@ Try not to draw Ninja Assassin or use a Green Ninja to defuse it, Fight – to t
 ###Game Goal:
 Be a ninja as a last man standing!
 
-<p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/homescreen.png"></p>
+<p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/intro.png"></p>
+
 <p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/attack.png"></p>
+
+<p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/dead.png"></p>
