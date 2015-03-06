@@ -37,3 +37,6 @@ Try not to draw Ninja Assassin or use a Green Ninja to defuse it, Fight – to t
 
 ###Game Goal:
 Be a ninja as a last man standing!
+
+<p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/homescreen.png"></p>
+<p align="center"><img src="https://raw.github.com/TeamIceElemental-Telerik/NinjaAssassins/master/Screenshots/attack.png"></p>
